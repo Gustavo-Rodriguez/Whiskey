@@ -1,4 +1,4 @@
-# Whiskey Palny Application
+# Whiskey Parny Application
 I bulit this application to allow people to use the whiskey party application. Lets ese if it works 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

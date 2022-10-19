@@ -65,10 +65,15 @@ class App extends React.Component {
     
     let newWhiskeys=this.state.listItems.Whiskeys;
     let position=voteInfo.WhiskeyNumber-1;
+    let voteObject={
+      vote:voteInfo.CurrentStar,
+      voter:voteInfo.voterName,
+      notes:voteInfo.voterNotes
+    }
     //Add Votes to Array
-    newWhiskeys[position].votes.push(voteInfo.CurrentStar)
+    newWhiskeys[position].votes.push(voteObject)
     // Add Calculate Average
-    const Average=newWhiskeys[position].votes.reduce((a,b)=>Number(a)+Number(b),0) / newWhiskeys[position].votes.length;
+    const Average=newWhiskeys[position].votes.reduce((total,next)=>Number(total)+Number(next.vote),0) / newWhiskeys[position].votes.length;
     newWhiskeys[position].VoteAverage=Average;
     this.setState(
       prevState => ({
@@ -82,7 +87,6 @@ class App extends React.Component {
         results:false
       })
     )
-    //  console.log(this.state)
   }
   ShowResults = e => {
     this.setState(
@@ -125,6 +129,8 @@ class App extends React.Component {
              data={this.state.selectedWhiskey}
              clear={this.ClearVote}
              SubmitVote={this.SubmitVote}
+             placeholderName={"Your Name (optional)"}
+             placeholderNotes={"Notes (Optional)"}
           />
           <Results
               data={this.state.listItems.Whiskeys}

@@ -1,12 +1,15 @@
 import React from 'react';
 import star from './unchecked.png';
 import checked from './checked.png';
-import Whiskey from './Whiskey';
+// import Whiskey from './Whiskey';
 
 class Vote extends React.Component {
     state = {
         WhiskeyNumber: this.props.data,
-        CurrentStar: 0
+        CurrentStar: 0,
+        VoterName:'',
+        VoterNotes:'',
+        disableSubmit:true
     }
     
     ChangeStars = ClickedStar => {
@@ -30,7 +33,10 @@ class Vote extends React.Component {
             prevState =>(
                 {
                     WhiskeyNumber: prevState.WhiskeyNumber,
-                    CurrentStar: numberStar
+                    CurrentStar: numberStar,
+                    VoterName:prevState.VoterName,
+                    VoterNotes:prevState.VoterNotes,
+                    disableSubmit:false
                 }
             )
         )
@@ -38,11 +44,43 @@ class Vote extends React.Component {
         
     }
     HandleVote = e => {
-        e.preventDefault();
-        this.props.SubmitVote(this.state);
-        this.props.clear();
+        if (!this.state.disableSubmit){
+            e.preventDefault();
+            this.props.SubmitVote(this.state);
+            this.props.clear();
+        }
     }
-   
+    handleName = e => {
+        // console.log("this is handleName");
+        this.setState(
+          prevState =>(
+          {
+            WhiskeyNumber: prevState.WhiskeyNumber,
+            CurrentStar: prevState.CurrentStar,
+            VoterName:e.target.value,
+            VoterNotes:prevState.VoterNotes
+          }),
+          () => {
+            // console.log("this is state", this.state);
+          }
+        );
+      };  
+      handleNotes = e => {
+        // console.log("this is handleName");
+        this.setState(
+          prevState =>(
+          {
+            WhiskeyNumber: prevState.WhiskeyNumber,
+            CurrentStar: prevState.CurrentStar,
+            VoterName:prevState.VoterName,
+            VoterNotes:e.target.value
+          }),
+          () => {
+            // console.log("this is state", this.state);
+          }
+        );
+      };  
+    
     
     render() {
     //    console.log("inside Vote these are props ", this.props, "This is State", this.state)
@@ -59,6 +97,20 @@ class Vote extends React.Component {
                 <img src={star} onClick={this.ChangeStars} alt="3-Star" id="3-Star" />
                 <img src={star} onClick={this.ChangeStars} alt="4-Star" id="4-Star" />
                 <img src={star} onClick={this.ChangeStars} alt="5-Star" id="5-Star" />
+            </div>
+            <div>
+                <input
+                    onChange={this.handleName}
+                    value={this.state.VoterName}
+                    type="text"
+                    placeholder={this.props.placeholderName}
+                />
+                <input
+                    onChange={this.handleNotes}
+                    value={this.state.VoterNotes}
+                    type="text"
+                    placeholder={this.props.placeholderNotes}
+                />
             </div>
             <button onClick={this.HandleVote}>Submit Vote</button>
             <button onClick={this.props.clear}>Clear Form</button>

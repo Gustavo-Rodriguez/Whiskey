@@ -27,13 +27,13 @@ class Results extends React.Component {
      }
   
     render(){
-        console.log('props in Results',this.props)
-        console.log('state in results',this.state)
+        // console.log('props in Results',this.props)
+        // console.log('state in results',this.state)
         const AllVoted = this.state.AllVoted;
         const run = this.state.run;
         return(
             <div>
-                <button onClick={this.SortAndDisplayResults} id="ShowButton"> Are you Sure?</button>
+              {/* <button onClick={this.SortAndDisplayResults} id="ShowButton"> Are you Sure?</button> */}
 
             </div>
         )
