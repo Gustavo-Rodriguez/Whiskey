@@ -3,6 +3,9 @@ import Form from "./Form";
 import WhiskeyList from "./WhiskeyList";
 import Vote from "./Vote.js";
 import Results from "./Results.js"
+import { db } from "../utils/firebase";
+import { onValue, ref } from "firebase/database";
+
 
 class App extends React.Component {
   state = {
@@ -127,7 +130,7 @@ class App extends React.Component {
     else {
       results=<div></div>
     }
-    
+    console.log()
     return (
       
       <div className="application">

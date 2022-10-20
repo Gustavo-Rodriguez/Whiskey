@@ -3,18 +3,23 @@ import React from "react";
 class Form extends React.Component {
   state = {
     InputWhiskeyName: "",
-    InputEmail: ""
+    InputEmail: "",
+    NameRun:false,
+    EmailRun:false
   };
 
   handleSubmit = e => {
     e.preventDefault();
     // console.log("this is handleSubmit and these are my props", this.props);
- 
+    if (this.state.NameRun===this.state.EmailRun && this.state.NameRun===true){
     this.props.handlesubmitfromApp(this.state);
     this.setState({
       InputWhiskeyName: "", // this clears the form
-      InputEmail:""
+      InputEmail:"",
+      NameRun:false,
+      EmailRun:false
     });
+    }
   };
 
   handleName = e => {
@@ -23,7 +28,9 @@ class Form extends React.Component {
       prevState =>(
       {
         InputWhiskeyName: e.target.value,
-        InputEmail: prevState.InputEmail
+        InputEmail: prevState.InputEmail,
+        NameRun:true,
+        EmailRun:prevState.EmailRun
       }),
       () => {
         // console.log("this is state", this.state);
@@ -36,7 +43,9 @@ class Form extends React.Component {
       prevState =>(
       {
         InputWhiskeyName: prevState.InputWhiskeyName,
-        InputEmail: e.target.value
+        InputEmail: e.target.value,
+        NameRun:prevState.NameRun,
+        EmailRun:true
       }),
       () => {
         // console.log("this is state", this.state);
@@ -57,7 +66,7 @@ class Form extends React.Component {
           onChange={this.handleEmail}
           value={this.state.InputEmail}
           type="text"
-          placeholder="What's your E-mail"
+          placeholder="Your Name?"
         />
         
         <button>Add Whiskey</button>
