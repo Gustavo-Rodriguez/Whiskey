@@ -6,17 +6,18 @@ import React, { createContext } from 'react';
 class Results extends React.Component {
     state = {
         run: this.props.run,
-        data:this.props.data,
-        AllVoted: -1, 
+        data:this.props.data, 
         ShowButton:true
     }
     
     SortAndDisplayResults = e =>{
         console.log('inside function')
+        console.log('my props are',this.props)
+        console.log('my state is',this.state)
         if (this.state.run){
             let WhiskeyCount=this.state.data.length
             const sorted=[...this.state.data].sort((a,b) => (a.VoteAverage < b.VoteAverage)? 1: -1)
-            console.log('I was ran')
+            console.log('I was ran, sorted is',sorted)
             this.setState( PrevState => (
                 {
                     run:PrevState.run,
@@ -24,6 +25,7 @@ class Results extends React.Component {
                  })
             )
         }
+        console.log('new state is',this.state)
      }
   
     render(){
@@ -33,8 +35,7 @@ class Results extends React.Component {
         const run = this.state.run;
         return(
             <div>
-              {/* <button onClick={this.SortAndDisplayResults} id="ShowButton"> Are you Sure?</button> */}
-
+                <button onClick={this.SortAndDisplayResults} id="ShowButton"> Are you Sure?</button>
             </div>
         )
         }

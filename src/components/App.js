@@ -88,20 +88,45 @@ class App extends React.Component {
       })
     )
   }
-  ShowResults = e => {
+  SortAndDisplayResults = e =>{
+    // console.log('inside function')
+    // console.log('my props are',this.props)
+    // console.log('my state is',this.state)
+    
+    let WhiskeyCount=this.state.listItems.Whiskeys.length
+    const sorted=[...this.state.listItems.Whiskeys].sort((a,b) => (a.VoteAverage < b.VoteAverage)? 1: -1)
+    // console.log('I was ran, sorted is',sorted)
     this.setState(
-      prevState=> ({
-        selectedWhiskey:'',
-        listItems:prevState.listItems,
+      prevState => ({
+        listItems: {
+          owner: "Gustavo",
+          count:prevState.listItems.count,
+          Whiskeys:prevState.listItems.Whiskeys
+        },
         nextWhiskey:prevState.nextWhiskey,
+        selectedWhiskey:prevState.selectedWhiskey,
+        sorted:sorted,
         results:true
       })
     )
-  }
+    
+    // console.log('new state is',this.state)
+ }
+
+
 
 
   render() {
     // console.log('state',this.state)
+    const displayResults = this.state.results;
+    let results;
+    if (displayResults){
+      results=<div>'Results go here'</div>
+      console.log('sorted results in log',this.state.sorted)
+    }
+    else {
+      results=<div></div>
+    }
     
     return (
       
@@ -121,7 +146,7 @@ class App extends React.Component {
           handleRatefromApp={this.handleRatefromApp}
           selectedWhiskey={this.state.selectedWhiskey}
         />
-        <button onClick={this.ShowResults}>Show Results</button>
+        <button onClick={this.SortAndDisplayResults}>Show Results</button>
         </div>
         <div className="vote-section">
           <Vote 
@@ -132,10 +157,7 @@ class App extends React.Component {
              placeholderName={"Your Name (optional)"}
              placeholderNotes={"Notes (Optional)"}
           />
-          <Results
-              data={this.state.listItems.Whiskeys}
-              run={this.state.results}
-          />
+          
         </div>
       </div>
     
