@@ -26,3 +26,6 @@ yarn-error.log*
 src/utils/context.js
 src/utils/firebase.js
 src/utils/index.js
+
+#ignore server
+server/
