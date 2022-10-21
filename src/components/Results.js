@@ -1,41 +1,65 @@
+import WhiskeyResults from './WhiskeyResults';
 import React, { createContext } from 'react';
+import WhiskeyDetails from './WhiskeyDetails';
 
 
 
 
 class Results extends React.Component {
     state = {
-        run: this.props.run,
-        data:this.props.data, 
-        ShowButton:true
+        data:this.props.data,
+        details:'',
+        showDetails:false
     }
-    
-    SortAndDisplayResults = e =>{
-        console.log('inside function')
-        console.log('my props are',this.props)
-        console.log('my state is',this.state)
-        if (this.state.run){
-            let WhiskeyCount=this.state.data.length
-            const sorted=[...this.state.data].sort((a,b) => (a.VoteAverage < b.VoteAverage)? 1: -1)
-            console.log('I was ran, sorted is',sorted)
-            this.setState( PrevState => (
-                {
-                    run:PrevState.run,
-                    data:sorted
-                 })
-            )
-        }
-        console.log('new state is',this.state)
-     }
+    ShowDetails = Whiskey =>{
+        this.setState(
+            prevState =>(
+            {
+              data:this.props.data,
+              showDetails:true,
+              details:Whiskey
+            }) 
+        )   
+    }
   
     render(){
-        // console.log('props in Results',this.props)
-        // console.log('state in results',this.state)
-        const AllVoted = this.state.AllVoted;
-        const run = this.state.run;
+        // console.log('Results State is ',this.state)
+        const ResultItems = this.props.data.map((d, i) => {
+            return (
+              <WhiskeyResults
+                result={d}
+                key={i}
+                mykey={i}
+                ShowDetails={this.ShowDetails}
+              />
+            );
+          });
+        let DetailList;
+        let DetailHeader;
+        if (this.state.showDetails){
+            DetailHeader= <tr className='DetailHeader'><th>Vote</th><th>Voter name <br></br>(if given)</th><th>Notes<br></br> (if given)</th></tr>
+            DetailList = this.state.details.votes.map((d, i) => {
+                return (
+                    <WhiskeyDetails
+                        voteDetail={d}
+                        key={i}
+                        mykey={i}
+                    />
+                );
+            });
+        } else {
+            DetailHeader=''
+            DetailList=''
+        }
+        
         return(
             <div>
-                <button onClick={this.SortAndDisplayResults} id="ShowButton"> Are you Sure?</button>
+            
+            <div className="results-list">{ResultItems}</div>
+            <table>
+                {DetailHeader}
+                {DetailList}
+            </table>
             </div>
         )
         }

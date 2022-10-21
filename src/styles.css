@@ -52,3 +52,13 @@
   /* float:right */
   margin-left: 140px;
 }
+
+td {
+  width: 100px;
+  text-align:left;
+  border-color: black;
+  border-width: 1px;
+}
+.detailsButton {
+  float :right;
+}

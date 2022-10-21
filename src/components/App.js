@@ -70,9 +70,10 @@ class App extends React.Component {
     let position=voteInfo.WhiskeyNumber-1;
     let voteObject={
       vote:voteInfo.CurrentStar,
-      voter:voteInfo.voterName,
-      notes:voteInfo.voterNotes
+      voter:voteInfo.VoterName,
+      notes:voteInfo.VoterNotes
     }
+    console.log('voteObject',voteObject)
     //Add Votes to Array
     newWhiskeys[position].votes.push(voteObject)
     // Add Calculate Average
@@ -92,13 +93,11 @@ class App extends React.Component {
     )
   }
   SortAndDisplayResults = e =>{
-    // console.log('inside function')
-    // console.log('my props are',this.props)
-    // console.log('my state is',this.state)
+
     
     let WhiskeyCount=this.state.listItems.Whiskeys.length
     const sorted=[...this.state.listItems.Whiskeys].sort((a,b) => (a.VoteAverage < b.VoteAverage)? 1: -1)
-    // console.log('I was ran, sorted is',sorted)
+
     this.setState(
       prevState => ({
         listItems: {
@@ -120,12 +119,11 @@ class App extends React.Component {
 
 
   render() {
-    // console.log('state',this.state)
+
     const displayResults = this.state.results;
     let results;
     if (displayResults){
-      results=<div>'Results go here'</div>
-      console.log('sorted results in log',this.state.sorted)
+      results = <Results data={this.state.sorted} />
     }
     else {
       results=<div></div>
@@ -141,7 +139,7 @@ class App extends React.Component {
         <div className="create-new">
           <Form
             handlesubmitfromApp={this.handleSubmitWhiskey}
-            placeholderText={"Add A New Whiskey"}
+            placeholderText={"What did you bring?"}
           />
         </div>
         <WhiskeyList
@@ -149,7 +147,7 @@ class App extends React.Component {
           handleRatefromApp={this.handleRatefromApp}
           selectedWhiskey={this.state.selectedWhiskey}
         />
-        <button onClick={this.SortAndDisplayResults}>Show Results</button>
+        <button id="ShowResultsButton" onClick={this.SortAndDisplayResults}>Show Results</button>
         </div>
         <div className="vote-section">
           <Vote 
@@ -160,7 +158,9 @@ class App extends React.Component {
              placeholderName={"Your Name (optional)"}
              placeholderNotes={"Notes (Optional)"}
           />
-          
+          <div>
+            {results}
+          </div>
         </div>
       </div>
     

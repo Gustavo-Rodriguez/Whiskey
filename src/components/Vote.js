@@ -40,7 +40,6 @@ class Vote extends React.Component {
                 }
             )
         )
-        // console.log ('Whiskey number is ',this.state.WhiskeyNumber, "vote is ",numberStar)
         
     }
     HandleVote = e => {
@@ -61,12 +60,11 @@ class Vote extends React.Component {
             VoterNotes:prevState.VoterNotes
           }),
           () => {
-            // console.log("this is state", this.state);
+
           }
         );
       };  
       handleNotes = e => {
-        // console.log("this is handleName");
         this.setState(
           prevState =>(
           {
@@ -76,7 +74,7 @@ class Vote extends React.Component {
             VoterNotes:e.target.value
           }),
           () => {
-            // console.log("this is state", this.state);
+
           }
         );
       };  
