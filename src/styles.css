@@ -53,12 +53,33 @@
   margin-left: 140px;
 }
 
-td {
-  width: 100px;
-  text-align:left;
-  border-color: black;
-  border-width: 1px;
+.DetailHeader , .DetailRow{
+  width: 33%
 }
+
+.WhiskeyResult{
+  width: 75%;
+}
+.WhiskeyResults{
+  display: flex;
+  justify-content: space-between;
+}
+
 .detailsButton {
-  float :right;
+  width: 25%;
+}
+
+
+table {
+  width:100%;
+  margin-top:50px ;
+}
+th, td {
+  width: 33%;
+  border: 1px solid;
+}
+
+
+#ShowResultsButton {
+  display:none;
 }
