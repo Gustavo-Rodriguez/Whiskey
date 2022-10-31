@@ -3,8 +3,8 @@ import Form from "./Form";
 import WhiskeyList from "./WhiskeyList";
 import Vote from "./Vote.js";
 import Results from "./Results.js"
-import { db } from "../utils/firebase";
-import { onValue, ref } from "firebase/database";
+import db  from "../utils/firebase";
+import {ref, set, onValue} from "firebase/database";
 
 
 class App extends React.Component {
@@ -14,6 +14,15 @@ class App extends React.Component {
     selectedWhiskey:"",
     results:false
   };
+
+  updateFirebasewithState = param => {
+    console.log('in updateFirebase this is my param',param)
+    set (ref(db,'whiskeys/'),{
+      nextWhiskey:param.nextWhiskey,
+      Whiskeys: param.listItems.Whiskeys
+    });
+
+  }
 
   handleSubmitWhiskey = Info => {
      this.setState(
@@ -36,7 +45,7 @@ class App extends React.Component {
         results:false
       }),
       () => {
-        // console.log("handleSubmit from the App", this.listItems);
+       this.updateFirebasewithState(this.state)
       }
     );
   };
@@ -50,7 +59,7 @@ class App extends React.Component {
         nextWhiskey:prevState.nextWhiskey,
         results:false
       })
-    )
+    );
     // console.log('updatedState in handleratefromapp',this.state)
   }
 
@@ -89,7 +98,10 @@ class App extends React.Component {
         nextWhiskey:prevState.nextWhiskey,
         selectedWhiskey:prevState.selectedWhiskey,
         results:false
-      })
+      }),
+      () => {
+       this.updateFirebasewithState(this.state)
+      }
     )
   }
   SortAndDisplayResults = e =>{
