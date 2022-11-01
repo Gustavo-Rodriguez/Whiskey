@@ -1,6 +1,25 @@
 # Whiskey Party Application
 I bulit this application to allow people to use the whiskey party application. Lets ese if it works 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+it also includes Firebase.
+
+Be sure to put your enviornment variables in .env as follows 
+
+REACT_APP_FIREBASE_API_KEY =  "VALUE"
+REACT_APP_FIREBASE_AUTH_DOMAIN = "VALUE"
+REACT_APP_FIREBASE_DATABASE_URL = "VALUE"
+REACT_APP_FIREBASE_PROJECT_ID = "VALUE"
+REACT_APP_FIREBASE_STORAGE_BUCKET = "VALUE"
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID = "VALUE"
+REACT_APP_FIREBASE_APP_ID = "VALUE"
+SKIP_PREFLIGHT_CHECK=true
+
+## To Load in your enviorment
+
+In project directory run the following comands to create your project
+
+### `npm create-react-app AppName`
+### `npm install firebase`
 
 ## Available Scripts
 
@@ -29,42 +48,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
