@@ -1,5 +1,5 @@
 import WhiskeyResults from './WhiskeyResults';
-import React, { createContext } from 'react';
+import React from 'react';
 import WhiskeyDetails from './WhiskeyDetails';
 
 

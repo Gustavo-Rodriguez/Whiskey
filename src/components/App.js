@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Form from "./Form";
 import WhiskeyList from "./WhiskeyList";
 import Vote from "./Vote.js";
 import Results from "./Results.js"
 import db  from "../utils/firebase";
 import {ref, set, onValue} from "firebase/database";
-import listItems from "../data";
+
 
 
 
@@ -143,7 +143,7 @@ class App extends React.Component {
   SortAndDisplayResults = e =>{
 
     
-    let WhiskeyCount=this.state.listItems.Whiskeys.length
+    // let WhiskeyCount=this.state.listItems.Whiskeys.length
     const sorted=[...this.state.listItems.Whiskeys].sort((a,b) => (a.VoteAverage < b.VoteAverage)? 1: -1)
 
     this.setState(

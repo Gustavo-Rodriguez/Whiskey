@@ -3,8 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./components/App";
 import listItems from "./data";
 import { BrowserRouter } from "react-router-dom";
-import db from './utils/firebase';
-import {ref, onValue} from "firebase/database"
+
 
 
 import "./styles.css";
