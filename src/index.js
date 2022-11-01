@@ -10,13 +10,15 @@ import {ref, onValue} from "firebase/database"
 import "./styles.css";
 
 
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-    <App 
+    <getDataFromFirebase></getDataFromFirebase>
+   <App 
     title={"WHISKEY PARTY APP"} 
     listItems={listItems} 
-  />
+  /> 
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
