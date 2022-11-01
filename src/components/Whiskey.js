@@ -3,7 +3,8 @@ import React from "react";
 class Whiskey extends React.Component {
   state = {
     nameid: "name" + this.props.mykey,
-    voteid: "vote" + this.props.mykey
+    voteid: "vote" + this.props.mykey,
+    hasVotes: false
   };
 
   rateItem = e => {
@@ -11,10 +12,13 @@ class Whiskey extends React.Component {
    this.props.handleRateFromApp(this.props.mykey);
   };
 
+
   render() {
-    // console.log('inside todolistitem')
-    // console.log(this.props)
-    // console.log(this.state.nameid)
+    let votenum=0
+    if (this.props.todo.votes){
+      votenum=this.props.todo.votes.length
+    }
+    // console.log('inside whiskey')
     return (
       <div className="to-do-item">
         <span className="name">
@@ -30,7 +34,7 @@ class Whiskey extends React.Component {
         </span>
         <span className="actions">
           <span>
-            <button onClick={this.rateItem}>Rate ({this.props.todo.votes.length})</button>
+            <button onClick={this.rateItem}>Rate ({votenum})</button>
           </span>
         </span>
       </div>

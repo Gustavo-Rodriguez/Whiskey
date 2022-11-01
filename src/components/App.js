@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Form from "./Form";
 import WhiskeyList from "./WhiskeyList";
 import Vote from "./Vote.js";
 import Results from "./Results.js"
-import { db } from "../utils/firebase";
-import { onValue, ref } from "firebase/database";
+import db  from "../utils/firebase";
+import {ref, set, onValue} from "firebase/database";
+import listItems from "../data";
+
+
+
+
 
 
 class App extends React.Component {
@@ -14,6 +19,41 @@ class App extends React.Component {
     selectedWhiskey:"",
     results:false
   };
+ 
+  
+  componentDidMount(){
+    const whiskeysRef = ref(db,'whiskeys/');
+    let dbResults
+    onValue(whiskeysRef, (snapshot)=>{
+      dbResults=snapshot.val();
+    console.log('onValue was called in app ',dbResults)
+    if (dbResults!==null)
+    this.setState( prevState =>({
+      listItems: {
+        owner:"Gustavo",
+        count:prevState.listItems.count+1,
+        Whiskeys:dbResults.Whiskeys
+      },
+      selectedWhiskey:prevState.selectedWhiskey,
+      nextWhiskey:dbResults.nextWhiskey,
+      results:prevState.results
+    }))
+  })
+ 
+  }
+
+
+  updateFirebasewithState = param => {
+    console.log('in updateFirebase this is my param',param)
+    set (ref(db,'whiskeys/'),{
+      nextWhiskey:param.nextWhiskey,
+      Whiskeys: param.listItems.Whiskeys
+    }).catch((error) => {
+      // The write failed...
+      alert("Something went wrong")
+    });;
+
+  }
 
   handleSubmitWhiskey = Info => {
      this.setState(
@@ -36,7 +76,8 @@ class App extends React.Component {
         results:false
       }),
       () => {
-        // console.log("handleSubmit from the App", this.listItems);
+        console.log('in submit whiskey my state is ',this.stateS)
+       this.updateFirebasewithState(this.state)
       }
     );
   };
@@ -50,7 +91,7 @@ class App extends React.Component {
         nextWhiskey:prevState.nextWhiskey,
         results:false
       })
-    )
+    );
     // console.log('updatedState in handleratefromapp',this.state)
   }
 
@@ -75,7 +116,11 @@ class App extends React.Component {
     }
     console.log('voteObject',voteObject)
     //Add Votes to Array
-    newWhiskeys[position].votes.push(voteObject)
+    if (newWhiskeys[position].votes) { 
+      newWhiskeys[position].votes.push(voteObject)
+    } else {
+      newWhiskeys[position].votes=[voteObject]
+    }
     // Add Calculate Average
     const Average=newWhiskeys[position].votes.reduce((total,next)=>Number(total)+Number(next.vote),0) / newWhiskeys[position].votes.length;
     newWhiskeys[position].VoteAverage=Average;
@@ -89,7 +134,10 @@ class App extends React.Component {
         nextWhiskey:prevState.nextWhiskey,
         selectedWhiskey:prevState.selectedWhiskey,
         results:false
-      })
+      }),
+      () => {
+       this.updateFirebasewithState(this.state)
+      }
     )
   }
   SortAndDisplayResults = e =>{
@@ -119,7 +167,7 @@ class App extends React.Component {
 
 
   render() {
-
+    console.log('in app my props are',this.props);
     const displayResults = this.state.results;
     let results;
     if (displayResults){

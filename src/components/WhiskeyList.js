@@ -8,11 +8,6 @@ import Whiskey from "./Whiskey";
 const WhiskeyList = (props) => {
   const todoListItems = props.listItems.Whiskeys.map((d, i) => {
     return (
-      // console.log('array of objects in todoList'),
-      // console.log (d),
-      // console.log(i),
-      // console.log('myprops in WhiskeyList'),
-      // console.log(props),
       <Whiskey
         handleRateFromApp={props.handleRatefromApp}
         todo={d}
