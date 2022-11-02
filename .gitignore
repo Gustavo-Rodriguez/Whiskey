@@ -27,3 +27,6 @@ yarn-error.log*
 
 #ignore server
 server/
+
+# Local Netlify folder
+.netlify
