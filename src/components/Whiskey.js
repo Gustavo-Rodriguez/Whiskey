@@ -20,19 +20,7 @@ class Whiskey extends React.Component {
 		// console.log('inside whiskey')
 		return (
 			<div className="whiskey-item">
-				{/* <span className="name">
-          <span>
-            <input id={this.state.nameid} value={this.props.todo.visibleName} disabled={true} />
-          </span>
-        </span>
-        <span className="Vote">
-          <span>
-            
-            
-          </span>
-        </span>
-        <span className="actions">
-          <span> */}
+				
 				<button
 					onClick={this.rateItem}
 					data-bs-toggle="modal"

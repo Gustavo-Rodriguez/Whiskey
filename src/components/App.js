@@ -12,6 +12,7 @@ class App extends React.Component {
 		nextWhiskey: this.props.listItems.count + 1,
 		selectedWhiskey: '',
 		results: false,
+		sorted: {},
 	};
 
 	componentDidMount() {
@@ -169,64 +170,30 @@ class App extends React.Component {
 						ClearVote={this.ClearVote}
 						SubmitVote={this.SubmitVote}
 					/>
-					{/* <div
-						className="modal fade"
-						id="rating-modal"
-						data-bs-backdrop="static"
-						data-bs-keyboard="false"
-						tabIndex="-1"
-						aria-labelledby="rating-modal-label"
-						aria-hidden="true"
-					>
-						<div className="modal-dialog">
-							<div className="modal-content">
-								<div className="modal-header">
-									<h5 className="modal-title" id="rating-modal-label">
-										Rate Whiskey #{this.state.selectedWhiskey}
-									</h5>
-									<button
-										type="button"
-										className="btn-close"
-										data-bs-dismiss="modal"
-										aria-label="Close"
-									></button>
-								</div>
-								<div className="modal-body">
-									<Vote
-										key={this.state.selectedWhiskey}
-										data={this.state.selectedWhiskey}
-										clear={this.ClearVote}
-										SubmitVote={this.SubmitVote}
-										placeholderName={'Your Name (optional)'}
-										placeholderNotes={'Notes (Optional)'}
-									/>
-								</div>
-							</div>
-						</div>
-					</div> */}
 					<div
 						className={`whiskey-list f-1 ${
-							this.props.VotingOpen ? 'invisible' : ''
+							this.props.VotingOpen ?  '': 'invisible' 
 						}`}
 					>
 						<div className="header">Whiskeys</div>
-						<div className="create-new">
-							<div className="form-container">
-								<Form
-									handlesubmitfromApp={this.handleSubmitWhiskey}
-									placeholderText={'What did you bring?'}
-								/>
-							</div>
-							<button form="new-whiskey-form">Add Whiskey</button>
-						</div>
 						<WhiskeyList
 							listItems={this.state.listItems}
 							handleRatefromApp={this.handleRatefromApp}
 							selectedWhiskey={this.state.selectedWhiskey}
 						/>
+						<div className="subHeader">New Whiskey Form</div>
+						<div className="create-new">
+							<div className="form-container">
+								<Form
+									handlesubmitfromApp={this.handleSubmitWhiskey}
+									placeholderText={'Whiskey?'}
+								/>
+							</div>
+							<button form="new-whiskey-form">Add Whiskey</button>
+						</div>
 						<button
 							id="ShowResultsButton"
-							className={this.props.VotingOpen ? 'invisible' : ''}
+							className={this.props.VotingOpen ? '' : 'invisible'}
 							onClick={this.SortAndDisplayResults}
 						>
 							Show Results
@@ -234,7 +201,7 @@ class App extends React.Component {
 					</div>
 					<div
 						className={`vote-section f-1 ${
-							this.props.VotingOpen ? 'invisible' : ''
+							this.props.VotingOpen ? '' : 'invisible' 
 						}`}
 					>
 						<div className="header">Voting Results</div>

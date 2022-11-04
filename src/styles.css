@@ -1,6 +1,6 @@
 :root {
-	--bgcolor: #202020;
-	--font-color: yellow;
+	--bgcolor: #CECFD1;
+	--font-color: #71707E;
 	--color--1: black;
 	--color-0: #ff0000;
 	--color-1: #ff9b94;
@@ -50,7 +50,12 @@ body {
 	font-weight: bold;
 	padding: 2vh;
 }
-
+.subHeader {
+	text-align: center;
+	font-size: 3vh;
+	font-weight: bold;
+	padding: 2vh;
+}
 .f-1 {
 	flex: 1;
 	margin: 20px;

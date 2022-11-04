@@ -1,7 +1,6 @@
 import React from 'react';
 import star from './unchecked.png';
 import checked from './checked.png';
-// import Whiskey from './Whiskey';
 
 class Vote extends React.Component {
 	state = {
@@ -10,6 +9,8 @@ class Vote extends React.Component {
 		VoterName: '',
 		VoterNotes: '',
 		disableSubmit: true,
+		VoterNameBool: false,
+		VoterNotesBool: false
 	};
 
 	ClearStars = () => {
@@ -42,10 +43,18 @@ class Vote extends React.Component {
 		}));
 	};
 	HandleVote = (e) => {
-		if (!this.state.disableSubmit) {
+		if (!this.state.disableSubmit && this.state.VoterNameBool) {
 			e.preventDefault();
 			this.props.SubmitVote(this.state);
 			this.props.clear();
+			e.target.dataset.bsDismiss='modal'
+			e.target.click();		
+		}
+		else if (!this.state.disableSubmit){
+			alert('You must provide your name to vote')
+		}
+		else {
+			alert ('you must rate the whiskey between 1 and 5 stars');
 		}
 	};
 	handleName = (e) => {
@@ -56,6 +65,8 @@ class Vote extends React.Component {
 				CurrentStar: prevState.CurrentStar,
 				VoterName: e.target.value,
 				VoterNotes: prevState.VoterNotes,
+				VoterNameBool: true,
+				VoterNotesBool: prevState.VoterNotesBool
 			}),
 			() => {}
 		);
@@ -67,6 +78,8 @@ class Vote extends React.Component {
 				CurrentStar: prevState.CurrentStar,
 				VoterName: prevState.VoterName,
 				VoterNotes: e.target.value,
+				VoterNameBool: prevState.VoterNameBool,
+				VoterNotesBool: true
 			}),
 			() => {}
 		);
@@ -123,7 +136,7 @@ class Vote extends React.Component {
 						/>
 					</div>
 					<div className="input-container">
-						<div className="input-label">Your name (optional):</div>
+						<div className="input-label">{this.props.placeholderName}:</div>
 						<input
 							onChange={this.handleName}
 							value={this.state.VoterName}
@@ -143,7 +156,8 @@ class Vote extends React.Component {
 						<button
 							className="btn btn-primary"
 							onClick={this.HandleVote}
-							data-bs-dismiss="modal"
+							// data-bs-dismiss="customvalue"
+							
 						>
 							Submit
 						</button>

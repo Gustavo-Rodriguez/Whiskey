@@ -3,7 +3,7 @@ I bulit this application to allow people to use the whiskey party application. L
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 it also includes Firebase.
 
-Be sure to put your enviornment variables in .env as follows 
+Be sure to put your enviornment variables in .env file as follows 
 
 REACT_APP_FIREBASE_API_KEY =  "VALUE"
 

@@ -2,6 +2,8 @@ import WhiskeyResults from './WhiskeyResults';
 import React from 'react';
 import WhiskeyDetails from './WhiskeyDetails';
 import DetailModal from './DetailModal';
+import db from '../utils/firebase';
+import { ref, onValue } from 'firebase/database';
 
 class Results extends React.Component {
 	state = {
@@ -10,6 +12,28 @@ class Results extends React.Component {
 		showDetails: false,
 		distribution: [0, 0, 0, 0, 0],
 	};
+
+	componentDidMount() {
+		const whiskeysRef = ref(db, 'whiskeys/');
+		let dbResults;
+		onValue(whiskeysRef, (snapshot) => {
+			dbResults = snapshot.val();
+			if (dbResults !== null){
+				console.log('dbresults',dbResults)
+				const sorted = [dbResults].sort((a, b) =>
+					a.VoteAverage < b.VoteAverage ? 1 : -1
+				);
+				this.setState((prevState) => ({
+					data:sorted,
+					details:'',
+					showDetails:false,
+					distribution: [0,0,0,0,0],
+				}));
+			}
+		});
+		
+	}
+
 	ShowDetails = (Whiskey) => {
 		console.log(Whiskey);
 
