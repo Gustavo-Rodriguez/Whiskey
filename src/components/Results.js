@@ -4,6 +4,7 @@ import WhiskeyDetails from './WhiskeyDetails';
 import DetailModal from './DetailModal';
 import db from '../utils/firebase';
 import { ref, onValue } from 'firebase/database';
+import { Link } from 'react-router-dom'
 
 class Results extends React.Component {
 	state = {
@@ -15,14 +16,18 @@ class Results extends React.Component {
 
 	componentDidMount() {
 		const whiskeysRef = ref(db, 'whiskeys/');
+		console.log('in Results');
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
 			if (dbResults !== null){
 				console.log('dbresults',dbResults)
-				const sorted = [dbResults].sort((a, b) =>
+				let unsorted=dbResults;
+				console.log('unsorted',unsorted)
+				const sorted = [...unsorted.Whiskeys].sort((a, b) =>
 					a.VoteAverage < b.VoteAverage ? 1 : -1
 				);
+				console.log('sorted',sorted)
 				this.setState((prevState) => ({
 					data:sorted,
 					details:'',
@@ -53,7 +58,7 @@ class Results extends React.Component {
 		console.log(voteDistribution);
 
 		this.setState((prevState) => ({
-			data: this.props.data,
+			data: prevState.data,
 			showDetails: true,
 			details: Whiskey,
 			distribution: voteDistribution,
@@ -61,8 +66,9 @@ class Results extends React.Component {
 	};
 
 	render() {
-		// console.log('Results State is ',this.state)
-		const ResultItems = this.props.data.map((d, i) => {
+		console.log('Results State is ',this.state)
+		console.log('Props in Results is ',this.props)
+		const ResultItems = this.state.data.map((d, i) => {
 			return (
 				<WhiskeyResults
 					result={d}
@@ -103,12 +109,14 @@ class Results extends React.Component {
 					<thead>
 						<tr>
 							<th>Name</th>
+							<th>Number</th>
 							<th>Rating</th>
 							<th>Details</th>
 						</tr>
 					</thead>
 					<tbody>{ResultItems}</tbody>
 				</table>
+				<Link to='/'>Back to Home</Link>
 			</div>
 		);
 	}

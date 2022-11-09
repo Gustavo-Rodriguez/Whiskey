@@ -14,6 +14,7 @@ class WhiskeyResults extends React.Component {
 		return (
 			<tr>
 				<td>{this.props.result.realWhiskey}</td>
+				<td>{this.props.result.visibleName}</td>
 				<td
 					style={{
 						color: this.bgColor === -1 ? 'white' : 'black',

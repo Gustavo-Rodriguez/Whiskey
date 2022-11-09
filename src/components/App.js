@@ -11,7 +11,7 @@ class App extends React.Component {
 		listItems: this.props.listItems,
 		nextWhiskey: this.props.listItems.count + 1,
 		selectedWhiskey: '',
-		results: false,
+		results: true,
 		sorted: {},
 	};
 
@@ -161,7 +161,7 @@ class App extends React.Component {
 		} else {
 			results = <div></div>;
 		}
-		console.log();
+		console.log('in App');
 		return (
 			<div>
 				<div className="application">
@@ -191,21 +191,21 @@ class App extends React.Component {
 							</div>
 							<button form="new-whiskey-form">Add Whiskey</button>
 						</div>
-						<button
+						{/* <button
 							id="ShowResultsButton"
 							className={this.props.VotingOpen ? '' : 'invisible'}
 							onClick={this.SortAndDisplayResults}
 						>
 							Show Results
-						</button>
+						</button> */}
 					</div>
 					<div
 						className={`vote-section f-1 ${
 							this.props.VotingOpen ? '' : 'invisible' 
 						}`}
 					>
-						<div className="header">Voting Results</div>
-						<div>{results}</div>
+						{/* <div className="header">Voting Results</div>
+						<div>{results}</div> */}
 					</div>
 				</div>
 			</div>
