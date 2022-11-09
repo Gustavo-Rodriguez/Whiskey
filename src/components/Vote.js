@@ -51,7 +51,7 @@ class Vote extends React.Component {
 			e.target.click();		
 		}
 		else if (!this.state.disableSubmit){
-			document.getElementById('NameLabel').style.color="red"
+			document.getElementById('VoterNameLabel').style.color="red"
 			alert('You must provide your name to vote')
 
 		}
@@ -138,7 +138,7 @@ class Vote extends React.Component {
 						/>
 					</div>
 					<div className="input-container">
-						<div className="input-label" id="NameLabel">{this.props.placeholderName}:</div>
+						<div className="input-label" id="VoterNameLabel">{this.props.placeholderName}:</div>
 						<input
 							onChange={this.handleName}
 							value={this.state.VoterName}
