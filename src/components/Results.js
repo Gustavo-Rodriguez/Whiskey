@@ -16,18 +16,14 @@ class Results extends React.Component {
 
 	componentDidMount() {
 		const whiskeysRef = ref(db, 'whiskeys/');
-		console.log('in Results');
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
 			if (dbResults !== null){
-				console.log('dbresults',dbResults)
 				let unsorted=dbResults;
-				console.log('unsorted',unsorted)
 				const sorted = [...unsorted.Whiskeys].sort((a, b) =>
 					a.VoteAverage < b.VoteAverage ? 1 : -1
 				);
-				console.log('sorted',sorted)
 				this.setState((prevState) => ({
 					data:sorted,
 					details:'',
@@ -66,8 +62,6 @@ class Results extends React.Component {
 	};
 
 	render() {
-		console.log('Results State is ',this.state)
-		console.log('Props in Results is ',this.props)
 		const ResultItems = this.state.data.map((d, i) => {
 			return (
 				<WhiskeyResults
@@ -121,25 +115,5 @@ class Results extends React.Component {
 		);
 	}
 }
-
-// const Results = (props) => {
-//     const Results = props.data.map((d, i) => {
-//         return (
-//           // console.log('array of objects in todoList'),
-//           // console.log (d),
-//           // console.log(i),
-//           // console.log('myprops in WhiskeyList'),
-//           // console.log(props),
-//           <Result
-
-//             todo={d}
-//             key={i}
-//             mykey={i}
-
-//           />
-//          //,console.log('end of loop?')
-//         );
-//       });
-// }
 
 export default Results;

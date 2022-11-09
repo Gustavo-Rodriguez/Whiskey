@@ -35,7 +35,7 @@ class App extends React.Component {
 	}
 
 	updateFirebasewithState = (param) => {
-		console.log('in updateFirebase this is my param', param);
+		// console.log('in updateFirebase this is my param', param);
 		set(ref(db, 'whiskeys/'), {
 			nextWhiskey: param.nextWhiskey,
 			Whiskeys: param.listItems.Whiskeys,
@@ -67,7 +67,6 @@ class App extends React.Component {
 				results: false,
 			}),
 			() => {
-				console.log('in submit whiskey my state is ', this.stateS);
 				this.updateFirebasewithState(this.state);
 			}
 		);
@@ -131,36 +130,10 @@ class App extends React.Component {
 			}
 		);
 	};
-	SortAndDisplayResults = (e) => {
-		// let WhiskeyCount=this.state.listItems.Whiskeys.length
-		const sorted = [...this.state.listItems.Whiskeys].sort((a, b) =>
-			a.VoteAverage < b.VoteAverage ? 1 : -1
-		);
 
-		this.setState((prevState) => ({
-			listItems: {
-				owner: 'Gustavo',
-				count: prevState.listItems.count,
-				Whiskeys: prevState.listItems.Whiskeys,
-			},
-			nextWhiskey: prevState.nextWhiskey,
-			selectedWhiskey: prevState.selectedWhiskey,
-			sorted: sorted,
-			results: true,
-		}));
-
-		// console.log('new state is',this.state)
-	};
 
 	render() {
-		// console.log('in app my props are', this.props);
-		const displayResults = this.state.results;
-		let results;
-		if (displayResults) {
-			results = <Results data={this.state.sorted} />;
-		} else {
-			results = <div></div>;
-		}
+
 		console.log('in App');
 		return (
 			<div>
@@ -191,21 +164,12 @@ class App extends React.Component {
 							</div>
 							<button form="new-whiskey-form">Add Whiskey</button>
 						</div>
-						{/* <button
-							id="ShowResultsButton"
-							className={this.props.VotingOpen ? '' : 'invisible'}
-							onClick={this.SortAndDisplayResults}
-						>
-							Show Results
-						</button> */}
 					</div>
 					<div
 						className={`vote-section f-1 ${
 							this.props.VotingOpen ? '' : 'invisible' 
 						}`}
 					>
-						{/* <div className="header">Voting Results</div>
-						<div>{results}</div> */}
 					</div>
 				</div>
 			</div>
