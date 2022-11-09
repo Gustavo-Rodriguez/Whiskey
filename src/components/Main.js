@@ -3,12 +3,11 @@ import { Route, Routes } from "react-router-dom"
 
 import App from "./App"
 import Results from "./Results"
-import listItems, {ExistingResults} from '../data/Data';
+import listItems from '../data/Data';
  
 
 class Main extends React.Component {
   state = {
-		data: ExistingResults,
     listItems:listItems
 	};
 

@@ -66,7 +66,9 @@ class App extends React.Component {
 				results: false,
 			}),
 			() => {
+				let alertText="Your Whiskey is Whiskey "+Number(this.state.nextWhiskey-1);
 				this.updateFirebasewithState(this.state);
+				alert(alertText)
 			}
 		);
 	};
@@ -164,12 +166,12 @@ class App extends React.Component {
 							<button form="new-whiskey-form">Add Whiskey</button>
 						</div>
 					</div>
-					<div
+					{/* <div
 						className={`vote-section f-1 ${
 							this.props.VotingOpen ? '' : 'invisible' 
 						}`}
 					>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		);

@@ -57,11 +57,11 @@ body {
 	font-weight: bold;
 	padding: 2vh;
 }
-/* .f-1 {
+.f-1 {
 	flex: 1;
-	margin: 20px;
+	/* margin: 20px; */
 	margin-bottom: 0;
-} */
+}
 
 /* .whiskey-list,
 .vote-section {

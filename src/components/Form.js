@@ -23,6 +23,9 @@ class Form extends React.Component {
 				EmailRun: false,
 			});
 		}
+		else {
+			document.getElementById('new-whiskey-form').style.color="red"
+		}
 	};
 
 	handleName = (e) => {
