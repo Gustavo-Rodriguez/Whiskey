@@ -2,7 +2,6 @@ import React from 'react';
 import Form from './Form';
 import WhiskeyList from './WhiskeyList';
 import RatingModal from './RatingModal';
-import Results from './Results.js';
 import db from '../utils/firebase';
 import { ref, set, onValue } from 'firebase/database';
 
