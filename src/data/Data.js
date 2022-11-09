@@ -8,10 +8,6 @@ const listItems = {
 }
 
 
-
-
-//This is only getting the empty value of dbResults, not the one after onValue
-export const ExistingResults=dbResults
 export default listItems;
 
 
