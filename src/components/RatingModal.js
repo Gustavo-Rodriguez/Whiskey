@@ -1,11 +1,16 @@
 import React from 'react';
 import Vote from './Vote.js';
-// import {Modal} from 'bootstrap';
+
 
 class RatingModal extends React.Component {
 	render() {
-		// const myModal = new Modal(document.getElementById('rating-modal'));
-		// console.log('Before trying to hide my modal',myModal)
+		console.log('in Rating Modal my props are',this.props)
+		let WhiskeyNum;
+		if (this.props.selectedWhiskey !== '' ){
+		WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
+		console.log('whiskeyNum',WhiskeyNum)
+		} else 
+		{ WhiskeyNum=-1;}
 		return (
 			<div
 				className="modal fade"
@@ -20,9 +25,10 @@ class RatingModal extends React.Component {
 					<div className="modal-content">
 						<div className="modal-header">
 							<h5 className="modal-title" id="rating-modal-label">
-								Rate Whiskey #{this.props.selectedWhiskey}
+								Rate {WhiskeyNum}
 							</h5>
 							<button
+								id="CloseVoteWindow"
 								type="button"
 								className="btn-close"
 								data-bs-dismiss="modal"
@@ -37,7 +43,7 @@ class RatingModal extends React.Component {
 								SubmitVote={this.props.SubmitVote}
 								placeholderName={'Your Name (REQUIRED)'}
 								placeholderNotes={'Notes (Optional)'}
-								modal={this.myModal}
+								// modal={this.myModal}
 							/>
 						</div>
 					</div>

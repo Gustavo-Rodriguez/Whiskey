@@ -43,13 +43,28 @@ class Vote extends React.Component {
 		}));
 	};
 	HandleVote = (e) => {
-		if (!this.state.disableSubmit && this.state.VoterNameBool) {
-			e.preventDefault();
-			this.props.SubmitVote(this.state);
-			this.props.clear();
-			e.target.dataset.bsDismiss='modal'
-			e.target.click();		
-		}
+		// e.preventDefault()
+		// if (e.target.dataset.bsDismiss='modal')
+		// {
+		// 	console.log('modal should be set',e.target.dataset.bsDismiss)
+		// 	e.target.dataset.bsDismiss='custom'
+		// }
+		// else
+		 if (!this.state.disableSubmit && 
+			this.state.VoterNameBool
+			) 
+			{
+				console.log('inside handleVote in Vote, state is',this.State)
+				e.preventDefault();
+				this.props.SubmitVote(this.state);
+				this.props.clear();
+				var closebutton = document.getElementById('CloseVoteWindow');
+				closebutton.click();
+				// console.log('inside handleVote this is e',e)
+				// console.log('e.target.data',e.target.dataset)
+				// e.target.dataset.bsDismiss='modal'
+				// e.target.click();		
+			}
 		else if (!this.state.disableSubmit){
 			document.getElementById('VoterNameLabel').style.color="red"
 			alert('You must provide your name to vote')
@@ -158,7 +173,7 @@ class Vote extends React.Component {
 						<button
 							className="btn btn-primary"
 							onClick={this.HandleVote}
-							// data-bs-dismiss="customvalue"
+							data-bs-dismiss="customvalue"
 							
 						>
 							Submit

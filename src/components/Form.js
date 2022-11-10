@@ -4,23 +4,28 @@ class Form extends React.Component {
 	state = {
 		InputWhiskeyName: '',
 		InputEmail: '',
+		InputNumber:'',
 		NameRun: false,
 		EmailRun: false,
+		NumberRun: false,
 	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		// console.log("this is handleSubmit and these are my props", this.props);
 		if (
 			this.state.NameRun === this.state.EmailRun &&
-			this.state.NameRun === true
+			this.state.NameRun === true &&
+			this.state.NumberRun === true 
+
 		) {
 			this.props.handlesubmitfromApp(this.state);
 			this.setState({
-				InputWhiskeyName: '', // this clears the form
+				InputWhiskeyName: '',
 				InputEmail: '',
+				InputNumber:'',
 				NameRun: false,
 				EmailRun: false,
+				NumberRun: false,
 			});
 		}
 		else {
@@ -34,8 +39,10 @@ class Form extends React.Component {
 			(prevState) => ({
 				InputWhiskeyName: e.target.value,
 				InputEmail: prevState.InputEmail,
+				InputNumber: prevState.InputNumber,
 				NameRun: true,
 				EmailRun: prevState.EmailRun,
+				NumberRun: prevState.NumberRun,
 			}),
 			() => {
 				// console.log("this is state", this.state);
@@ -48,16 +55,34 @@ class Form extends React.Component {
 			(prevState) => ({
 				InputWhiskeyName: prevState.InputWhiskeyName,
 				InputEmail: e.target.value,
+				InputNumber: prevState.InputNumber,
 				NameRun: prevState.NameRun,
 				EmailRun: true,
+				NumberRun: prevState.NumberRun
 			}),
 			() => {
 				// console.log("this is state", this.state);
 			}
 		);
 	};
+	handleNumber = (e) =>{
+		this.setState(
+			(prevState) => ({
+				InputWhiskeyName: prevState.InputWhiskeyName,
+				InputEmail: prevState.InputEmail,
+				InputNumber: e.target.value,
+				NameRun: prevState.NameRun,
+				EmailRun: prevState.EmailRun,
+				NumberRun: true
+			}),
+			() => {
+				// callback
+			}
+		)
+	}
 
 	render() {
+		// console.log('in Form state is ',this.state)
 		return (
 			<form id="new-whiskey-form" onSubmit={this.handleSubmit}>
 				<div className="input-container">
@@ -78,6 +103,16 @@ class Form extends React.Component {
 						placeholder="Your Name?"
 					/>
 				</div>
+				<div className="input-container">
+					<div className='input-label'>Visible Number</div>
+					<input 
+						onChange={this.handleNumber}
+						value={this.state.InputNumber}
+						type='text'
+						placeholder="Whiskey Number"
+						/>
+				</div>
+				<button form="new-whiskey-form">Add Whiskey</button>
 			</form>
 		);
 	}

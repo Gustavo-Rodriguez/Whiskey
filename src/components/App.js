@@ -19,7 +19,7 @@ class App extends React.Component {
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-			if (dbResults !== null)
+			if (dbResults.Whiskeys !== undefined)
 				this.setState((prevState) => ({
 					listItems: {
 						owner: 'Gustavo',
@@ -34,7 +34,7 @@ class App extends React.Component {
 	}
 
 	updateFirebasewithState = (param) => {
-		// console.log('in updateFirebase this is my param', param);
+		console.log('in updateFirebase in App this is my param', param);
 		set(ref(db, 'whiskeys/'), {
 			nextWhiskey: param.nextWhiskey,
 			Whiskeys: param.listItems.Whiskeys,
@@ -93,6 +93,7 @@ class App extends React.Component {
 		}));
 	};
 	SubmitVote = (voteInfo) => {
+		
 		console.log(voteInfo);
 		let newWhiskeys = this.state.listItems.Whiskeys;
 		let position = voteInfo.WhiskeyNumber - 1;
@@ -143,6 +144,7 @@ class App extends React.Component {
 						selectedWhiskey={this.state.selectedWhiskey}
 						ClearVote={this.ClearVote}
 						SubmitVote={this.SubmitVote}
+						whiskeyList={this.state.listItems.Whiskeys}
 					/>
 					<div
 						className={`whiskey-list f-1 ${
@@ -155,23 +157,7 @@ class App extends React.Component {
 							handleRatefromApp={this.handleRatefromApp}
 							selectedWhiskey={this.state.selectedWhiskey}
 						/>
-						<div className="subHeader">New Whiskey Form</div>
-						<div className="create-new">
-							<div className="form-container">
-								<Form
-									handlesubmitfromApp={this.handleSubmitWhiskey}
-									placeholderText={'Whiskey?'}
-								/>
-							</div>
-							<button form="new-whiskey-form">Add Whiskey</button>
-						</div>
 					</div>
-					{/* <div
-						className={`vote-section f-1 ${
-							this.props.VotingOpen ? '' : 'invisible' 
-						}`}
-					>
-					</div> */}
 				</div>
 			</div>
 		);
