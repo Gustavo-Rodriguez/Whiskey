@@ -1,5 +1,4 @@
 import React from 'react';
-import Form from './Form';
 import WhiskeyList from './WhiskeyList';
 import RatingModal from './RatingModal';
 import db from '../utils/firebase';
