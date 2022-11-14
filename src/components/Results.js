@@ -104,6 +104,7 @@ class Results extends React.Component {
 						<tr>
 							<th>Name</th>
 							<th>Number</th>
+							<th>Type</th>
 							<th>Rating</th>
 							<th>Details</th>
 						</tr>

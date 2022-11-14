@@ -10,11 +10,12 @@ class WhiskeyResults extends React.Component {
 	bgColor = Math.floor(this.props.result.VoteAverage);
 
 	render() {
-		// console.log('in whiskey results, props are',this.props)
+		console.log('in whiskey results, props are',this.props)
 		return (
 			<tr>
 				<td>{this.props.result.realWhiskey}</td>
 				<td>{this.props.result.visibleName}</td>
+				<td>{this.props.result.WhiskeyType}</td>
 				<td
 					style={{
 						color: this.bgColor === -1 ? 'white' : 'black',

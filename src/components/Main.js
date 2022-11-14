@@ -22,8 +22,8 @@ class Main extends React.Component {
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-      // console.log('dbResults is ',dbResults.Whiskeys)
-			if (dbResults.Whiskeys !== undefined)
+      console.log('dbResults is ',dbResults)
+			if (dbResults !== undefined && dbResults !== null)
       {
         // console.log('we found whiskey')
       		this.setState((prevState) => ({
@@ -52,7 +52,7 @@ class Main extends React.Component {
 	}
 
   handleSubmitWhiskey = (Info) => {
-    // console.log('in main, I was given',Info)
+    console.log('in main, I was given this when submitting a new whiskey',Info)
     this.setState(
       (prevState) => ({
         listItems: {
@@ -65,6 +65,7 @@ class Main extends React.Component {
               visibleName: 'Whiskey ' + Info.InputNumber,
               realWhiskey: Info.InputWhiskeyName,
               hiddenEmail: Info.InputEmail,
+              WhiskeyType: Info.InputType,
               votes: [],
             },
           ],

@@ -18,7 +18,7 @@ class App extends React.Component {
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-			if (dbResults.Whiskeys !== undefined)
+			if (dbResults !== undefined && dbResults !== null)
 				this.setState((prevState) => ({
 					listItems: {
 						owner: 'Gustavo',

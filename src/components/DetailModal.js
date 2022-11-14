@@ -45,8 +45,10 @@ class DetailModal extends Component {
 					<div className="modal-content">
 						<div className="modal-header">
 							<h5 className="modal-title" id="detail-modal-label">
-								Rating Details: {this.props.Details.visibleName}
-								<br /> ({this.props.Details.realWhiskey})
+								Rating Details:
+								<br/>What's on the bag: {this.props.Details.visibleName}
+								<br />What's on the Bottle: {this.props.Details.realWhiskey}
+								<br/>Whiskey Type: {this.props.Details.WhiskeyType}
 							</h5>
 							<button
 								type="button"
