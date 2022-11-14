@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom"
 import App from "./App"
 import Results from "./Results"
 import listItems from '../data/Data';
-import Form from "./Form";
+import Admin from "./Admin";
 import { ref, set, onValue } from 'firebase/database';
 import db from '../utils/firebase';
 
@@ -102,7 +102,7 @@ class Main extends React.Component {
     <div>
       <Routes>
           <Route path="/" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
-          <Route path="/Admin" element={<Form handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
+          <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Winner" element={<Results data={this.state.listItems.Whiskeys} />} />
       </Routes>
     </div>

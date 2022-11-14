@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Form extends React.Component {
+class Admin extends React.Component {
 	state = {
 		InputWhiskeyName: '',
 		InputEmail: '',
@@ -112,10 +112,20 @@ class Form extends React.Component {
 						placeholder="Whiskey Number"
 						/>
 				</div>
+				<div className="input-container">
+					<div className='input-label'>Whiskey Type</div>
+					<input 
+						onChange={this.handleNumber}
+						value={this.state.InputNumber}
+						type='text'
+						placeholder="Whiskey Number"
+						/>
+				</div>
+				
 				<button form="new-whiskey-form">Add Whiskey</button>
 			</form>
 		);
 	}
 }
 
-export default Form;
+export default Admin;
