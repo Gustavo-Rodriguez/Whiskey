@@ -102,9 +102,9 @@ class Main extends React.Component {
   return (  
     <div>
       <Routes>
-          <Route path="/" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
+          <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
-          <Route path="/Winner" element={<Results data={this.state.listItems.Whiskeys} />} />
+          <Route path="/" element={<Results data={this.state.listItems.Whiskeys} />} />
       </Routes>
     </div>
   )
