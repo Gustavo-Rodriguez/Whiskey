@@ -13,18 +13,12 @@ class RatingModal extends React.Component {
 		let VoterList;
 		if (this.props.selectedWhiskey !== '' ){
 			WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
-			console.log('whiskeynum',WhiskeyNum)
 			votes=this.props.whiskeyList[this.props.selectedWhiskey-1].votes
-			console.log('votes',votes)
-			console.log('votes.length',votes.length)
 			for (let i=0;i<votes.length;i++)
 			{
-				console.log('in loop votes',votes[i])
 				Voters.push(votes[i].voter);
 			}
-			console.log('Voters',Voters)
 			VoterList = Voters.map(string => <li>{string}</li>);
-			console.log('listItems',VoterList)
 		} 
 		else 
 		{ WhiskeyNum=-1;}

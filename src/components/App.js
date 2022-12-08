@@ -134,8 +134,10 @@ class App extends React.Component {
 
 
 	render() {
-
-		console.log('in App');
+		let unsorted=this.state.listItems;
+			const sorted = [...unsorted.Whiskeys].sort((a, b) =>
+						a.visibleName > b.visibleName ? 1 : -1
+					);
 		return (
 			<div>
 				<div className="application">
@@ -152,7 +154,8 @@ class App extends React.Component {
 					>
 						<div className="header">Whiskeys</div>
 						<WhiskeyList
-							listItems={this.state.listItems}
+
+							Sorted={sorted}
 							handleRatefromApp={this.handleRatefromApp}
 							selectedWhiskey={this.state.selectedWhiskey}
 						/>

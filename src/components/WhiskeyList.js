@@ -1,12 +1,11 @@
 import React from "react";
-// Uses listItems from State in App 
 import Whiskey from "./Whiskey";
 
 
 
 
 const WhiskeyList = (props) => {
-  const todoListItems = props.listItems.Whiskeys.map((d, i) => {
+  const todoListItems = props.Sorted.map((d, i) => {
     return (
       <Whiskey
         handleRateFromApp={props.handleRatefromApp}
