@@ -1,5 +1,5 @@
 import React from 'react';
-import listItems from '../data/Data.js';
+//import listItems from '../data/Data.js';
 import Vote from './Vote.js';
 
 
