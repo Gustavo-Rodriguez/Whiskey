@@ -11,7 +11,7 @@ class RatingModal extends React.Component {
 		let VoterIntro='These people have Voted for this Whiskey already:';
 		let Voters=[];
 		let VoterList;
-		if (this.props.selectedWhiskey !== '' ){
+		if (this.props.selectedWhiskey !== '' && this.props.whiskeyList[this.props.selectedWhiskey-1].VoteAverage !== -1 ){
 			WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
 			votes=this.props.whiskeyList[this.props.selectedWhiskey-1].votes
 			for (let i=0;i<votes.length;i++)
@@ -21,7 +21,10 @@ class RatingModal extends React.Component {
 			VoterList = Voters.map(string => <li>{string}</li>);
 		} 
 		else 
-		{ WhiskeyNum=-1;}
+		{
+			WhiskeyNum=-1;
+			VoterIntro="No one has Voted for this Whiskey Yet"
+		}
 		return (
 			<div
 				className="modal fade"
@@ -46,6 +49,10 @@ class RatingModal extends React.Component {
 								aria-label="Close"
 							></button>
 						</div>
+						<div className='modal-body'>
+							{VoterIntro}
+							{VoterList}
+						</div>
 						<div className="modal-body">
 							<Vote
 								key={this.props.selectedWhiskey}
@@ -57,10 +64,7 @@ class RatingModal extends React.Component {
 								// modal={this.myModal}
 							/>
 						</div>
-						<div className='modal-body'>
-							{VoterIntro}
-							{VoterList}
-						</div>
+
 					</div>
 				</div>
 			</div>
