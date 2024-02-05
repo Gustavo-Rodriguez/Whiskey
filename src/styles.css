@@ -1,6 +1,8 @@
 :root {
-	--bgcolor: #CECFD1;
-	--font-color: #71707E;
+	/* --bgcolor: #CECFD1; */
+	--bgcolor: #8d3700;
+	/* --font-color: #71707E; */
+	--font-color:#ffdd00;
 	--color--1: black;
 	--color-0: #ff0000;
 	--color-1: #ff9b94;
@@ -246,6 +248,7 @@ body {
   
   .my-dropdown-input {
 	padding: 5px;
+	color: #000;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -309,4 +312,7 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 5px;
   }
-  
+  ::placeholder
+  {
+	COLOR:#000;
+  }
