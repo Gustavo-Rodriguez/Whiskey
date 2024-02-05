@@ -5,6 +5,7 @@ import App from "./App"
 import Results from "./Results"
 import listItems from '../data/Data';
 import Admin from "./Admin";
+import Login from "./Login";
 import { ref, set, onValue } from 'firebase/database';
 import db from '../utils/firebase';
 
@@ -105,6 +106,7 @@ class Main extends React.Component {
           <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Results" element={<Results data={this.state.listItems.Whiskeys} />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
       </Routes>
     </div>
