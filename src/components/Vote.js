@@ -3,16 +3,18 @@ import star from './unchecked.png';
 import checked from './checked.png';
 
 class Vote extends React.Component {
+	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 	state = {
 		WhiskeyNumber: this.props.data,
 		CurrentStar: 0,
 		VoterName: '',
+		VoterEmail: '',
 		VoterNotes: '',
 		disableSubmit: true,
 		VoterNameBool: false,
 		VoterNotesBool: false
 	};
-
+	
 	ClearStars = () => {
 		for (let index = 1; index < 6; index++) {
 			let myId = "[id='" + index + "-Star']";
@@ -37,7 +39,8 @@ class Vote extends React.Component {
 		this.setState((prevState) => ({
 			WhiskeyNumber: prevState.WhiskeyNumber,
 			CurrentStar: numberStar,
-			VoterName: prevState.VoterName,
+			VoterName: this.storedProfile.name,
+			VoterEmail:this.storedProfile.email,
 			VoterNotes: prevState.VoterNotes,
 			disableSubmit: false,
 		}));
@@ -51,7 +54,7 @@ class Vote extends React.Component {
 		// }
 		// else
 		 if (!this.state.disableSubmit && 
-			this.state.VoterNameBool
+			this.storedProfile
 			) 
 			{
 				console.log('inside handleVote in Vote, state is',this.State)
@@ -112,8 +115,9 @@ class Vote extends React.Component {
 	};
 
 	render() {
-		//    console.log("inside Vote these are props ", this.props, "This is State", this.state)
-		if (this.state.WhiskeyNumber > 0) {
+	    console.log("inside Vote these are props ", this.props, "This is State", this.state)
+		let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+		if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
 			return (
 				<div className="f-1">
 					<span id="display-vote">
@@ -153,13 +157,10 @@ class Vote extends React.Component {
 						/>
 					</div>
 					<div className="input-container">
-						<div className="input-label" id="VoterNameLabel">{this.props.placeholderName}:</div>
-						<input
-							onChange={this.handleName}
-							value={this.state.VoterName}
-							type="text"
-							placeholder={this.props.placeholderName}
-						/>
+						<div className="input-label" id="VoterNameLabel">Voter Name: {this.storedProfile.name}</div>
+					</div>
+					<div className="input-container">
+						<div className="input-label" id="VoterEmailLabel">Voter Email: {this.storedProfile.email}</div>
 					</div>
 					<div className="input-container">
 						<div className="input-label">Notes (optional):</div>
@@ -188,7 +189,7 @@ class Vote extends React.Component {
 				</div>
 			);
 		} else {
-			return <div className="f-1"> </div>;
+			return <div className="f-1"> You Must Login to Vote </div>;
 		}
 	}
 }
