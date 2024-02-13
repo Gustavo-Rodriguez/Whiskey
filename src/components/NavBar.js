@@ -31,6 +31,18 @@ function NavBar() {
                 Profile
             </NavLink>
         </div>
+        <div className="navItem">
+            <NavLink
+                to="/Privacy"
+                style={({ isActive }) => ({
+                    color: isActive
+                        ? "Yellow"
+                        : "white",
+                })}
+            >
+                PrivacyPolicy
+            </NavLink>
+        </div>
     </div>
     );
 }

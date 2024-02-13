@@ -6,6 +6,7 @@ import Results from "./Results"
 import listItems from '../data/Data';
 import Admin from "./Admin";
 import Login from "./Login";
+import Privacy from "./PrivacyPolicy"
 import NavBar from "./NavBar";
 import { ref, set, onValue } from 'firebase/database';
 import db from '../utils/firebase';
@@ -121,6 +122,7 @@ class Main extends React.Component {
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Results" element={<Results data={this.state.listItems.Whiskeys} />} />
           <Route path="/Login" element={<Login props={this.state.userInfo} />} />
+          <Route path="/Privacy" element={<Privacy />} />
           <Route path="/" element={<Login props={this.state.userInfo} />} />
       </Routes>
     </div>
