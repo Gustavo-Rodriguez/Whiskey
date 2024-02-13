@@ -18,13 +18,19 @@ class Main extends React.Component {
     listItems:listItems,
 		nextWhiskey: listItems.count + 1,
 		selectedWhiskey: '',
-		results: true,
+		results: false,
 		sorted: {},
 	};
 
   componentDidMount() {
 		const whiskeysRef = ref(db, 'whiskeys/');
+    const boolRef= ref(db, 'ResultsVisible');
 		let dbResults;
+    let votebool;
+    onValue(boolRef, (snapshot) => {
+      votebool=snapshot.val();
+     console.log('resultsvis lookup',votebool)
+    });
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
       console.log('dbResults is ',dbResults)
@@ -46,7 +52,7 @@ class Main extends React.Component {
             },
             selectedWhiskey: prevState.selectedWhiskey,
             nextWhiskey: dbResults.nextWhiskey,
-            results: prevState.results,
+            results: votebool,
           }));
         }
         else {
@@ -116,7 +122,7 @@ class Main extends React.Component {
 
   return (  
     <div>
-      <NavBar />
+      <NavBar showResults={this.state.results} />
       <Routes>
           <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />

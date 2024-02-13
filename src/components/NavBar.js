@@ -3,7 +3,8 @@ import {
     NavLink,
 } from "react-router-dom";
  
-function NavBar() {
+function NavBar(props) {
+    console.log('props in navbar', props )
     return (
 
     <div className='navBar'>
@@ -43,6 +44,19 @@ function NavBar() {
                 PrivacyPolicy
             </NavLink>
         </div>
+        {props.showResults ? (
+        <div className="navItem">
+            <NavLink
+                to="/Results"
+                style={({ isActive }) => ({
+                    color: isActive
+                        ? "Yellow"
+                        : "white",
+                })}
+            >
+                Results
+            </NavLink>
+        </div>):(<div></div>)}
     </div>
     );
 }
