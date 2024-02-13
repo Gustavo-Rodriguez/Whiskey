@@ -12,6 +12,8 @@ class RatingModal extends React.Component {
 		let Voters=[];
 		let VoterList;
 		let votedBool=false;
+		let votedNotes='You did not give notes'
+		let votedValue=0;
 		let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 		if (this.props.selectedWhiskey !== '' && this.props.whiskeyList[this.props.selectedWhiskey-1].VoteAverage !== -1 ){
 			WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
@@ -19,10 +21,13 @@ class RatingModal extends React.Component {
 			for (let i=0;i<votes.length;i++)
 			{
 				Voters.push(votes[i].voter);
-				if (!votedBool)
+				if (!votedBool && storedProfile)
 				{
-					if(votes[i].email==storedProfile.email)
-						{votedBool=true;}
+					if(votes[i].email==storedProfile.email){
+							votedBool=true;
+							votedValue=votes[i].vote;
+							{votes[i].notes ? votedNotes=votes[i].notes : votedNotes='You did not give any notes'}
+						}
 				}
 			}
 			VoterList = Voters.map(string => <li>{string}</li>);
@@ -71,7 +76,10 @@ class RatingModal extends React.Component {
 								placeholderNotes={'Notes (Optional)'}
 								// modal={this.myModal}
 							/>
-							: <div>You have already Voted for this Whiskey</div>}
+							: <div>You have already Voted for this Whiskey
+								<br></br>You gave it {votedValue} stars
+								<br></br>{votedNotes}
+								</div>}
 						</div>
 
 					</div>
