@@ -13,6 +13,22 @@
 	--dark-gray: rgb(58, 58, 60);
 }
 
+.center-me {
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.navBar{
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	border: 2px solid yellow;
+	padding: 5px 0 5px 5px;
+}
+.navItem{
+	margin: 10px;
+}
 html,
 body {
 	height: 100%;

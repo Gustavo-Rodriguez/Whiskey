@@ -6,11 +6,14 @@ import Results from "./Results"
 import listItems from '../data/Data';
 import Admin from "./Admin";
 import Login from "./Login";
+import NavBar from "./NavBar";
 import { ref, set, onValue } from 'firebase/database';
 import db from '../utils/firebase';
 
 class Main extends React.Component {
   state = {
+    userName:'',
+    userEmail:'',
     listItems:listItems,
 		nextWhiskey: listItems.count + 1,
 		selectedWhiskey: '',
@@ -24,29 +27,39 @@ class Main extends React.Component {
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
       console.log('dbResults is ',dbResults)
-			if (dbResults !== undefined && dbResults !== null)
-      {
-        // console.log('we found whiskey')
-      		this.setState((prevState) => ({
-					listItems: {
-						owner: 'Gustavo',
-						count: prevState.listItems.count + 1,
-						Whiskeys: dbResults.Whiskeys,
-					},
-					selectedWhiskey: prevState.selectedWhiskey,
-					nextWhiskey: dbResults.nextWhiskey,
-					results: prevState.results,
-				}));
-      }
-      else {
-        // console.log('in the else of componentdidmount in main')
-        this.setState((prevState) => ({
-          listItems:listItems,
-          nextWhiskey:listItems.count+1,
-          selectedWhiskey:'',
-          results: true,
-          sorted: {},
-        }))
+      //Check for User First
+      let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+      console.log('checking for user')
+      if (storedProfile){
+      //User Found Now Check for Whiskey
+        if (dbResults !== undefined && dbResults !== null)
+        {
+          // console.log('we found whiskey')
+            this.setState((prevState) => ({
+            userName:storedProfile.name,
+            userEmail:storedProfile.email,
+            listItems: {
+              owner: 'Gustavo',
+              count: prevState.listItems.count + 1,
+              Whiskeys: dbResults.Whiskeys,
+            },
+            selectedWhiskey: prevState.selectedWhiskey,
+            nextWhiskey: dbResults.nextWhiskey,
+            results: prevState.results,
+          }));
+        }
+        else {
+          // console.log('in the else of componentdidmount in main')
+          this.setState((prevState) => ({
+            listItems:listItems,
+            nextWhiskey:listItems.count+1,
+            selectedWhiskey:'',
+            results: true,
+            sorted: {},
+          }))
+        }
+      } else {
+        console.log('user not found')
       }
 		});
     // console.log('in main, in ComponentDidMount state is',this.state)
@@ -102,12 +115,13 @@ class Main extends React.Component {
 
   return (  
     <div>
+      <NavBar />
       <Routes>
           <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Results" element={<Results data={this.state.listItems.Whiskeys} />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
+          <Route path="/Login" element={<Login props={this.state.userInfo} />} />
+          <Route path="/" element={<Login props={this.state.userInfo} />} />
       </Routes>
     </div>
   )

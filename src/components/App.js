@@ -5,6 +5,7 @@ import db from '../utils/firebase';
 import { ref, set, onValue } from 'firebase/database';
 
 class App extends React.Component {
+	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 	state = {
 		listItems: this.props.listItems,
 		nextWhiskey: this.props.listItems.count + 1,
@@ -18,7 +19,7 @@ class App extends React.Component {
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-			if (dbResults !== undefined && dbResults !== null)
+			if (dbResults !== undefined && dbResults !== null && this.storedProfile)
 				this.setState((prevState) => ({
 					listItems: {
 						owner: 'Gustavo',
@@ -28,6 +29,8 @@ class App extends React.Component {
 					selectedWhiskey: prevState.selectedWhiskey,
 					nextWhiskey: dbResults.nextWhiskey,
 					results: prevState.results,
+					userName:this.storedProfile.name,
+					userEmail:this.storedProfile.email
 				}));
 		});
 	}
@@ -93,12 +96,13 @@ class App extends React.Component {
 	};
 	SubmitVote = (voteInfo) => {
 		
-		console.log(voteInfo);
+		console.log('vote info',voteInfo);
 		let newWhiskeys = this.state.listItems.Whiskeys;
 		let position = voteInfo.WhiskeyNumber - 1;
 		let voteObject = {
 			vote: voteInfo.CurrentStar,
 			voter: voteInfo.VoterName,
+			email: voteInfo.VoterEmail,
 			notes: voteInfo.VoterNotes,
 		};
 		console.log('voteObject', voteObject);

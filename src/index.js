@@ -1,23 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
-import Main from './components/Main'
+import Login from './components/Main'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import './styles.css';
 
+const container=document.getElementById('root')
+const root=createRoot(container);
 // // Bootstrap CSS
 // import "bootstrap/dist/css/bootstrap.min.css";
 // // Bootstrap Bundle JS
 // import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import './styles.css';
 
 
 
-ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Main />
-		</BrowserRouter>
-	</React.StrictMode>,
+
+root.render(
+	<GoogleOAuthProvider clientId="518792592220-4ob0rgcq8gee7932reovm80utuarc4mu.apps.googleusercontent.com">
+		<React.StrictMode>
+			<BrowserRouter>
+				<Login />
+			</BrowserRouter>
+		</React.StrictMode>
+	</GoogleOAuthProvider>,
 	document.getElementById('root')
 );
 
