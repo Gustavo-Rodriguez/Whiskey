@@ -30,6 +30,15 @@ class Main extends React.Component {
     onValue(boolRef, (snapshot) => {
       votebool=snapshot.val();
      console.log('resultsvis lookup',votebool)
+     this.setState((prevState) => ({
+      userName:prevState.userName,
+      userEmail:prevState.userEmail,
+      listItems:prevState.listItems,
+      nextWhiskey:prevState.nextWhiskey,
+      selectedWhiskey:prevState.selectedWhiskey,
+      results:votebool,
+      sorted:prevState.sorted
+     }))
     });
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
