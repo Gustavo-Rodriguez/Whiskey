@@ -23,10 +23,13 @@ class RatingModal extends React.Component {
 				Voters.push(votes[i].voter);
 				if (!votedBool && storedProfile)
 				{
-					if(votes[i].email==storedProfile.email){
+					if(votes[i].email===storedProfile.email){
 							votedBool=true;
 							votedValue=votes[i].vote;
-							{votes[i].notes ? votedNotes=votes[i].notes : votedNotes='You did not give any notes'}
+							if (!votes[i].notes){
+							}else{
+								votedNotes=votes[i].notes
+							}
 						}
 				}
 			}

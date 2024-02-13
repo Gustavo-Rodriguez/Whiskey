@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import NavBar from './NavBar.js'
+
 
 function App({givenuser, givenprofile}) {
     const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
@@ -60,7 +60,7 @@ function App({givenuser, givenprofile}) {
             <br />
             {profile ? (
                 <div>
-                    <img src={profile.picture} alt="Picture" />
+                    <img src={profile.picture} alt="Profile " />
                     <h3>Welcome {profile.name}</h3>
                     <p>Email Address: {profile.email}</p>
                     <br />

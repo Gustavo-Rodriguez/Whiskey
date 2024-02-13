@@ -116,7 +116,6 @@ class Vote extends React.Component {
 
 	render() {
 	    console.log("inside Vote these are props ", this.props, "This is State", this.state)
-		let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 		if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
 			return (
 				<div className="f-1">

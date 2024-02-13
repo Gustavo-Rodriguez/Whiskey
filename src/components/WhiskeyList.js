@@ -5,7 +5,8 @@ import Whiskey from "./Whiskey";
 
 
 const WhiskeyList = (props) => {
-  const todoListItems = props.Sorted.map((d, i) => {
+  const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+  const WhiskeyItems = props.Sorted.map((d, i) => {
     return (
       <Whiskey
         handleRateFromApp={props.handleRatefromApp}
@@ -18,7 +19,10 @@ const WhiskeyList = (props) => {
     );
   });
 
-  return <div className="items-list">{todoListItems}</div>;
+  return <div className="items-list">{storedProfile ? (WhiskeyItems) :(
+    <div>You Must Log In to Vote </div>)}
+    
+    </div>;
 };
 
 export default WhiskeyList;
