@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
     NavLink,
 } from "react-router-dom";
+import { ref, onValue } from 'firebase/database';
+import db from '../utils/firebase';
  
-function NavBar(props) {
-    console.log('props in navbar', props )
+function NavBar( props ) {
+    console.log('in navbar props are',props)
+    const [ admin, setAdmin ] = useState(false);
+    const [ results, setResults ] = useState(false);
+    const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+    useEffect(
+        () => {
+            const adminRef = ref(db, 'Admin/');
+            let results;
+            console.log('in useEffect of NavBar storedProfile is ',storedProfile)
+            console.log('in useEffect of NavBar my props are',props)
+            onValue(adminRef, (snapshot) => {
+               results=snapshot.val();
+               console.log('admin lookup',results)
+               if (results.ResultsVisible){
+                setResults(true)
+                console.log('results is true')
+               }
+               else {
+                setResults(false)
+               }
+               if (storedProfile){
+                if (results.Admins.includes(storedProfile.email)){
+                    console.log('admin is true')
+                    setAdmin(true)
+                  }
+               }
+               else {
+                setAdmin(false)
+               }
+              })
+    });
+
     return (
 
     <div className='navBar'>
@@ -44,7 +77,7 @@ function NavBar(props) {
                 PrivacyPolicy
             </NavLink>
         </div>
-        {props.showResults ? (
+        {results ? (
         <div className="navItem">
             <NavLink
                 to="/Results"
@@ -57,7 +90,7 @@ function NavBar(props) {
                 Results
             </NavLink>
         </div>):(<div></div>)}
-        {props.showAdmin ? (
+        {admin ? (
         <div className="navItem">
             <NavLink
                 to="/Admin"

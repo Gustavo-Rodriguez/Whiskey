@@ -3,10 +3,11 @@ import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 
-function App({givenuser, givenprofile}) {
+function App(props) {
     const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+    console.log('in Login my props are ',props)
 
-    const [ user, setUser ] = useState(givenuser);
+    const [ user, setUser ] = useState('');
     const [ profile, setProfile ] = useState(storedProfile);
 
 
@@ -18,7 +19,7 @@ function App({givenuser, givenprofile}) {
     useEffect(
         () => {
             if (user) {
-                console.log('in useEffect, user is ',user)
+                console.log('in LoginUseEffect')
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                         headers: {
@@ -31,11 +32,11 @@ function App({givenuser, givenprofile}) {
                         console.log(res.data)
                         sessionStorage.setItem('profile',JSON.stringify(res.data))
                         console.log('SessionStorage in useEffect profile is ',JSON.parse(sessionStorage.getItem('profile')))
+                        props.refresh('after we write to Session Storage in Login')
                     })
                     .catch((err) => console.log(err));
             }
             else {
-                console.log('in useEffect no user',user)
             }
         },
         [ user ]
@@ -46,6 +47,7 @@ function App({givenuser, givenprofile}) {
         googleLogout();
         setProfile(null);
         sessionStorage.removeItem('profile')
+        props.refresh('in logout')
     };
 
 

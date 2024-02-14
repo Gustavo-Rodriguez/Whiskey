@@ -19,31 +19,15 @@ class Main extends React.Component {
 		nextWhiskey: listItems.count + 1,
 		selectedWhiskey: '',
 		results: false,
-    admin: false,
+    login: 0,
 		sorted: {},
 	};
-  admins= ['gustavo.rodriguez@gmail.com','rachelcolombana@gmail.com']
-
+  storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   componentDidMount() {
 		const whiskeysRef = ref(db, 'whiskeys/');
-    const boolRef= ref(db, 'ResultsVisible');
-		let dbResults;
-    let votebool;
-    let adminbool;
-    onValue(boolRef, (snapshot) => {
-      votebool=snapshot.val();
-     console.log('resultsvis lookup',votebool)
-     this.setState((prevState) => ({
-      userName:prevState.userName,
-      userEmail:prevState.userEmail,
-      listItems:prevState.listItems,
-      nextWhiskey:prevState.nextWhiskey,
-      selectedWhiskey:prevState.selectedWhiskey,
-      results:votebool,
-      admin:prevState.admin,
-      sorted:prevState.sorted
-     }))
-    });
+		let dbResults
+    let adminbool
+    let votebool
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
       console.log('dbResults is ',dbResults)
@@ -54,13 +38,8 @@ class Main extends React.Component {
       //User Found Now Check for Whiskey
         if (dbResults !== undefined && dbResults !== null)
         {
-          console.log('admins are',this.admins)
           console.log('user is ',storedProfile.email)
-          if (this.admins.includes(storedProfile.email)){
-            console.log('admin is true')
-            adminbool=true;
-          }
-          // console.log('we found whiskey')
+           console.log('we found whiskey')
             this.setState((prevState) => ({
             userName:storedProfile.name,
             userEmail:storedProfile.email,
@@ -76,7 +55,7 @@ class Main extends React.Component {
           }));
         }
         else {
-          // console.log('in the else of componentdidmount in main')
+          console.log('in the else of componentdidmount in main')
           this.setState((prevState) => ({
             listItems:listItems,
             nextWhiskey:listItems.count+1,
@@ -132,7 +111,21 @@ class Main extends React.Component {
 			alert('Something went wrong');
 		});
 	};
-
+  changeLogin = (param) => {
+    console.log("I should be changing login state ",param)
+    this.setState(
+      (prevState) => ({
+      userName:prevState.userName,
+      userEmail:prevState.userEmail,
+      listItems:prevState.listItems,
+      nextWhiskey: prevState.nextWhiskey,
+      selectedWhiskey: prevState.selectedWhiskey,
+      results: prevState.results,
+      login: prevState.login+1,
+      sorted:prevState.sorted,
+    }));
+    console.log('login (count) is', this.state.login)
+  }
 
 
   render(){
@@ -142,14 +135,14 @@ class Main extends React.Component {
 
   return (  
     <div>
-      <NavBar showResults={this.state.results} showAdmin={this.state.admin} />
+      <NavBar user={this.storedProfile} />
       <Routes>
           <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Results" element={<Results data={this.state.listItems.Whiskeys} />} />
-          <Route path="/Login" element={<Login props={this.state.userInfo} />} />
+          <Route path="/Login" element={<Login user={this.state.userEmail} refresh={this.changeLogin} />} />
           <Route path="/Privacy" element={<Privacy />} />
-          <Route path="/" element={<Login props={this.state.userInfo} />} />
+          <Route path="/" element={<Login user={this.state.userEmail} refresh={this.changeLogin} />} />
       </Routes>
     </div>
   )
