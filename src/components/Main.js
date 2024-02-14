@@ -19,14 +19,17 @@ class Main extends React.Component {
 		nextWhiskey: listItems.count + 1,
 		selectedWhiskey: '',
 		results: false,
+    admin: false,
 		sorted: {},
 	};
+  admins= ['gustavo.rodriguez@gmail.com','rachelcolombana@gmail.com']
 
   componentDidMount() {
 		const whiskeysRef = ref(db, 'whiskeys/');
     const boolRef= ref(db, 'ResultsVisible');
 		let dbResults;
     let votebool;
+    let adminbool;
     onValue(boolRef, (snapshot) => {
       votebool=snapshot.val();
      console.log('resultsvis lookup',votebool)
@@ -37,6 +40,7 @@ class Main extends React.Component {
       nextWhiskey:prevState.nextWhiskey,
       selectedWhiskey:prevState.selectedWhiskey,
       results:votebool,
+      admin:prevState.admin,
       sorted:prevState.sorted
      }))
     });
@@ -50,6 +54,12 @@ class Main extends React.Component {
       //User Found Now Check for Whiskey
         if (dbResults !== undefined && dbResults !== null)
         {
+          console.log('admins are',this.admins)
+          console.log('user is ',storedProfile.email)
+          if (this.admins.includes(storedProfile.email)){
+            console.log('admin is true')
+            adminbool=true;
+          }
           // console.log('we found whiskey')
             this.setState((prevState) => ({
             userName:storedProfile.name,
@@ -62,6 +72,7 @@ class Main extends React.Component {
             selectedWhiskey: prevState.selectedWhiskey,
             nextWhiskey: dbResults.nextWhiskey,
             results: votebool,
+            admin: adminbool
           }));
         }
         else {
@@ -131,7 +142,7 @@ class Main extends React.Component {
 
   return (  
     <div>
-      <NavBar showResults={this.state.results} />
+      <NavBar showResults={this.state.results} showAdmin={this.state.admin} />
       <Routes>
           <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
           <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />

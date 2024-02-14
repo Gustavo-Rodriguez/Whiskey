@@ -57,6 +57,19 @@ function NavBar(props) {
                 Results
             </NavLink>
         </div>):(<div></div>)}
+        {props.showAdmin ? (
+        <div className="navItem">
+            <NavLink
+                to="/Admin"
+                style={({ isActive }) => ({
+                    color: isActive
+                        ? "Yellow"
+                        : "white",
+                })}
+            >
+                Add A Whiskey
+            </NavLink>
+        </div>):(<div></div>)}
     </div>
     );
 }
