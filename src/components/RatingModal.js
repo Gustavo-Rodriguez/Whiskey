@@ -4,6 +4,9 @@ import Vote from './Vote.js';
 
 
 class RatingModal extends React.Component {
+
+
+
 	render() {
 		console.log('in Rating Modal my props are',this.props)
 		let WhiskeyNum;
@@ -15,31 +18,35 @@ class RatingModal extends React.Component {
 		let votedNotes='You did not give notes'
 		let votedValue=0;
 		let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-		if (this.props.selectedWhiskey !== '' && this.props.whiskeyList[this.props.selectedWhiskey-1].VoteAverage !== -1 ){
-			WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
-			votes=this.props.whiskeyList[this.props.selectedWhiskey-1].votes
-			for (let i=0;i<votes.length;i++)
-			{
-				Voters.push(votes[i].voter);
-				if (!votedBool && storedProfile)
-				{
-					if(votes[i].email===storedProfile.email){
-							votedBool=true;
-							votedValue=votes[i].vote;
-							if (!votes[i].notes){
-							}else{
-								votedNotes=votes[i].notes
-							}
-						}
-				}
-			}
-			VoterList = Voters.map(string => <li>{string}</li>);
-		} 
-		else 
-		{
-			WhiskeyNum=-1;
-			VoterIntro="No one has Voted for this Whiskey Yet"
-		}
+		// This is the code that checks if anyone has voted for the whiskey and tells you who voted for this whiskey. 
+		// It also checks that if you voted for the whiskey and won't let you vote if you have alerady voted
+
+
+		// if (this.props.selectedWhiskey !== '' && this.props.whiskeyList[this.props.selectedWhiskey-1].VoteAverage !== -1 ){
+		// 	WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
+		// 	votes=this.props.whiskeyList[this.props.selectedWhiskey-1].votes
+		// 	for (let i=0;i<votes.length;i++)
+		// 	{
+		// 		Voters.push(votes[i].voter);
+		// 		if (!votedBool && storedProfile)
+		// 		{
+		// 			if(votes[i].email===storedProfile.email){
+		// 					votedBool=true;
+		// 					votedValue=votes[i].vote;
+		// 					if (!votes[i].notes){
+		// 					}else{
+		// 						votedNotes=votes[i].notes
+		// 					}
+		// 				}
+		// 		}
+		// 	}
+		// 	VoterList = Voters.map(string => <li>{string}</li>);
+		// } 
+		// else 
+		// {
+		// 	WhiskeyNum=-1;
+		// 	VoterIntro="No one has Voted for this Whiskey Yet"
+		// }
 		return (
 			<div
 				className="modal fade"
@@ -72,7 +79,7 @@ class RatingModal extends React.Component {
 							{!votedBool ? 
 							<Vote
 								key={this.props.selectedWhiskey}
-								data={this.props.selectedWhiskey}
+								WhiskeyKey={this.props.selectedWhiskey}
 								clear={this.props.ClearVote}
 								SubmitVote={this.props.SubmitVote}
 								placeholderName={'Your Name (REQUIRED)'}

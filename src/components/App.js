@@ -2,7 +2,9 @@ import React from 'react';
 import WhiskeyList from './WhiskeyList';
 import RatingModal from './RatingModal';
 import db from '../utils/firebase';
-import { ref, set, onValue, update, push } from 'firebase/database';
+import { ref, set, onValue, update, push, getDatabase, increment} from 'firebase/database';
+import GetVotes from "./GetVotes";
+import Vote from './Vote';
 
 class App extends React.Component {
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
@@ -58,21 +60,26 @@ class App extends React.Component {
 		});
 	};
 	updateFirebasewithVote = (voteObject, position, Average) => {
-
+		
 		console.log('updating firebase with just VOTE, voteObject is ', voteObject)
-		console.log('whiskey position is ',position )
-		console.log('Whiskey Average is ',Average)
+		console.log('whiskey Key is ',position )
+		console.log('Whiskey Average is ',Average);
+		// alert ('Check the log')
+		let myRef = ref(db);
+		let VoteRef= ref(db,"Whiskeys/"+position+"/Votes")
 
-		let AvgRef = ref(db,"whiskeys/Whiskeys/"+position);
-		let VoteRef= ref(db,"whiskeys/Whiskeys/"+position+"/votes")
-
-		console.log('AvgRef is ',AvgRef)
-		console.log('VoteRef is ',VoteRef)
-		push(voteObject)
+		push(VoteRef,voteObject)
+		const updates={}
+		updates["Whiskeys/"+position+"/VoteAverage"]=Average;
+		updates["Whiskeys/"+position+"/voteCount"]=increment(1)
+		update(myRef,updates);
+		console.log('check log now, average should be ', Average)
 	}
-	updateFirebasewithNewWhiskey = (NewWhiskey)=> {
-
-	}
+	updateFirebasewithNewWhiskey = (Whiskey) => {
+		const db = getDatabase();
+		const WhiskeyRef = ref(db, '/Whiskeys/');
+		const whiskeyloc= push(WhiskeyRef,Whiskey);
+	  }
 	handleSubmitWhiskey = (Info) => {
 		this.setState(
 			(prevState) => ({
@@ -105,7 +112,7 @@ class App extends React.Component {
 	handleSelectWhiskey = (Whiskey) => {
 		console.log('Someone Clicked on it, position ', Whiskey);
 		this.setState((prevState) => ({
-			selectedWhiskey: Whiskey + 1,
+			selectedWhiskey: Whiskey,
 			listItems: prevState.listItems,
 			nextWhiskey: prevState.nextWhiskey,
 			results: false,
@@ -121,47 +128,57 @@ class App extends React.Component {
 			results: false,
 		}));
 	};
-	SubmitVote = (voteInfo) => {
-		
+	SubmitVote =  (voteInfo) => {
+		let VoteArray=[];
 		console.log('vote info',voteInfo);
-		let newWhiskeys = this.state.listItems.Whiskeys;
-		let position = voteInfo.WhiskeyNumber - 1;
+		VoteArray= GetVotes(voteInfo.WhiskeyNumber)
+		let key = voteInfo.WhiskeyNumber;
 		let voteObject = {
 			vote: voteInfo.CurrentStar,
 			voter: voteInfo.VoterName,
 			email: voteInfo.VoterEmail,
 			notes: voteInfo.VoterNotes,
 		};
+		let voteArray = []
 		console.log('voteObject', voteObject);
+		console.log('without this vote the preexisting voteArray is',VoteArray)
 		//Add Votes to Array
-		if (newWhiskeys[position].votes) {
-			newWhiskeys[position].votes.push(voteObject);
+		if (VoteArray) {
+			console.log('POKEMON exsting votes are',VoteArray)
+			VoteArray.push(voteObject);
 		} else {
-			newWhiskeys[position].votes = [voteObject];
+			VoteArray=voteObject;
 		}
+		console.log('now with this vote the existing voteArray is',VoteArray)
+		let  NumericArray=[]
+		VoteArray.forEach((element) => NumericArray.push(element.vote));
+
+		console.log('POKEMON numeric Array should be ',NumericArray)
 		// Add Calculate Average
 		const Average =
-			newWhiskeys[position].votes.reduce(
-				(total, next) => Number(total) + Number(next.vote),
+			NumericArray.reduce(
+				(total, next) => Number(total) + Number(next),
 				0
-			) / newWhiskeys[position].votes.length;
-		newWhiskeys[position].VoteAverage = Average;
-		this.setState(
-			(prevState) => ({
-				listItems: {
-					owner: 'Gustavo',
-					count: prevState.listItems.count,
-					Whiskeys: newWhiskeys,
-				},
-				nextWhiskey: prevState.nextWhiskey,
-				selectedWhiskey: prevState.selectedWhiskey,
-				results: false,
-			}),
-			() => {
-				this.updateFirebasewithVote(voteObject,position, Average)
-				// this.updateFirebasewithState(this.state);
-			}
-		);
+			) / NumericArray.length;
+		const VoteAverage = Average;
+		console.log('POKEMON average is ',Average," VoteAverage (which is sent) is ",VoteAverage,"this is based on Numericarray",NumericArray, "Not Vote array which is ",VoteArray)
+		this.updateFirebasewithVote(voteObject,key,VoteAverage);
+		// this.setState(
+		// 	(prevState) => ({
+		// 		listItems: {
+		// 			owner: 'Gustavo',
+		// 			count: prevState.listItems.count,
+		// 			Whiskeys: newWhiskeys,
+		// 		},
+		// 		nextWhiskey: prevState.nextWhiskey,
+		// 		selectedWhiskey: prevState.selectedWhiskey,
+		// 		results: false,
+		// 	}),
+		// 	() => {
+		// 		// this.updateFirebasewithVote(voteObject,position, Average)
+		// 		// this.updateFirebasewithState(this.state);
+		// 	}
+		// );
 	};
 
 
