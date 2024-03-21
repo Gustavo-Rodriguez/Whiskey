@@ -77,6 +77,18 @@ function NavBar( props ) {
                 PrivacyPolicy
             </NavLink>
         </div>
+        <div className="navItem">
+            <NavLink
+                to="/Add"
+                style={({ isActive }) => ({
+                    color: isActive
+                        ? "Yellow"
+                        : "white",
+                })}
+            >
+                Add A Whiskey
+            </NavLink>
+        </div>
         {results ? (
         <div className="navItem">
             <NavLink
@@ -100,7 +112,7 @@ function NavBar( props ) {
                         : "white",
                 })}
             >
-                Add A Whiskey
+                Admin
             </NavLink>
         </div>):(<div></div>)}
     </div>

@@ -1,21 +1,21 @@
 import React from "react";
 import Whiskey from "./Whiskey";
+import WhiskeysToArray from "./WhiskeysToArray";
 
 
 
-
+// console.log('in whiskeyList these are my props',this.props)
 const WhiskeyList = (props) => {
+  const whiskeyList=props.WhiskeyList;
   const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-  const WhiskeyItems = props.Sorted.map((d, i) => {
+  const WhiskeyArray=WhiskeysToArray(whiskeyList);
+  console.log('WhiskeyArray is ',WhiskeyArray,", Stored Profile is ",storedProfile)
+  const WhiskeyItems = WhiskeyArray.map((d, i) => {
     return (
       <Whiskey
         handleRateFromApp={props.handleRatefromApp}
-        todo={d}
-        key={i}
-        mykey={i}
-        
+        Whiskey={d}
       />
-     //,console.log('end of loop?')
     );
   });
 
