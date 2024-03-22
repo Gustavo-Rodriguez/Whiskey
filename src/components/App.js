@@ -2,90 +2,74 @@ import React from 'react';
 import WhiskeyList from './WhiskeyList';
 import RatingModal from './RatingModal';
 import db from '../utils/firebase';
-import { ref, set, onValue } from 'firebase/database';
+import { ref, set, onValue, update, push, getDatabase, increment} from 'firebase/database';
+import GetVotes from "./GetVotes";
+import Vote from './Vote';
 
 class App extends React.Component {
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+
 	state = {
-		listItems: this.props.listItems,
-		nextWhiskey: this.props.listItems.count + 1,
+		WhiskeyList: this.props.WhiskeyList,
+//		nextWhiskey: this.props.listItems.count + 1,
 		selectedWhiskey: '',
 		results: true,
 		sorted: {},
 	};
 
 	componentDidMount() {
-		const whiskeysRef = ref(db, 'whiskeys/');
+		// console.log('inApp WhiskeyList is',this.props.WhiskeyList)
+		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-			if (dbResults !== undefined && dbResults !== null && this.storedProfile)
-				this.setState((prevState) => ({
-					listItems: {
-						owner: 'Gustavo',
-						count: prevState.listItems.count + 1,
-						Whiskeys: dbResults.Whiskeys,
-					},
+			if (dbResults !== undefined && dbResults !== null && this.storedProfile) {
+				const WhiskeyArray=Object.entries(dbResults);
+				let WhiskeyState={}
+				for (let i=0; i<WhiskeyArray.length;i++)
+				{
+				  WhiskeyState[i]={}
+				  WhiskeyState[i].key=WhiskeyArray[i][0];
+				  WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
+				  WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
+				}
+				// console.log('WhiskeyState=',WhiskeyState)
+				this.setState(
+				  (prevState) => ({
+					WhiskeyList:WhiskeyState,
 					selectedWhiskey: prevState.selectedWhiskey,
 					nextWhiskey: dbResults.nextWhiskey,
 					results: prevState.results,
 					userName:this.storedProfile.name,
 					userEmail:this.storedProfile.email
-				}));
+				}))
+
+			}
 		});
 	}
-
-	updateFirebasewithState = (param) => {
-		console.log('in updateFirebase in App this is my param', param);
-		set(ref(db, 'whiskeys/'), {
-			nextWhiskey: param.nextWhiskey,
-			Whiskeys: param.listItems.Whiskeys,
-		}).catch((error) => {
-			// The write failed...
-			alert('Something went wrong');
-		});
-	};
-
-	handleSubmitWhiskey = (Info) => {
-		this.setState(
-			(prevState) => ({
-				listItems: {
-					owner: 'Gustavo',
-					count: prevState.listItems.count + 1,
-					Whiskeys: [
-						...prevState.listItems.Whiskeys,
-						{
-							VoteAverage: -1,
-							visibleName: 'Whiskey ' + prevState.nextWhiskey,
-							realWhiskey: Info.InputWhiskeyName,
-							hiddenEmail: Info.InputEmail,
-							votes: [],
-						},
-					],
-				},
-				selectedWhiskey: prevState.selectedWhiskey,
-				nextWhiskey: prevState.nextWhiskey + 1,
-				results: false,
-			}),
-			() => {
-				let alertText="Your Whiskey is Whiskey "+Number(this.state.nextWhiskey-1);
-				this.updateFirebasewithState(this.state);
-				alert(alertText)
-			}
-		);
-	};
-
-	handleRatefromApp = (Whiskey) => {
+	updateFirebasewithVote = (voteObject, position, Average) => {
+		let myRef = ref(db);
+		let VoteRef= ref(db,"Whiskeys/"+position+"/Votes")
+		push(VoteRef,voteObject)
+		const updates={}
+		updates["Whiskeys/"+position+"/VoteAverage"]=Average;
+		updates["Whiskeys/"+position+"/voteCount"]=increment(1)
+		update(myRef,updates);
+	}
+	updateFirebasewithNewWhiskey = (Whiskey) => {
+		const db = getDatabase();
+		const WhiskeyRef = ref(db, '/Whiskeys/');
+		const whiskeyloc= push(WhiskeyRef,Whiskey);
+	  }
+	handleSelectWhiskey = (Whiskey) => {
 		// console.log('Someone Clicked on it, position ', Whiskey);
 		this.setState((prevState) => ({
-			selectedWhiskey: Whiskey + 1,
+			selectedWhiskey: Whiskey,
 			listItems: prevState.listItems,
 			nextWhiskey: prevState.nextWhiskey,
 			results: false,
 		}));
-		// console.log('updatedState in handleratefromapp',this.state)
 	};
-
 	ClearVote = (e) => {
 		this.setState((prevState) => ({
 			selectedWhiskey: '',
@@ -94,54 +78,45 @@ class App extends React.Component {
 			results: false,
 		}));
 	};
-	SubmitVote = (voteInfo) => {
-		
-		console.log('vote info',voteInfo);
-		let newWhiskeys = this.state.listItems.Whiskeys;
-		let position = voteInfo.WhiskeyNumber - 1;
+	SubmitVote =  (voteInfo) => {
+		let VoteArray=[];
+		// console.log('vote info',voteInfo);
+		VoteArray= GetVotes(voteInfo.WhiskeyNumber)
+		let key = voteInfo.WhiskeyNumber;
 		let voteObject = {
 			vote: voteInfo.CurrentStar,
 			voter: voteInfo.VoterName,
 			email: voteInfo.VoterEmail,
 			notes: voteInfo.VoterNotes,
 		};
-		console.log('voteObject', voteObject);
+		let voteArray = []
 		//Add Votes to Array
-		if (newWhiskeys[position].votes) {
-			newWhiskeys[position].votes.push(voteObject);
+		if (VoteArray) {
+			VoteArray.push(voteObject);
 		} else {
-			newWhiskeys[position].votes = [voteObject];
+			VoteArray=voteObject;
 		}
+		let  NumericArray=[]
+		VoteArray.forEach((element) => NumericArray.push(element.vote));
 		// Add Calculate Average
 		const Average =
-			newWhiskeys[position].votes.reduce(
-				(total, next) => Number(total) + Number(next.vote),
+			NumericArray.reduce(
+				(total, next) => Number(total) + Number(next),
 				0
-			) / newWhiskeys[position].votes.length;
-		newWhiskeys[position].VoteAverage = Average;
-		this.setState(
-			(prevState) => ({
-				listItems: {
-					owner: 'Gustavo',
-					count: prevState.listItems.count,
-					Whiskeys: newWhiskeys,
-				},
-				nextWhiskey: prevState.nextWhiskey,
-				selectedWhiskey: prevState.selectedWhiskey,
-				results: false,
-			}),
-			() => {
-				this.updateFirebasewithState(this.state);
-			}
-		);
+			) / NumericArray.length;
+		const VoteAverage = Average;
+		this.updateFirebasewithVote(voteObject,key,VoteAverage);
 	};
 
 
 	render() {
-		let unsorted=this.state.listItems;
-			const sorted = [...unsorted.Whiskeys].sort((a, b) =>
-						a.visibleName > b.visibleName ? 1 : -1
-					);
+		//  console.log('inApp WhiskeyList in state is',this.state.WhiskeyList)
+		//  console.log('in App props is ',this.props)
+		// let unsorted=this.state.WhiskeyList;
+		// console.log('unsorted is ',unsorted)
+		// 	const sorted = [...unsorted.Whiskeys].sort((a, b) =>
+		// 				a.visibleName > b.visibleName ? 1 : -1
+		// 			);
 		return (
 			<div>
 				<div className="application">
@@ -149,7 +124,7 @@ class App extends React.Component {
 						selectedWhiskey={this.state.selectedWhiskey}
 						ClearVote={this.ClearVote}
 						SubmitVote={this.SubmitVote}
-						whiskeyList={this.state.listItems.Whiskeys}
+						whiskeyList={this.state.WhiskeyList}
 					/>
 					<div
 						className={`whiskey-list f-1 ${
@@ -159,8 +134,8 @@ class App extends React.Component {
 						<div className="header">Whiskeys</div>
 						<WhiskeyList
 
-							Sorted={sorted}
-							handleRatefromApp={this.handleRatefromApp}
+							WhiskeyList={this.state.WhiskeyList}
+							handleRatefromApp={this.handleSelectWhiskey}
 							selectedWhiskey={this.state.selectedWhiskey}
 						/>
 					</div>

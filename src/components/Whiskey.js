@@ -9,15 +9,15 @@ class Whiskey extends React.Component {
 
 	rateItem = (e) => {
 		e.preventDefault();
-		this.props.handleRateFromApp(this.props.mykey);
+		this.props.handleRateFromApp(this.props.Whiskey.key);
 	};
 
 	render() {
 		let votenum = 0;
-		if (this.props.todo.votes) {
-			votenum = this.props.todo.votes.length;
+		if (this.props.Whiskey.voteCount) {
+			votenum = this.props.Whiskey.voteCount;
 		}
-		// console.log('inside whiskey')
+		// console.log('inside whiskey, props are',this.props)
 		return (
 			<div className="whiskey-item">
 				
@@ -26,11 +26,9 @@ class Whiskey extends React.Component {
 					data-bs-toggle="modal"
 					data-bs-target="#rating-modal"
 				>
-					Rate {this.props.todo.visibleName} ({votenum}{' '}
+					Rate {this.props.Whiskey.visibleName} ({votenum}{' '}
 					{votenum === 1 ? 'rating' : 'ratings'})
 				</button>
-				{/* </span>
-        </span> */}
 			</div>
 		);
 	}

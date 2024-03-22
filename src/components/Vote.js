@@ -1,20 +1,26 @@
 import React from 'react';
 import star from './unchecked.png';
 import checked from './checked.png';
+import db from '../utils/firebase';
+import { ref, set, onValue, update, push } from 'firebase/database';
 
 class Vote extends React.Component {
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 	state = {
-		WhiskeyNumber: this.props.data,
+		WhiskeyNumber: this.props.WhiskeyKey,
 		CurrentStar: 0,
 		VoterName: '',
 		VoterEmail: '',
 		VoterNotes: '',
 		disableSubmit: true,
 		VoterNameBool: false,
-		VoterNotesBool: false
+		VoterNotesBool: false,
+		WhiskeyRef:''
 	};
-	
+
+	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
+
+
 	ClearStars = () => {
 		for (let index = 1; index < 6; index++) {
 			let myId = "[id='" + index + "-Star']";
@@ -57,7 +63,7 @@ class Vote extends React.Component {
 			this.storedProfile
 			) 
 			{
-				console.log('inside handleVote in Vote, state is',this.State)
+				// console.log('inside handleVote in Vote, state is',this.State)
 				e.preventDefault();
 				this.props.SubmitVote(this.state);
 				this.props.clear();
@@ -115,8 +121,9 @@ class Vote extends React.Component {
 	};
 
 	render() {
-	    console.log("inside Vote these are props ", this.props, "This is State", this.state)
-		if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
+	    // console.log("inside Vote these are props ", this.props, "This is State", this.state)
+		// if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
+			if (this.storedProfile ) {
 			return (
 				<div className="f-1">
 					<span id="display-vote">

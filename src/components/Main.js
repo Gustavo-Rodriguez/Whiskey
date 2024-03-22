@@ -2,117 +2,89 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 
 import App from "./App"
+import Admin from "./Admin"
 import Results from "./Results"
 import listItems from '../data/Data';
-import Admin from "./Admin";
+import AddWhiskey from "./Add";
 import Login from "./Login";
 import Privacy from "./PrivacyPolicy"
 import NavBar from "./NavBar";
-import { ref, set, onValue } from 'firebase/database';
+import { push, ref, set, onValue, getDatabase } from 'firebase/database';
 import db from '../utils/firebase';
 
+
 class Main extends React.Component {
-  state = {
-    userName:'',
-    userEmail:'',
-    listItems:listItems,
-		nextWhiskey: listItems.count + 1,
-		selectedWhiskey: '',
-		results: false,
-    login: 0,
-		sorted: {},
+	state = {
+		WhiskeyList: {}
 	};
+
+
   storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   componentDidMount() {
-		const whiskeysRef = ref(db, 'whiskeys/');
+		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults
     let adminbool
     let votebool
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-      console.log('dbResults is ',dbResults)
+      // console.log('dbResults is ',dbResults)
       //Check for User First
       let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-      console.log('checking for user')
+      // console.log('checking for user')
       if (storedProfile){
       //User Found Now Check for Whiskey
         if (dbResults !== undefined && dbResults !== null)
         {
-          console.log('user is ',storedProfile.email)
-           console.log('we found whiskey')
-            this.setState((prevState) => ({
-            userName:storedProfile.name,
-            userEmail:storedProfile.email,
-            listItems: {
-              owner: 'Gustavo',
-              count: prevState.listItems.count + 1,
-              Whiskeys: dbResults.Whiskeys,
-            },
-            selectedWhiskey: prevState.selectedWhiskey,
-            nextWhiskey: dbResults.nextWhiskey,
-            results: votebool,
-            admin: adminbool
+          // console.log('user is ',storedProfile.email)
+          const WhiskeyArray=Object.entries(dbResults);
+          let WhiskeyState={}
+          for (let i=0; i<WhiskeyArray.length;i++)
+          {
+            WhiskeyState[i]={}
+            // console.log('whiskeyArray of i',WhiskeyArray[i])
+            WhiskeyState[i].key=WhiskeyArray[i][0];
+            WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
+            WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
+          }
+          // console.log('WhiskeyState=',WhiskeyState)
+          this.setState(
+            (prevState) => ({
+            WhiskeyList:WhiskeyState
           }));
         }
         else {
-          console.log('in the else of componentdidmount in main')
-          this.setState((prevState) => ({
-            listItems:listItems,
-            nextWhiskey:listItems.count+1,
-            selectedWhiskey:'',
-            results: true,
-            sorted: {},
-          }))
+          // console.log('We didnt find whiskey')
         }
       } else {
-        console.log('user not found')
+        // console.log('user not found')
       }
 		});
     // console.log('in main, in ComponentDidMount state is',this.state)
 	}
 
   handleSubmitWhiskey = (Info) => {
-    console.log('in main, I was given this when submitting a new whiskey',Info)
-    this.setState(
-      (prevState) => ({
-        listItems: {
-          owner: 'Gustavo',
-          count: prevState.listItems.count + 1,
-          Whiskeys: [
-            ...prevState.listItems.Whiskeys,
-            {
-              VoteAverage: -1,
-              visibleName: 'Whiskey ' + Info.InputNumber,
-              realWhiskey: Info.InputWhiskeyName,
-              hiddenEmail: Info.InputEmail,
-              WhiskeyType: Info.InputType,
-              votes: [],
-            },
-          ],
-        },
-        selectedWhiskey: prevState.selectedWhiskey,
-        nextWhiskey: prevState.nextWhiskey + 1,
-        results: false,
-      }),
-      () => {
+    // console.log('in main, I was given this when submitting a new whiskey',Info)
+    const NewWhiskey= {
+      VoteAverage: -1,
+      visibleName: 'Whiskey ' + Info.InputNumber,
+      realWhiskey: Info.InputWhiskeyName,
+      WhiskeyOwner:Info.InputName,
+      OwnerEmail: Info.InputEmail,
+      WhiskeyType: Info.InputType,
+      voteCount:0,
+      votes: []
+    }
         let alertText="Your Whiskey is Whiskey "+Info.InputNumber;
-        this.updateFirebasewithState(this.state);
-        alert(alertText)
-      }
-    );
+        this.updateFirebasewithNewWhiskey(NewWhiskey)
+        alert (alertText)
   };
-  updateFirebasewithState = (param) => {
-		// console.log('in updateFirebase this is my param', param);
-		set(ref(db, 'whiskeys/'), {
-			nextWhiskey: param.nextWhiskey,
-			Whiskeys: param.listItems.Whiskeys,
-		}).catch((error) => {
-			// The write failed...
-			alert('Something went wrong');
-		});
-	};
+  updateFirebasewithNewWhiskey = (Whiskey) => {
+    const db = getDatabase();
+    const WhiskeyRef = ref(db, '/Whiskeys/');
+    const whiskeyloc= push(WhiskeyRef,Whiskey);
+  }
   changeLogin = (param) => {
-    console.log("I should be changing login state ",param)
+    // console.log("I should be changing login state ",param)
     this.setState(
       (prevState) => ({
       userName:prevState.userName,
@@ -124,7 +96,7 @@ class Main extends React.Component {
       login: prevState.login+1,
       sorted:prevState.sorted,
     }));
-    console.log('login (count) is', this.state.login)
+    // console.log('login (count) is', this.state.login)
   }
 
 
@@ -137,12 +109,13 @@ class Main extends React.Component {
     <div>
       <NavBar user={this.storedProfile} />
       <Routes>
-          <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} listItems={this.state.listItems} VotingOpen={true}/> }  />
-          <Route path="/Admin" element={<Admin handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
-          <Route path="/Results" element={<Results data={this.state.listItems.Whiskeys} />} />
-          <Route path="/Login" element={<Login user={this.state.userEmail} refresh={this.changeLogin} />} />
+          <Route path="/Vote" element={<App WhiskeyList={this.state.WhiskeyList} title={'WHISKEY PARTY APP'} VotingOpen={true}/> }  />
+          <Route path="/Add" element={<AddWhiskey handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
+          <Route path="/Admin" element={<Admin ></Admin>} />
+          <Route path="/Results" element={<Results WhiskeyList={this.state.WhiskeyList} />} />
+          <Route path="/Login" element={<Login  refresh={this.changeLogin} />} />
           <Route path="/Privacy" element={<Privacy />} />
-          <Route path="/" element={<Login user={this.state.userEmail} refresh={this.changeLogin} />} />
+          <Route path="/" element={<Login  refresh={this.changeLogin} />} />
       </Routes>
     </div>
   )
