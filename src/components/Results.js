@@ -115,6 +115,7 @@ class Results extends React.Component {
 					<thead>
 						<tr>
 							<th>Name</th>
+							<th>Contributor</th>
 							<th>Number</th>
 							<th>Type</th>
 							<th>Rating</th>

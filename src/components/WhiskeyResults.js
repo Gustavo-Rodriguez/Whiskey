@@ -14,6 +14,7 @@ class WhiskeyResults extends React.Component {
 		return (
 			<tr>
 				<td>{this.props.result.realWhiskey}</td>
+				<td>{this.props.result.WhiskeyOwner}</td>
 				<td>{this.props.result.visibleName}</td>
 				<td>{this.props.result.WhiskeyType}</td>
 				<td
