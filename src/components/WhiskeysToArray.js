@@ -7,6 +7,11 @@ const WhiskeysToArray = (obj) => {
     {
         WhiskeyArray.push(ConvertedObject[i][1])
     }
-    return(WhiskeyArray)
+    // Sort the Whiskeys by Visible Name 
+    // This is at the request of Rachel
+    const SortedWhiskeys = [...WhiskeyArray].sort((a, b) =>
+					a.visibleName > b.visibleName ? 1 : -1
+				);
+    return(SortedWhiskeys)
 }
 export default WhiskeysToArray

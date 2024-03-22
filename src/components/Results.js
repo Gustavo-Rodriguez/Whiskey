@@ -21,12 +21,21 @@ class Results extends React.Component {
 	componentDidMount() {
 		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults;
+		// search for all Whiskeeys in Results
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-			console.log('DEBUG_RESULTS dbResults is ',dbResults)
+			// If we Found Whiskeys at all
 			if (dbResults !== null){
-				let unsorted=WhiskeysToArray(dbResults);
-				console.log('DEBUG_RESULTS unsorted is',unsorted)
+				// Cast our Whiskeys to an array
+				let tempArray=WhiskeysToArray(dbResults);
+				let unsorted=[];
+				// We are doing this to strip the e-mail of the Contributor from the object before we pass it everywhere 
+				for (let i=0;i<tempArray.length;i++){
+					let newObj=tempArray[i];
+					delete newObj.OwnerEmail;
+					unsorted.push(newObj)
+				}
+				//Sort our Whiskeys by Average Vote
 				const sorted = [...unsorted].sort((a, b) =>
 					a.VoteAverage < b.VoteAverage ? 1 : -1
 				);
@@ -43,23 +52,15 @@ class Results extends React.Component {
 	}
 
 	ShowDetails = (Whiskey) => {
-		console.log(Whiskey);
 		const WhiskeyVotes=GetVotes(Whiskey)
-		console.log('DEBUG_RESULTS type of votes is',typeof(WhiskeyVotes),' votes are',WhiskeyVotes);
-
 		let voteDistribution = [0, 0, 0, 0, 0];
 		const votes = WhiskeyVotes;
-
-		// for (var i = 0; i < votes.length; i++) {}
 		votes.forEach((v) => {
 			const rating = parseInt(v.vote);
 			if (rating > 0 && rating <= voteDistribution.length) {
 				voteDistribution[rating - 1]++;
 			}
 		});
-
-		console.log(voteDistribution);
-
 		this.setState((prevState) => ({
 			data: prevState.data,
 			showDetails: true,
@@ -71,7 +72,6 @@ class Results extends React.Component {
 
 	render() {
 		let ResultItems
-		console.log('DEBUG_RESULTS, STate is ',this.state)
 		if (this.state.WhiskeyFound){
 			ResultItems = this.state.data.map((d, i) => {
 				return (
@@ -91,7 +91,7 @@ class Results extends React.Component {
 				<thead>
 					<tr>
 						<th style={{ width: '10%' }}>Vote</th>
-						<th style={{ width: '45%' }}>Voter name (if given)</th>
+						<th style={{ width: '45%' }}>Voter name</th>
 						<th>Notes (if given)</th>
 					</tr>
 				</thead>

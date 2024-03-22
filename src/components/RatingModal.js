@@ -8,7 +8,7 @@ class RatingModal extends React.Component {
 
 
 	render() {
-		console.log('in Rating Modal my props are',this.props)
+		// console.log('in Rating Modal my props are',this.props)
 		let WhiskeyNum;
 		let votes;
 		let VoterIntro='These people have Voted for this Whiskey already:';

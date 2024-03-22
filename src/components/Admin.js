@@ -15,46 +15,12 @@ class Admin extends React.Component {
 	render() {
 		// console.log('in Form state is ',this.state)
 		return (
-			<form id="new-whiskey-form" onSubmit={this.handleSubmit}>
-				<div className="input-container">
-					<div className="input-label">Whiskey Name</div>
-					<input
-						onChange={this.handleName}
-						value={this.state.InputWhiskeyName}
-						type="text"
-						placeholder={this.props.placeholderText}
-					/>
+			<div className='application center-me'>
+				<div className='header'>
+					<h3>This is the admin Pannel, click <a href="https://console.firebase.google.com/u/0/project/whiskey-a2ed6/database/whiskey-a2ed6-default-rtdb/data">here</a> to get to the database</h3>
 				</div>
-				<div className="input-container">
-					<div className="input-label">Your Name</div>
-					<input
-						onChange={this.handleEmail}
-						value={this.state.InputEmail}
-						type="text"
-						placeholder="Your Name?"
-					/>
-				</div>
-				<div className="input-container">
-					<div className='input-label'>Visible Number</div>
-					<input 
-						onChange={this.handleNumber}
-						value={this.state.InputNumber}
-						type='text'
-						placeholder="Visible Number"
-						/>
-				</div>
-				<div className="input-container">
-					<div className='input-label'>Whiskey Type (OPTIONAL)</div>
-					<Dropdown
-						isSearchable
-						placeHolder="Select Whiskey Type"
-						options={this.state.options}
-						onChange={this.handleType}
-    				/>
-				</div>
-				
-				<button form="new-whiskey-form">Add Whiskey</button>
-			</form>
+
+			</div>
 		);
 	}
 }

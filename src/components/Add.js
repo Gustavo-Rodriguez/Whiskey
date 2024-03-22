@@ -40,7 +40,7 @@ class AddWhiskey extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log('in submit this is state',this.state)
+		// console.log('in submit this is state',this.state)
 		if (
 			this.state.NameRun === true &&
 			this.state.NumberRun === true 
@@ -65,7 +65,6 @@ class AddWhiskey extends React.Component {
 	};
 
 	handleName = (e) => {
-		// console.log("this is handleName");
 		this.setState(
 			(prevState) => ({
 				InputWhiskeyName: e.target.value,
@@ -97,7 +96,6 @@ class AddWhiskey extends React.Component {
 		)
 	}
 	handleType = (value) =>{
-		console.log('inside Handle Type value is',value)
 		this.setState(
 			(prevState) => ({
 				InputWhiskeyName: prevState.InputWhiskeyName,
@@ -118,7 +116,6 @@ class AddWhiskey extends React.Component {
 
 
 	render() {
-		// console.log('in Form state is ',this.state)
 		if (this.storedProfile ) {
 		return (
 			<form id="new-whiskey-form" onSubmit={this.handleSubmit}>

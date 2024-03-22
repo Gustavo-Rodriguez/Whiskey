@@ -5,11 +5,8 @@ import axios from 'axios';
 
 function App(props) {
     const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-    console.log('in Login my props are ',props)
-
     const [ user, setUser ] = useState('');
     const [ profile, setProfile ] = useState(storedProfile);
-
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -19,7 +16,7 @@ function App(props) {
     useEffect(
         () => {
             if (user) {
-                console.log('in LoginUseEffect')
+                // console.log('in LoginUseEffect')
                 axios
                     .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                         headers: {
@@ -29,9 +26,9 @@ function App(props) {
                     })
                     .then((res) => {
                         setProfile(res.data);
-                        console.log(res.data)
+                        // console.log(res.data)
                         sessionStorage.setItem('profile',JSON.stringify(res.data))
-                        console.log('SessionStorage in useEffect profile is ',JSON.parse(sessionStorage.getItem('profile')))
+                        // console.log('SessionStorage in useEffect profile is ',JSON.parse(sessionStorage.getItem('profile')))
                         props.refresh('after we write to Session Storage in Login')
                     })
                     .catch((err) => console.log(err));
@@ -51,13 +48,11 @@ function App(props) {
     };
 
 
-    console.log('User is '+user)
-    console.log('profile is '+profile)
+    // console.log('User is '+user)
+    // console.log('profile is '+profile)
 
     return (
         <div className='center-me'>
-
-           
             <br />
             <br />
             {profile ? (

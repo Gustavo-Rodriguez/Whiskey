@@ -27,15 +27,15 @@ class Main extends React.Component {
     let votebool
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
-      console.log('dbResults is ',dbResults)
+      // console.log('dbResults is ',dbResults)
       //Check for User First
       let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-      console.log('checking for user')
+      // console.log('checking for user')
       if (storedProfile){
       //User Found Now Check for Whiskey
         if (dbResults !== undefined && dbResults !== null)
         {
-          console.log('user is ',storedProfile.email)
+          // console.log('user is ',storedProfile.email)
           const WhiskeyArray=Object.entries(dbResults);
           let WhiskeyState={}
           for (let i=0; i<WhiskeyArray.length;i++)
@@ -46,24 +46,24 @@ class Main extends React.Component {
             WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
             WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
           }
-          console.log('WhiskeyState=',WhiskeyState)
+          // console.log('WhiskeyState=',WhiskeyState)
           this.setState(
             (prevState) => ({
             WhiskeyList:WhiskeyState
           }));
         }
         else {
-          console.log('We didnt find whiskey')
+          // console.log('We didnt find whiskey')
         }
       } else {
-        console.log('user not found')
+        // console.log('user not found')
       }
 		});
     // console.log('in main, in ComponentDidMount state is',this.state)
 	}
 
   handleSubmitWhiskey = (Info) => {
-    console.log('in main, I was given this when submitting a new whiskey',Info)
+    // console.log('in main, I was given this when submitting a new whiskey',Info)
     const NewWhiskey= {
       VoteAverage: -1,
       visibleName: 'Whiskey ' + Info.InputNumber,
@@ -77,25 +77,14 @@ class Main extends React.Component {
         let alertText="Your Whiskey is Whiskey "+Info.InputNumber;
         this.updateFirebasewithNewWhiskey(NewWhiskey)
         alert (alertText)
-        // this.updateFirebasewithState(this.state)
   };
-  updateFirebasewithState = (param) => {
-		// console.log('in updateFirebase this is my param', param);
-		set(ref(db, 'whiskeys/'), {
-			nextWhiskey: param.nextWhiskey,
-			Whiskeys: param.listItems.Whiskeys,
-		}).catch((error) => {
-			// The write failed...
-			alert('Something went wrong');
-		});
-	};
   updateFirebasewithNewWhiskey = (Whiskey) => {
     const db = getDatabase();
     const WhiskeyRef = ref(db, '/Whiskeys/');
     const whiskeyloc= push(WhiskeyRef,Whiskey);
   }
   changeLogin = (param) => {
-    console.log("I should be changing login state ",param)
+    // console.log("I should be changing login state ",param)
     this.setState(
       (prevState) => ({
       userName:prevState.userName,
@@ -107,7 +96,7 @@ class Main extends React.Component {
       login: prevState.login+1,
       sorted:prevState.sorted,
     }));
-    console.log('login (count) is', this.state.login)
+    // console.log('login (count) is', this.state.login)
   }
 
 

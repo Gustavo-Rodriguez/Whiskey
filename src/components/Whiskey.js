@@ -17,7 +17,7 @@ class Whiskey extends React.Component {
 		if (this.props.Whiskey.voteCount) {
 			votenum = this.props.Whiskey.voteCount;
 		}
-		console.log('inside whiskey, props are',this.props)
+		// console.log('inside whiskey, props are',this.props)
 		return (
 			<div className="whiskey-item">
 				
@@ -29,8 +29,6 @@ class Whiskey extends React.Component {
 					Rate {this.props.Whiskey.visibleName} ({votenum}{' '}
 					{votenum === 1 ? 'rating' : 'ratings'})
 				</button>
-				{/* </span>
-        </span> */}
 			</div>
 		);
 	}

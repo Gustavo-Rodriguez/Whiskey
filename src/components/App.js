@@ -18,7 +18,7 @@ class App extends React.Component {
 	};
 
 	componentDidMount() {
-		console.log('inApp WhiskeyList is',this.props.WhiskeyList)
+		// console.log('inApp WhiskeyList is',this.props.WhiskeyList)
 		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
@@ -29,12 +29,11 @@ class App extends React.Component {
 				for (let i=0; i<WhiskeyArray.length;i++)
 				{
 				  WhiskeyState[i]={}
-				  // console.log('whiskeyArray of i',WhiskeyArray[i])
 				  WhiskeyState[i].key=WhiskeyArray[i][0];
 				  WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
 				  WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
 				}
-				console.log('WhiskeyState=',WhiskeyState)
+				// console.log('WhiskeyState=',WhiskeyState)
 				this.setState(
 				  (prevState) => ({
 					WhiskeyList:WhiskeyState,
@@ -43,84 +42,34 @@ class App extends React.Component {
 					results: prevState.results,
 					userName:this.storedProfile.name,
 					userEmail:this.storedProfile.email
-				}));
+				}))
 
 			}
 		});
 	}
-	// Nothing should call this
-	// updateFirebasewithState = (param) => {
-	// 	console.log('in updateFirebase in App this is my param', param);
-	// 	set(ref(db, 'whiskeys/'), {
-	// 		nextWhiskey: param.nextWhiskey,
-	// 		Whiskeys: param.listItems.Whiskeys,
-	// 	}).catch((error) => {
-	// 		// The write failed...
-	// 		alert('Something went wrong');
-	// 	});
-	// };
 	updateFirebasewithVote = (voteObject, position, Average) => {
-		
-		console.log('updating firebase with just VOTE, voteObject is ', voteObject)
-		console.log('whiskey Key is ',position )
-		console.log('Whiskey Average is ',Average);
-		// alert ('Check the log')
 		let myRef = ref(db);
 		let VoteRef= ref(db,"Whiskeys/"+position+"/Votes")
-
 		push(VoteRef,voteObject)
 		const updates={}
 		updates["Whiskeys/"+position+"/VoteAverage"]=Average;
 		updates["Whiskeys/"+position+"/voteCount"]=increment(1)
 		update(myRef,updates);
-		console.log('check log now, average should be ', Average)
 	}
 	updateFirebasewithNewWhiskey = (Whiskey) => {
 		const db = getDatabase();
 		const WhiskeyRef = ref(db, '/Whiskeys/');
 		const whiskeyloc= push(WhiskeyRef,Whiskey);
 	  }
-	// Nothing should call this
-	// handleSubmitWhiskey = (Info) => {
-	// 	this.setState(
-	// 		(prevState) => ({
-	// 			listItems: {
-	// 				owner: 'Gustavo',
-	// 				count: prevState.listItems.count + 1,
-	// 				Whiskeys: [
-	// 					...prevState.listItems.Whiskeys,
-	// 					{
-	// 						VoteAverage: -1,
-	// 						visibleName: 'Whiskey ' + prevState.nextWhiskey,
-	// 						realWhiskey: Info.InputWhiskeyName,
-	// 						hiddenEmail: Info.InputEmail,
-	// 						votes: [],
-	// 					},
-	// 				],
-	// 			},
-	// 			selectedWhiskey: prevState.selectedWhiskey,
-	// 			nextWhiskey: prevState.nextWhiskey + 1,
-	// 			results: false,
-	// 		}),
-	// 		() => {
-	// 			let alertText="Your Whiskey is Whiskey "+Number(this.state.nextWhiskey-1);
-	// 			this.updateFirebasewithState(this.state);
-	// 			alert(alertText)
-	// 		}
-	// 	);
-	// };
-
 	handleSelectWhiskey = (Whiskey) => {
-		console.log('Someone Clicked on it, position ', Whiskey);
+		// console.log('Someone Clicked on it, position ', Whiskey);
 		this.setState((prevState) => ({
 			selectedWhiskey: Whiskey,
 			listItems: prevState.listItems,
 			nextWhiskey: prevState.nextWhiskey,
 			results: false,
 		}));
-		// console.log('updatedState in handleratefromapp',this.state)
 	};
-
 	ClearVote = (e) => {
 		this.setState((prevState) => ({
 			selectedWhiskey: '',
@@ -131,7 +80,7 @@ class App extends React.Component {
 	};
 	SubmitVote =  (voteInfo) => {
 		let VoteArray=[];
-		console.log('vote info',voteInfo);
+		// console.log('vote info',voteInfo);
 		VoteArray= GetVotes(voteInfo.WhiskeyNumber)
 		let key = voteInfo.WhiskeyNumber;
 		let voteObject = {
@@ -161,8 +110,8 @@ class App extends React.Component {
 
 
 	render() {
-		 console.log('inApp WhiskeyList in state is',this.state.WhiskeyList)
-		 console.log('in App props is ',this.props)
+		//  console.log('inApp WhiskeyList in state is',this.state.WhiskeyList)
+		//  console.log('in App props is ',this.props)
 		// let unsorted=this.state.WhiskeyList;
 		// console.log('unsorted is ',unsorted)
 		// 	const sorted = [...unsorted.Whiskeys].sort((a, b) =>

@@ -19,33 +19,6 @@ class Vote extends React.Component {
 	};
 
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-	componentDidMount() {
-		console.log('in component did mount of Vote, props are',this.props)
-
-		if (this.props.WhiskeyKey){
-			const WhiskeyRef = ref(db, "Whiskeys/".concat(this.props.WhiskeyKey));
-			let dbResults
-			onValue(WhiskeyRef, (snapshot) => {
-				dbResults = snapshot.val();
-				console.log('dbResults is ',dbResults)
-				let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-				console.log('checking for user')
-				if (storedProfile){
-				//User Found Now Check for Whiskey
-				if (dbResults !== undefined && dbResults !== null)
-				{
-					console.log('Whiskey ',this.props.WhiskeyKey,' found, it is ',dbResults)
-					console.log('user is ',storedProfile.email)
-				}
-				else {
-					console.log('We didnt find whiskey')
-				}
-				} else {
-					console.log('user not found')
-				}
-			});
-		}
-	  }
 
 
 	ClearStars = () => {
@@ -90,7 +63,7 @@ class Vote extends React.Component {
 			this.storedProfile
 			) 
 			{
-				console.log('inside handleVote in Vote, state is',this.State)
+				// console.log('inside handleVote in Vote, state is',this.State)
 				e.preventDefault();
 				this.props.SubmitVote(this.state);
 				this.props.clear();
@@ -148,7 +121,7 @@ class Vote extends React.Component {
 	};
 
 	render() {
-	    console.log("inside Vote these are props ", this.props, "This is State", this.state)
+	    // console.log("inside Vote these are props ", this.props, "This is State", this.state)
 		// if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
 			if (this.storedProfile ) {
 			return (

@@ -6,7 +6,6 @@ import { ref, onValue } from 'firebase/database';
 import db from '../utils/firebase';
  
 function NavBar( props ) {
-    console.log('in navbar props are',props)
     const [ admin, setAdmin ] = useState(false);
     const [ results, setResults ] = useState(false);
     const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
@@ -14,25 +13,25 @@ function NavBar( props ) {
         () => {
             const adminRef = ref(db, 'Admin/');
             let results;
-            console.log('in useEffect of NavBar storedProfile is ',storedProfile)
-            console.log('in useEffect of NavBar my props are',props)
             onValue(adminRef, (snapshot) => {
                results=snapshot.val();
-               console.log('admin lookup',results)
+            //    console.log('admin lookup',results)
                if (results.ResultsVisible){
                 setResults(true)
-                console.log('results is true')
+                // console.log('results is true')
                }
                else {
+                // No Results page
                 setResults(false)
                }
                if (storedProfile){
                 if (results.Admins.includes(storedProfile.email)){
-                    console.log('admin is true')
+                    // console.log('admin is true')
                     setAdmin(true)
                   }
                }
                else {
+                //not an admin, no adminpage
                 setAdmin(false)
                }
               })

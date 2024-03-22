@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class DetailModal extends Component {
 	render() {
-		console.log('DEBUG_RESULTS in DetailModal props are',this.props)
 		const roundedRating = Number(this.props.Details.VoteAverage).toFixed(2);
 
 		const baseWidth = 8;
@@ -49,7 +48,8 @@ class DetailModal extends Component {
 								Rating Details:
 								<br/>What's on the bag: {this.props.Details.visibleName}
 								<br />What's on the Bottle: {this.props.Details.realWhiskey}
-								<br/>Whiskey Type: {this.props.Details.WhiskeyType}
+								<br/>Who Brought it: {this.props.Details.WhiskeyOwner}
+								<br/>Whiskey Type (if entered): {this.props.Details.WhiskeyType}
 							</h5>
 							<button
 								type="button"
