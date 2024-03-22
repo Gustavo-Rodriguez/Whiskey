@@ -1,6 +1,9 @@
 import React from 'react';
 //import listItems from '../data/Data.js';
 import Vote from './Vote.js';
+import GetVotes from './GetVotes.js';
+import { isEmpty } from '@firebase/util';
+import Whiskey from './Whiskey.js';
 
 
 class RatingModal extends React.Component {
@@ -8,45 +11,44 @@ class RatingModal extends React.Component {
 
 
 	render() {
-		// console.log('in Rating Modal my props are',this.props)
+		console.log('in Rating Modal my props are',this.props)
 		let WhiskeyNum;
-		let votes;
 		let VoterIntro='These people have Voted for this Whiskey already:';
 		let Voters=[];
-		let VoterList;
+		let ExistingVote={};
+		let VoterArray=[];
+		let VoterList
 		let votedBool=false;
 		let votedNotes='You did not give notes'
 		let votedValue=0;
 		let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
 		// This is the code that checks if anyone has voted for the whiskey and tells you who voted for this whiskey. 
 		// It also checks that if you voted for the whiskey and won't let you vote if you have alerady voted
-
-
-		// if (this.props.selectedWhiskey !== '' && this.props.whiskeyList[this.props.selectedWhiskey-1].VoteAverage !== -1 ){
-		// 	WhiskeyNum=this.props.whiskeyList[this.props.selectedWhiskey-1].visibleName
-		// 	votes=this.props.whiskeyList[this.props.selectedWhiskey-1].votes
-		// 	for (let i=0;i<votes.length;i++)
-		// 	{
-		// 		Voters.push(votes[i].voter);
-		// 		if (!votedBool && storedProfile)
-		// 		{
-		// 			if(votes[i].email===storedProfile.email){
-		// 					votedBool=true;
-		// 					votedValue=votes[i].vote;
-		// 					if (!votes[i].notes){
-		// 					}else{
-		// 						votedNotes=votes[i].notes
-		// 					}
-		// 				}
-		// 		}
-		// 	}
-		// 	VoterList = Voters.map(string => <li>{string}</li>);
-		// } 
-		// else 
-		// {
-		// 	WhiskeyNum=-1;
-		// 	VoterIntro="No one has Voted for this Whiskey Yet"
-		// }
+		 if (this.props.selectedWhiskey !==  ''){
+			let WhiskeyKey=this.props.selectedWhiskey
+			const Votes=GetVotes(WhiskeyKey);
+			let MyArr=Object.entries(this.props.whiskeyList)
+			for(let i=0;i<MyArr.length;i++){
+				if(WhiskeyKey==MyArr[i][1].key){
+					WhiskeyNum=MyArr[i][1].visibleName;
+				}
+			}
+			for (let i=0;i<Votes.length;i++){
+				Voters.push(Votes[i].email)
+				VoterArray.push(Votes[i].voter)
+				if (Votes[i].email===storedProfile.email){
+					votedBool=true;
+					votedValue=Votes[i].vote;
+					if (Votes[i].notes){
+						votedNotes=Votes[i].notes
+					}
+				}
+				VoterList = VoterArray.map(string => <li>{string}</li>);
+			}
+			if (isEmpty(VoterArray)){
+				VoterIntro="No one has voted for this whiskey yet"
+			}
+		 }
 		return (
 			<div
 				className="modal fade"

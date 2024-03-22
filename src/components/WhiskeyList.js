@@ -9,7 +9,7 @@ const WhiskeyList = (props) => {
   const whiskeyList=props.WhiskeyList;
   const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   const WhiskeyArray=WhiskeysToArray(whiskeyList);
-  console.log('WhiskeyArray is ',WhiskeyArray,", Stored Profile is ",storedProfile)
+  // console.log('WhiskeyArray is ',WhiskeyArray,", Stored Profile is ",storedProfile)
   const WhiskeyItems = WhiskeyArray.map((d, i) => {
     return (
       <Whiskey

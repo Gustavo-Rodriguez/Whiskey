@@ -4,6 +4,7 @@ import { ref, onValue } from 'firebase/database';
 
 
 const GetVotes =  (WhiskeyRef) => {
+    console.log("DELETE_ME Inside GetVotes",WhiskeyRef)
     
     let VoteArray=[];
     // Run this code if you gave this a Whiskey Object
