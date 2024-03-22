@@ -48,17 +48,17 @@ class App extends React.Component {
 			}
 		});
 	}
-
-	updateFirebasewithState = (param) => {
-		console.log('in updateFirebase in App this is my param', param);
-		set(ref(db, 'whiskeys/'), {
-			nextWhiskey: param.nextWhiskey,
-			Whiskeys: param.listItems.Whiskeys,
-		}).catch((error) => {
-			// The write failed...
-			alert('Something went wrong');
-		});
-	};
+	// Nothing should call this
+	// updateFirebasewithState = (param) => {
+	// 	console.log('in updateFirebase in App this is my param', param);
+	// 	set(ref(db, 'whiskeys/'), {
+	// 		nextWhiskey: param.nextWhiskey,
+	// 		Whiskeys: param.listItems.Whiskeys,
+	// 	}).catch((error) => {
+	// 		// The write failed...
+	// 		alert('Something went wrong');
+	// 	});
+	// };
 	updateFirebasewithVote = (voteObject, position, Average) => {
 		
 		console.log('updating firebase with just VOTE, voteObject is ', voteObject)
@@ -80,34 +80,35 @@ class App extends React.Component {
 		const WhiskeyRef = ref(db, '/Whiskeys/');
 		const whiskeyloc= push(WhiskeyRef,Whiskey);
 	  }
-	handleSubmitWhiskey = (Info) => {
-		this.setState(
-			(prevState) => ({
-				listItems: {
-					owner: 'Gustavo',
-					count: prevState.listItems.count + 1,
-					Whiskeys: [
-						...prevState.listItems.Whiskeys,
-						{
-							VoteAverage: -1,
-							visibleName: 'Whiskey ' + prevState.nextWhiskey,
-							realWhiskey: Info.InputWhiskeyName,
-							hiddenEmail: Info.InputEmail,
-							votes: [],
-						},
-					],
-				},
-				selectedWhiskey: prevState.selectedWhiskey,
-				nextWhiskey: prevState.nextWhiskey + 1,
-				results: false,
-			}),
-			() => {
-				let alertText="Your Whiskey is Whiskey "+Number(this.state.nextWhiskey-1);
-				this.updateFirebasewithState(this.state);
-				alert(alertText)
-			}
-		);
-	};
+	// Nothing should call this
+	// handleSubmitWhiskey = (Info) => {
+	// 	this.setState(
+	// 		(prevState) => ({
+	// 			listItems: {
+	// 				owner: 'Gustavo',
+	// 				count: prevState.listItems.count + 1,
+	// 				Whiskeys: [
+	// 					...prevState.listItems.Whiskeys,
+	// 					{
+	// 						VoteAverage: -1,
+	// 						visibleName: 'Whiskey ' + prevState.nextWhiskey,
+	// 						realWhiskey: Info.InputWhiskeyName,
+	// 						hiddenEmail: Info.InputEmail,
+	// 						votes: [],
+	// 					},
+	// 				],
+	// 			},
+	// 			selectedWhiskey: prevState.selectedWhiskey,
+	// 			nextWhiskey: prevState.nextWhiskey + 1,
+	// 			results: false,
+	// 		}),
+	// 		() => {
+	// 			let alertText="Your Whiskey is Whiskey "+Number(this.state.nextWhiskey-1);
+	// 			this.updateFirebasewithState(this.state);
+	// 			alert(alertText)
+	// 		}
+	// 	);
+	// };
 
 	handleSelectWhiskey = (Whiskey) => {
 		console.log('Someone Clicked on it, position ', Whiskey);
@@ -140,20 +141,14 @@ class App extends React.Component {
 			notes: voteInfo.VoterNotes,
 		};
 		let voteArray = []
-		console.log('voteObject', voteObject);
-		console.log('without this vote the preexisting voteArray is',VoteArray)
 		//Add Votes to Array
 		if (VoteArray) {
-			console.log('POKEMON exsting votes are',VoteArray)
 			VoteArray.push(voteObject);
 		} else {
 			VoteArray=voteObject;
 		}
-		console.log('now with this vote the existing voteArray is',VoteArray)
 		let  NumericArray=[]
 		VoteArray.forEach((element) => NumericArray.push(element.vote));
-
-		console.log('POKEMON numeric Array should be ',NumericArray)
 		// Add Calculate Average
 		const Average =
 			NumericArray.reduce(
@@ -161,24 +156,7 @@ class App extends React.Component {
 				0
 			) / NumericArray.length;
 		const VoteAverage = Average;
-		console.log('POKEMON average is ',Average," VoteAverage (which is sent) is ",VoteAverage,"this is based on Numericarray",NumericArray, "Not Vote array which is ",VoteArray)
 		this.updateFirebasewithVote(voteObject,key,VoteAverage);
-		// this.setState(
-		// 	(prevState) => ({
-		// 		listItems: {
-		// 			owner: 'Gustavo',
-		// 			count: prevState.listItems.count,
-		// 			Whiskeys: newWhiskeys,
-		// 		},
-		// 		nextWhiskey: prevState.nextWhiskey,
-		// 		selectedWhiskey: prevState.selectedWhiskey,
-		// 		results: false,
-		// 	}),
-		// 	() => {
-		// 		// this.updateFirebasewithVote(voteObject,position, Average)
-		// 		// this.updateFirebasewithState(this.state);
-		// 	}
-		// );
 	};
 
 

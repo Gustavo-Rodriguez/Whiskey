@@ -5,23 +5,29 @@ import DetailModal from './DetailModal';
 import db from '../utils/firebase';
 import { ref, onValue } from 'firebase/database';
 import { Link } from 'react-router-dom'
+import WhiskeysToArray from './WhiskeysToArray';
+import GetVotes from './GetVotes';
 
 class Results extends React.Component {
 	state = {
-		data: this.props.data,
+		data: this.props.WhiskeyList,
 		details: '',
 		showDetails: false,
 		distribution: [0, 0, 0, 0, 0],
+		WhiskeyFound:false,
+		WhiskeyDetails:{}
 	};
 
 	componentDidMount() {
-		const whiskeysRef = ref(db, 'whiskeys/');
+		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults;
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
+			console.log('DEBUG_RESULTS dbResults is ',dbResults)
 			if (dbResults !== null){
-				let unsorted=dbResults;
-				const sorted = [...unsorted.Whiskeys].sort((a, b) =>
+				let unsorted=WhiskeysToArray(dbResults);
+				console.log('DEBUG_RESULTS unsorted is',unsorted)
+				const sorted = [...unsorted].sort((a, b) =>
 					a.VoteAverage < b.VoteAverage ? 1 : -1
 				);
 				this.setState((prevState) => ({
@@ -29,6 +35,7 @@ class Results extends React.Component {
 					details:'',
 					showDetails:false,
 					distribution: [0,0,0,0,0],
+					WhiskeyFound:true
 				}));
 			}
 		});
@@ -37,11 +44,11 @@ class Results extends React.Component {
 
 	ShowDetails = (Whiskey) => {
 		console.log(Whiskey);
-
-		console.log(Whiskey.votes);
+		const WhiskeyVotes=GetVotes(Whiskey)
+		console.log('DEBUG_RESULTS type of votes is',typeof(WhiskeyVotes),' votes are',WhiskeyVotes);
 
 		let voteDistribution = [0, 0, 0, 0, 0];
-		const votes = Whiskey.votes;
+		const votes = WhiskeyVotes;
 
 		// for (var i = 0; i < votes.length; i++) {}
 		votes.forEach((v) => {
@@ -56,22 +63,27 @@ class Results extends React.Component {
 		this.setState((prevState) => ({
 			data: prevState.data,
 			showDetails: true,
-			details: Whiskey,
+			VoteDetails: WhiskeyVotes,
+			WhiskeyDetails:Whiskey,
 			distribution: voteDistribution,
 		}));
 	};
 
 	render() {
-		const ResultItems = this.state.data.map((d, i) => {
-			return (
-				<WhiskeyResults
-					result={d}
-					key={i}
-					mykey={i}
-					ShowDetails={this.ShowDetails}
-				/>
-			);
-		});
+		let ResultItems
+		console.log('DEBUG_RESULTS, STate is ',this.state)
+		if (this.state.WhiskeyFound){
+			ResultItems = this.state.data.map((d, i) => {
+				return (
+					<WhiskeyResults
+						result={d}
+						key={i}
+						mykey={i}
+						ShowDetails={this.ShowDetails}
+					/>
+				);
+			});
+		}
 		let DetailList;
 		let DetailHeader;
 		if (this.state.showDetails) {
@@ -84,7 +96,7 @@ class Results extends React.Component {
 					</tr>
 				</thead>
 			);
-			DetailList = this.state.details.votes.map((d, i) => {
+			DetailList = this.state.VoteDetails.map((d, i) => {
 				return <WhiskeyDetails voteDetail={d} key={i} mykey={i} />;
 			});
 		} else {
@@ -94,7 +106,7 @@ class Results extends React.Component {
 		return (
 			<div>
 				<DetailModal
-					Details={this.state.details}
+					Details={this.state.WhiskeyDetails}
 					Distribution={this.state.distribution}
 					DetailHeader={DetailHeader}
 					DetailList={DetailList}

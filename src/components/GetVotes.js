@@ -6,7 +6,16 @@ import { ref, onValue } from 'firebase/database';
 const GetVotes =  (WhiskeyRef) => {
     
     let VoteArray=[];
-    if (WhiskeyRef){
+    if (typeof(WhiskeyRef)=='object'){
+        let fromObject=Object.entries(WhiskeyRef.Votes)
+        console.log('DEBUG_RESULTS, VoteArary with type',typeof(VoteArray),'its value is ',VoteArray)
+        console.log('DEBUG_RESULTS, sending fromObject with type',typeof(fromObject),'its value is ',fromObject)
+        for (let i=0;i<fromObject.length;i++){
+            VoteArray.push(fromObject[i][1])
+        }
+        console.log('DEBUG_RESULTS, sending VoteArary with type',typeof(VoteArray),'its value is ',VoteArray)
+    }
+    if (typeof(WhiskeyRef)=='string'){
         const VoteRef = ref(db, "Whiskeys/".concat(WhiskeyRef).concat('/Votes'));
         let dbResults
         onValue(VoteRef, (snapshot) => {
@@ -33,8 +42,8 @@ const GetVotes =  (WhiskeyRef) => {
                 console.log('user not found')
             }
         });
-        return (VoteArray)
     }
+    return (VoteArray)
 
 }
 export default GetVotes

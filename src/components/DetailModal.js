@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 class DetailModal extends Component {
 	render() {
+		console.log('DEBUG_RESULTS in DetailModal props are',this.props)
 		const roundedRating = Number(this.props.Details.VoteAverage).toFixed(2);
 
 		const baseWidth = 8;

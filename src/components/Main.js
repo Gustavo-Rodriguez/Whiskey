@@ -123,7 +123,7 @@ class Main extends React.Component {
           <Route path="/Vote" element={<App WhiskeyList={this.state.WhiskeyList} title={'WHISKEY PARTY APP'} VotingOpen={true}/> }  />
           <Route path="/Add" element={<AddWhiskey handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Admin" element={<Admin ></Admin>} />
-          <Route path="/Results" element={<Results  />} />
+          <Route path="/Results" element={<Results WhiskeyList={this.state.WhiskeyList} />} />
           <Route path="/Login" element={<Login  refresh={this.changeLogin} />} />
           <Route path="/Privacy" element={<Privacy />} />
           <Route path="/" element={<Login  refresh={this.changeLogin} />} />
