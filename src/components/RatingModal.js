@@ -3,7 +3,6 @@ import React from 'react';
 import Vote from './Vote.js';
 import GetVotes from './GetVotes.js';
 import { isEmpty } from '@firebase/util';
-import Whiskey from './Whiskey.js';
 
 
 class RatingModal extends React.Component {
@@ -15,7 +14,7 @@ class RatingModal extends React.Component {
 		let WhiskeyNum;
 		let VoterIntro='These people have Voted for this Whiskey already:';
 		let Voters=[];
-		let ExistingVote={};
+		//let ExistingVote={};
 		let VoterArray=[];
 		let VoterList
 		let votedBool=false;
@@ -29,7 +28,7 @@ class RatingModal extends React.Component {
 			const Votes=GetVotes(WhiskeyKey);
 			let MyArr=Object.entries(this.props.whiskeyList)
 			for(let i=0;i<MyArr.length;i++){
-				if(WhiskeyKey==MyArr[i][1].key){
+				if(WhiskeyKey===MyArr[i][1].key){
 					WhiskeyNum=MyArr[i][1].visibleName;
 				}
 			}

@@ -2,9 +2,9 @@ import React from 'react';
 import WhiskeyList from './WhiskeyList';
 import RatingModal from './RatingModal';
 import db from '../utils/firebase';
-import { ref, set, onValue, update, push, getDatabase, increment} from 'firebase/database';
+import { ref, onValue, update, push, getDatabase, increment} from 'firebase/database';
 import GetVotes from "./GetVotes";
-import Vote from './Vote';
+
 
 class App extends React.Component {
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
@@ -59,7 +59,7 @@ class App extends React.Component {
 	updateFirebasewithNewWhiskey = (Whiskey) => {
 		const db = getDatabase();
 		const WhiskeyRef = ref(db, '/Whiskeys/');
-		const whiskeyloc= push(WhiskeyRef,Whiskey);
+		push(WhiskeyRef,Whiskey);
 	  }
 	handleSelectWhiskey = (Whiskey) => {
 		// console.log('Someone Clicked on it, position ', Whiskey);
@@ -89,7 +89,6 @@ class App extends React.Component {
 			email: voteInfo.VoterEmail,
 			notes: voteInfo.VoterNotes,
 		};
-		let voteArray = []
 		//Add Votes to Array
 		if (VoteArray) {
 			VoteArray.push(voteObject);

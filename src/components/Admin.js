@@ -1,7 +1,6 @@
 
 
 import React from 'react';
-import Dropdown from "./Dropdown";
 
 
 class Admin extends React.Component {

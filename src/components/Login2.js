@@ -98,7 +98,7 @@ class Login2 extends React.Component {
 				</div>
 
 				
-				<button form="new-whiskey-form">Log In 🥃</button>
+				<button form="new-whiskey-form">Log In <span role='img' aria-label='whiskey'> 🥃 </span></button>
 			</form>
 		);
 		} else {
@@ -115,7 +115,7 @@ class Login2 extends React.Component {
                                     : "white",
                             })}
                         >
-                            🥃Vote🥃
+                            <span role='img' aria-label='whiskey'> 🥃</span>Vote<span role='img' aria-label='whiskey'> 🥃 </span>
                         </NavLink>
                     </div>
                 </div>

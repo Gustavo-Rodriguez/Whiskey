@@ -4,13 +4,12 @@ import { Route, Routes } from "react-router-dom"
 import App from "./App"
 import Admin from "./Admin"
 import Results from "./Results"
-import listItems from '../data/Data';
 import Login2 from "./Login2"
 import AddWhiskey from "./Add";
 import Login from "./Login";
 import Privacy from "./PrivacyPolicy"
 import NavBar from "./NavBar";
-import { push, ref, set, onValue, getDatabase } from 'firebase/database';
+import { push, ref, onValue, getDatabase } from 'firebase/database';
 import db from '../utils/firebase';
 
 
@@ -24,8 +23,6 @@ class Main extends React.Component {
   componentDidMount() {
 		const whiskeysRef = ref(db, 'Whiskeys/');
 		let dbResults
-    let adminbool
-    let votebool
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
       // console.log('dbResults is ',dbResults)
@@ -82,7 +79,7 @@ class Main extends React.Component {
   updateFirebasewithNewWhiskey = (Whiskey) => {
     const db = getDatabase();
     const WhiskeyRef = ref(db, '/Whiskeys/');
-    const whiskeyloc= push(WhiskeyRef,Whiskey);
+    push(WhiskeyRef,Whiskey);
   }
   changeLogin = (param) => {
     // console.log("I should be changing login state ",param)

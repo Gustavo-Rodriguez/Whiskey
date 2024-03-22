@@ -1,8 +1,6 @@
 import React from 'react';
 import star from './unchecked.png';
 import checked from './checked.png';
-import db from '../utils/firebase';
-import { ref, set, onValue, update, push } from 'firebase/database';
 
 class Vote extends React.Component {
 	storedProfile = JSON.parse(sessionStorage.getItem('profile'))
