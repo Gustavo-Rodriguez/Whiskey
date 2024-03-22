@@ -110,13 +110,6 @@ class App extends React.Component {
 
 
 	render() {
-		//  console.log('inApp WhiskeyList in state is',this.state.WhiskeyList)
-		//  console.log('in App props is ',this.props)
-		// let unsorted=this.state.WhiskeyList;
-		// console.log('unsorted is ',unsorted)
-		// 	const sorted = [...unsorted.Whiskeys].sort((a, b) =>
-		// 				a.visibleName > b.visibleName ? 1 : -1
-		// 			);
 		return (
 			<div>
 				<div className="application">

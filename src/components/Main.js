@@ -5,6 +5,7 @@ import App from "./App"
 import Admin from "./Admin"
 import Results from "./Results"
 import listItems from '../data/Data';
+import Login2 from "./Login2"
 import AddWhiskey from "./Add";
 import Login from "./Login";
 import Privacy from "./PrivacyPolicy"
@@ -114,6 +115,7 @@ class Main extends React.Component {
           <Route path="/Admin" element={<Admin ></Admin>} />
           <Route path="/Results" element={<Results WhiskeyList={this.state.WhiskeyList} />} />
           <Route path="/Login" element={<Login  refresh={this.changeLogin} />} />
+          <Route path="/Login2" element={<Login2 />} />
           <Route path="/Privacy" element={<Privacy />} />
           <Route path="/" element={<Login  refresh={this.changeLogin} />} />
       </Routes>
