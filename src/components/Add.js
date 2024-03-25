@@ -1,5 +1,4 @@
 import React from 'react';
-import Admin from './Admin';
 import CheckAdmin from './CheckAdmin';
 import Dropdown from "./Dropdown";
 
@@ -97,7 +96,6 @@ class AddWhiskey extends React.Component {
 				NameRun:prevState.NameRun,
 				InputName:prevState.InputName,
 				InputType:prevState.InputType,
-				NameRun:prevState.NameRun,
 				NumberRun:prevState.NumberRun,
 				options: prevState.options,
 				AdminBool:prevState.AdminBool
@@ -113,7 +111,6 @@ class AddWhiskey extends React.Component {
 				NameRun:prevState.NameRun,
 				InputName:e.target.value,
 				InputType:prevState.InputType,
-				NameRun:prevState.NameRun,
 				NumberRun:prevState.NumberRun,
 				options: prevState.options,
 				AdminBool:prevState.AdminBool
