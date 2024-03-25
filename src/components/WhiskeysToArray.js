@@ -1,6 +1,6 @@
 
 const WhiskeysToArray = (obj) => {
-    console.log('Props in WhiskeysToArray is ',obj)
+    // console.log('Props in WhiskeysToArray is ',obj)
     const ConvertedObject=Object.entries(obj)
     var WhiskeyArray=[];
     for (var i=0; i<ConvertedObject.length; i++)

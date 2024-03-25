@@ -26,12 +26,22 @@ class App extends React.Component {
 			if (dbResults !== undefined && dbResults !== null && this.storedProfile) {
 				const WhiskeyArray=Object.entries(dbResults);
 				let WhiskeyState={}
+				let WhiskeyStateI=0;
 				for (let i=0; i<WhiskeyArray.length;i++)
 				{
-				  WhiskeyState[i]={}
-				  WhiskeyState[i].key=WhiskeyArray[i][0];
-				  WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
-				  WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
+					console.log('I havent checked if Whiskey is Registered yet WhiskeyStateI=',WhiskeyStateI)
+					if (WhiskeyArray[i][1].visibleName==='Whiskey -1'){
+						console.log('UnRegistered Whiskey Found, not adding to List')
+						console.log('WhiskeyStateI=',WhiskeyStateI)
+					} else {
+						console.log('registered whiskey found',WhiskeyArray[i][1])
+						console.log('WhiskeyStateI=',WhiskeyStateI)
+						WhiskeyState[WhiskeyStateI]={}
+						WhiskeyState[WhiskeyStateI].key=WhiskeyArray[i][0];
+						WhiskeyState[WhiskeyStateI].visibleName=WhiskeyArray[i][1].visibleName;
+						WhiskeyState[WhiskeyStateI].voteCount=WhiskeyArray[i][1].voteCount;
+						WhiskeyStateI= WhiskeyStateI+1;
+					}
 				}
 				// console.log('WhiskeyState=',WhiskeyState)
 				this.setState(

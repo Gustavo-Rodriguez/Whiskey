@@ -73,6 +73,9 @@ class Main extends React.Component {
       votes: []
     }
         let alertText="Your Whiskey is Whiskey "+Info.InputNumber;
+        if (Info.InputNumber==='-1'){
+          alertText='Party Host will give you a number, now go vote'
+        }
         this.updateFirebasewithNewWhiskey(NewWhiskey)
         alert (alertText)
   };

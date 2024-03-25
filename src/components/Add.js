@@ -1,4 +1,6 @@
 import React from 'react';
+import Admin from './Admin';
+import CheckAdmin from './CheckAdmin';
 import Dropdown from "./Dropdown";
 
 
@@ -7,7 +9,7 @@ class AddWhiskey extends React.Component {
 	state = {
 		InputWhiskeyName: '',
 		InputEmail: '',
-		InputNumber:'',
+		InputNumber:'-1',
 		InputType:'',
 		NameRun: false,
 		NumberRun: false,
@@ -20,10 +22,13 @@ class AddWhiskey extends React.Component {
 			{ value: "American", label: "American" },
 			{ value: "Japanese", label: "Japanese" },
 			{ value: "Other", label: "Other" }
-		  ]
+		  ],
+		AdminBool:false,
 	};
 
 	componentDidMount (){
+		let AdminBool=CheckAdmin(this.storedProfile.email)
+		console.log ('Results of admin check ',AdminBool)
 		if (this.storedProfile){
 		this.setState((prevState) => ({
 			InputWhiskeyName:prevState.InputWhiskeyName,
@@ -33,9 +38,11 @@ class AddWhiskey extends React.Component {
 			InputType:prevState.InputType,
 			NameRun:prevState.NameRun,
 			NumberRun:prevState.NumberRun,
-			options: prevState.options
+			options: prevState.options,
+			AdminBool: AdminBool
 		}));
-	}
+		}
+		
 	}
 
 	handleSubmit = (e) => {
@@ -55,7 +62,8 @@ class AddWhiskey extends React.Component {
 				InputType:'',
 				NameRun:false,
 				NumberRun:false,
-				options: prevState.options
+				options: prevState.options,
+				AdminBool:prevState.AdminBool
 			}));
 		}
 		else {
@@ -73,12 +81,45 @@ class AddWhiskey extends React.Component {
 				InputType:prevState.InputType,
 				NameRun: true,
 				NumberRun: prevState.NumberRun,
+				AdminBool:prevState.AdminBool,
 			}),
 			() => {
 				// console.log("this is state", this.state);
 			}
 		);
 	};
+	handleEmail=(e) => {
+		this.setState(
+			(prevState) => ({
+				InputWhiskeyName:prevState.InputWhiskeyName,
+				InputEmail: e.target.value,
+				InputNumber:prevState.InputNumber,
+				NameRun:prevState.NameRun,
+				InputName:prevState.InputName,
+				InputType:prevState.InputType,
+				NameRun:prevState.NameRun,
+				NumberRun:prevState.NumberRun,
+				options: prevState.options,
+				AdminBool:prevState.AdminBool
+			})
+		) 
+	}
+	handleContributor = (e) => {
+		this.setState(
+			(prevState) => ({
+				InputWhiskeyName:prevState.InputWhiskeyName,
+				InputEmail:prevState.InputEmail ,
+				InputNumber:prevState.InputNumber,
+				NameRun:prevState.NameRun,
+				InputName:e.target.value,
+				InputType:prevState.InputType,
+				NameRun:prevState.NameRun,
+				NumberRun:prevState.NumberRun,
+				options: prevState.options,
+				AdminBool:prevState.AdminBool
+			})
+		)
+	}
 	handleNumber = (e) =>{
 		// console.log('in number e is ',e)
 		this.setState(
@@ -88,7 +129,8 @@ class AddWhiskey extends React.Component {
 				InputNumber: e.target.value,
 				InputType:prevState.InputType,
 				NameRun: prevState.NameRun,
-				NumberRun: true
+				NumberRun: true,
+				AdminBool:prevState.AdminBool,
 			}),
 			() => {
 				// callback
@@ -103,24 +145,23 @@ class AddWhiskey extends React.Component {
 				InputNumber: prevState.InputNumber,
 				InputType:value.value,
 				NameRun: prevState.NameRun,
-				NumberRun: true
+				NumberRun: true,
+				AdminBool:prevState.AdminBool
 			}),
 			() => {
 				// callback
 			}
 		)
-
-		
 	}
 
-
-
 	render() {
+		let AdminBool=CheckAdmin(this.storedProfile.email)
 		if (this.storedProfile ) {
+		console.log('in render adminbool is ',AdminBool,'the one from state is ',this.state.AdminBool)
 		return (
 			<form id="new-whiskey-form" onSubmit={this.handleSubmit}>
 				<div className="input-container">
-					<div className="input-label">Whiskey Name</div>
+					<div className="input-label">Whiskey Name {AdminBool} </div>
 					<input
 						onChange={this.handleName}
 						value={this.state.InputWhiskeyName}
@@ -129,33 +170,78 @@ class AddWhiskey extends React.Component {
 					/>
 				</div>
 				<div className="input-container">
-					<div className="input-label">Your name</div>
-					<input
-						disabled="true"
-						onChange={this.handleEmail}
-						value={this.state.InputName}
-						type="text"
-						placeholder="Your Name?"
-					/>
+					{AdminBool ? (
+						<div className="input-label">Contributor Name</div>
+						):(
+						<div className="input-label">Your Name </div>
+						) }
+					{AdminBool ? (
+							<input
+								onChange={this.handleContributor}
+								value={this.state.InputName}
+								type="text"
+								placeholder="Your Name?"
+							/>
+						)
+						: (
+							<input
+								disabled="true"
+								onChange={this.handleContributor}
+								value={this.state.InputName}
+								type="text"
+								placeholder="Your Name?"
+							/>
+						)
+					}
 				</div>
 				<div className="input-container">
-					<div className="input-label">Your E-mail</div>
-					<input
-						disabled="true"
-						onChange={this.handleEmail}
-						value={this.state.InputEmail}
-						type="text"
-						placeholder="Your Name?"
-					/>
+				{AdminBool ? (
+						<div className="input-label">Contributor Email</div>
+						):(
+						<div className="input-label">Your Email </div>
+						) }
+					{AdminBool ? (
+							<input
+								onChange={this.handleEmail}
+								value={this.state.InputEmail}
+								type="text"
+								placeholder="Your Name?"
+							/>
+						)
+						: (
+							<input
+								disabled="true"
+								onChange={this.handleEmail}
+								value={this.state.InputEmail}
+								type="text"
+								placeholder="Your Name?"
+							/>
+						)
+					}			
 				</div>
 				<div className="input-container">
-					<div className='input-label'>Visible Number</div>
-					<input 
-						onChange={this.handleNumber}
-						value={this.state.InputNumber}
-						type='text'
-						placeholder="Visible Number"
+					{AdminBool ? (
+						<div className='input-label'>Visible Number</div>
+						) : (
+						<div className='input-label'>Visible Number</div>
+						) 
+					}
+					{AdminBool ? (
+						<input 
+							onChange={this.handleNumber}
+							value={this.state.InputNumber}
+							type='text'
+							placeholder="Visible Number"
 						/>
+						) : (
+							<input 
+							onChange={this.handleNumber}
+							disabled="true"
+							value={this.state.InputNumber}
+							type='text'
+							placeholder="Party Host will give you a Number"
+							/>
+						)}
 				</div>
 				<div className="input-container">
 					<div className='input-label'>Whiskey Type (OPTIONAL)</div>
