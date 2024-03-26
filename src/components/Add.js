@@ -26,10 +26,9 @@ class AddWhiskey extends React.Component {
 	};
 
 	componentDidMount (){
-		let AdminBool=CheckAdmin(this.storedProfile.email)
-		console.log ('Results of admin check ',AdminBool)
 		if (this.storedProfile){
-		this.setState((prevState) => ({
+			let AdminBool=CheckAdmin(this.storedProfile.email)
+			this.setState((prevState) => ({
 			InputWhiskeyName:prevState.InputWhiskeyName,
 			InputEmail: this.storedProfile.email,
 			InputName:this.storedProfile.name,
@@ -57,12 +56,12 @@ class AddWhiskey extends React.Component {
 				InputWhiskeyName:'',
 				InputEmail: this.storedProfile.email,
 				InputName:this.storedProfile.name,
-				InputNumber:'',
+				InputNumber:'-1',
 				InputType:'',
 				NameRun:false,
 				NumberRun:false,
 				options: prevState.options,
-				AdminBool:prevState.AdminBool
+				AdminBool: prevState.AdminBool
 			}));
 		}
 		else {
@@ -152,13 +151,13 @@ class AddWhiskey extends React.Component {
 	}
 
 	render() {
-		let AdminBool=CheckAdmin(this.storedProfile.email)
 		if (this.storedProfile ) {
-		console.log('in render adminbool is ',AdminBool,'the one from state is ',this.state.AdminBool)
+			let AdminBool=CheckAdmin(this.storedProfile.email)
+		// console.log('in render adminbool is ',AdminBool,'the one from state is ',this.state.AdminBool)
 		return (
 			<form id="new-whiskey-form" onSubmit={this.handleSubmit}>
 				<div className="input-container">
-					<div className="input-label">Whiskey Name {AdminBool} </div>
+					<div className="input-label">What's on the Bottle</div>
 					<input
 						onChange={this.handleName}
 						value={this.state.InputWhiskeyName}

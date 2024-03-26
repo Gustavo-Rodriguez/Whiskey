@@ -1,44 +1,73 @@
 import React from 'react';
-
 class AdminResults extends React.Component {
-	state = {};
+	state = {
+		WhiskeyOwner:this.props.result.WhiskeyOwner,
+		key:this.props.result.key,
+		WhiskeyType:this.props.result.WhiskeyType,
+		visibleName:this.props.result.visibleName,
+		InputNumber:''
+	};
 	
 	handleNumber = (e) =>{
 		// console.log('in number e is ',e)
 		this.setState(
 			(prevState) => ({
-				InputWhiskeyName: prevState.InputWhiskeyName,
-				InputEmail: prevState.InputEmail,
+				WhiskeyOwner:prevState.WhiskeyOwner,
+				key:prevState.key,
+				WhiskeyType:prevState.WhiskeyType,
+				visibleName:prevState.visibleName,
 				InputNumber: e.target.value,
-				InputType:prevState.InputType,
-				NameRun: prevState.NameRun,
-				NumberRun: true,
-				AdminBool:prevState.AdminBool,
 			}),
 			() => {
 				// callback
+				console.log('edited State, state is now',this.state)
+				console.log('my props are',this.props)
 			}
 		)
 	}
+	handleSubmit = (e) => {
+		e.preventDefault();
+		if (this.state.InputNumber){
+			this.props.updateNumber(this.state.key,this.state.InputNumber,this.state.WhiskeyOwner)
+		}
+	}
+
 
 	render() {
-		console.log('in Admin results, props are',this.props)
+		// console.log('in Admin results, props are',this.props)
+		let DisplayNumber
+		let FormNumber
+		let ButtonText='Change Number'
+		let ButtonColor='#ffffff'
+		if (this.state.visibleName==="Whiskey -1"){
+			DisplayNumber='NO Previous Number'
+			FormNumber=''
+			ButtonText='Set Number'
+			ButtonColor='#ff0000'
+		}
+		else {
+			DisplayNumber=this.state.visibleName
+			FormNumber=this.state.visibleName.slice(8)
+		}
 		return (
 			
 			<tr>
-					<td>{this.props.result.WhiskeyOwner}</td>
-					<td>{this.props.result.visibleName}</td>
-					<td>{this.props.result.WhiskeyType}</td>
+				
+					<td>{this.state.WhiskeyOwner}</td>
+					<td>{DisplayNumber}</td>
+					<td>{this.state.WhiskeyType}</td>
 					<td>
 					<input 
 						onChange={this.handleNumber}
 						value={this.state.InputNumber}
 						type='text'
-						placeholder={this.props.result.visibleName.slice(8)}
+						placeholder={FormNumber}
 					/>
 					</td>
 					<td>
-						<button form="Change-whiskey-form">Change Number</button>
+						<form id={this.state.key} onSubmit={this.handleSubmit}>
+							<button form={this.state.key}>{ButtonText} </button>
+						</form>
 					</td>
 			</tr>
 		);

@@ -2,7 +2,7 @@
 import AdminResults from './AdminResults';
 import React from 'react';
 import db from '../utils/firebase';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, update } from 'firebase/database';
 import WhiskeysToArray from './WhiskeysToArray';
 
 class Admin extends React.Component {
@@ -25,24 +25,38 @@ class Admin extends React.Component {
 					delete newObj.OwnerEmail;
 					unsorted.push(newObj)
 				}
-				//Sort our Whiskeys by Average Vote
-				const sorted = [...unsorted].sort((a, b) =>
-					a.VoteAverage < b.VoteAverage ? 1 : -1
-				);
+				const sorted = unsorted
 				this.setState((prevState) => ({
 					data:sorted,
 					details:'',
 					showDetails:false,
-					WhiskeyFound:true
+					WhiskeyFound:true,
+					RefreshCount:prevState.RefreshCount+1,
 				}));
 			}
 		});
 		
 	}
-
+	updateWhiskeyWithNewNumber = (key, NewNumber, Contributor) => {
+		let myRef = ref(db);
+		const updates={}
+		let newName="Whiskey "+NewNumber
+		let error=false;
+		for (let i=0;i<this.state.data.length;i++){
+			if (this.state.data[i].visibleName===newName){
+				alert('You have created a whiskey Name Conflict, No update has occured')
+				error=true;
+			}
+		}
+		if (!error){
+			updates["Whiskeys/"+key+"/visibleName"]=newName;
+			update(myRef,updates);
+			alert('you have updated '+Contributor+"'s whiskey to number"+NewNumber);
+		}
+		window.location.reload(false);
+	}
 
 	render() {
-		console.log('in Admin state is ',this.state)
 		let ResultItems
 		if (this.state.WhiskeyFound){
 			ResultItems = this.state.data.map((d, i) => {
@@ -52,6 +66,7 @@ class Admin extends React.Component {
 						key={i}
 						mykey={i}
 						ShowDetails={this.ShowDetails}
+						updateNumber={this.updateWhiskeyWithNewNumber}
 					/>
 				);
 			});
@@ -61,18 +76,20 @@ class Admin extends React.Component {
 				<div className='header'>
 					<h3>This is the admin Pannel, click <a href="https://console.firebase.google.com/u/0/project/whiskey-a2ed6/database/whiskey-a2ed6-default-rtdb/data">here</a> to get to the database</h3>
 				</div>
-				<table className="resultsTable">
-					<thead>
-						<tr>
-							<th>Contributor</th>
-							<th>Previous Number</th>
-							<th>Type</th>
-							<th>New Whiskey Number</th>
-							<th>Submit</th>
-						</tr>
-					</thead>
-					<tbody>{ResultItems}</tbody>
-				</table>
+				<div>
+					<table className="resultsTable">
+						<thead>
+							<tr>
+								<th>Contributor</th>
+								<th>Previous Number</th>
+								<th>Type</th>
+								<th>New Whiskey Number</th>
+								<th>Submit</th>
+							</tr>
+						</thead>
+						<tbody>{ResultItems}</tbody>
+					</table>
+				</div>
 			</div>
 		)
 	}
