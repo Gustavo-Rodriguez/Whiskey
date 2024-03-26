@@ -38,12 +38,10 @@ class AdminResults extends React.Component {
 		let DisplayNumber
 		let FormNumber
 		let ButtonText='Change Number'
-		let ButtonColor='#ffffff'
 		if (this.state.visibleName==="Whiskey -1"){
 			DisplayNumber='NO Previous Number'
 			FormNumber=''
 			ButtonText='Set Number'
-			ButtonColor='#ff0000'
 		}
 		else {
 			DisplayNumber=this.state.visibleName
