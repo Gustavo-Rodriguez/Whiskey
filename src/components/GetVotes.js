@@ -3,7 +3,7 @@ import { ref, onValue } from 'firebase/database';
 
 
 
-const GetVotes =  (WhiskeyRef) => {
+const GetVotes = async WhiskeyRef => {
     console.log("DELETE_ME Inside GetVotes",WhiskeyRef)
     
     let VoteArray=[];
@@ -16,6 +16,7 @@ const GetVotes =  (WhiskeyRef) => {
     }
     // Run this code if you were given a KEY
     if (typeof(WhiskeyRef)=='string'){
+        console.log('given a string')
         const VoteRef = ref(db, "Whiskeys/".concat(WhiskeyRef).concat('/Votes'));
         let dbResults
         onValue(VoteRef, (snapshot) => {
@@ -39,6 +40,7 @@ const GetVotes =  (WhiskeyRef) => {
             }
         });
     }
+    console.log('Returning VoteArray',VoteArray)
     return (VoteArray)
 
 }

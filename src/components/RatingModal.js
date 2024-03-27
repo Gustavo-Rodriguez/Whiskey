@@ -26,12 +26,13 @@ class RatingModal extends React.Component {
 		 if (this.props.selectedWhiskey !==  ''){
 			let WhiskeyKey=this.props.selectedWhiskey
 			const Votes=GetVotes(WhiskeyKey);
-			let MyArr=Object.entries(this.props.whiskeyList)
-			for(let i=0;i<MyArr.length;i++){
-				if(WhiskeyKey===MyArr[i][1].key){
-					WhiskeyNum=MyArr[i][1].visibleName;
-				}
-			}
+			//Pretty sure we don't need this block
+			// let MyArr=Object.entries(this.props.whiskeyList)
+			// for(let i=0;i<MyArr.length;i++){
+			// 	if(WhiskeyKey===MyArr[i][1].key){
+			// 		WhiskeyNum=MyArr[i][1].visibleName;
+			// 	}
+			// }
 			for (let i=0;i<Votes.length;i++){
 				Voters.push(Votes[i].email)
 				VoterArray.push(Votes[i].voter)

@@ -9,8 +9,9 @@ import AddWhiskey from "./Add";
 import Login from "./Login";
 import Privacy from "./PrivacyPolicy"
 import NavBar from "./NavBar";
-import { push, ref, onValue, getDatabase } from 'firebase/database';
+import { push, ref, getDatabase } from 'firebase/database';
 import db from '../utils/firebase';
+import GetValidWhiskeys from "./GetValidWhiskeys"
 
 
 class Main extends React.Component {
@@ -18,46 +19,18 @@ class Main extends React.Component {
 		WhiskeyList: {}
 	};
 
-
+  
   storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   componentDidMount() {
 		const whiskeysRef = ref(db, 'Whiskeys/');
-		let dbResults
-		onValue(whiskeysRef, (snapshot) => {
-			dbResults = snapshot.val();
-      // console.log('dbResults is ',dbResults)
-      //Check for User First
-      let storedProfile = JSON.parse(sessionStorage.getItem('profile'))
-      // console.log('checking for user')
-      if (storedProfile){
-      //User Found Now Check for Whiskey
-        if (dbResults !== undefined && dbResults !== null)
-        {
-          // console.log('user is ',storedProfile.email)
-          const WhiskeyArray=Object.entries(dbResults);
-          let WhiskeyState={}
-          for (let i=0; i<WhiskeyArray.length;i++)
-          {
-            WhiskeyState[i]={}
-            // console.log('whiskeyArray of i',WhiskeyArray[i])
-            WhiskeyState[i].key=WhiskeyArray[i][0];
-            WhiskeyState[i].visibleName=WhiskeyArray[i][1].visibleName;
-            WhiskeyState[i].voteCount=WhiskeyArray[i][1].voteCount;
-          }
-          // console.log('WhiskeyState=',WhiskeyState)
-          this.setState(
-            (prevState) => ({
-            WhiskeyList:WhiskeyState
-          }));
-        }
-        else {
-          // console.log('We didnt find whiskey')
-        }
-      } else {
-        // console.log('user not found')
-      }
-		});
-    // console.log('in main, in ComponentDidMount state is',this.state)
+		console.log('in main props are ',this.props)
+		console.log('in main State is ',this.state)
+		const WhiskeyState=GetValidWhiskeys(whiskeysRef)
+    this.setState({
+      WhiskeyList:WhiskeyState
+    })
+    console.log('in main WhiskeyState was just created as ',WhiskeyState)
+    console.log('in main, in ComponentDidMount state is',this.state)
 	}
 
   handleSubmitWhiskey = (Info) => {
@@ -96,6 +69,7 @@ class Main extends React.Component {
       results: prevState.results,
       login: prevState.login+1,
       sorted:prevState.sorted,
+      WhiskeyList:prevState.WhiskeyList
     }));
     // console.log('login (count) is', this.state.login)
   }
@@ -104,13 +78,15 @@ class Main extends React.Component {
   render(){
 
    
-
+    console.log('in main Render, state is',this.state)
 
   return (  
     <div>
       <NavBar user={this.storedProfile} />
       <Routes>
+          {/* Removing this route to see if you need WhiskeyList in App */}
           <Route path="/Vote" element={<App WhiskeyList={this.state.WhiskeyList} title={'WHISKEY PARTY APP'} VotingOpen={true}/> }  />
+          {/* <Route path="/Vote" element={<App title={'WHISKEY PARTY APP'} VotingOpen={true}/> }  /> */}
           <Route path="/Add" element={<AddWhiskey handlesubmitfromApp={this.handleSubmitWhiskey} placeholderText={'Whiskey?'}/>} />
           <Route path="/Admin" element={<Admin ></Admin>} />
           <Route path="/Results" element={<Results WhiskeyList={this.state.WhiskeyList} />} />

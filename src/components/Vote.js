@@ -61,7 +61,7 @@ class Vote extends React.Component {
 			this.storedProfile
 			) 
 			{
-				// console.log('inside handleVote in Vote, state is',this.State)
+				console.log('inside handleVote in Vote, state is',this.State)
 				e.preventDefault();
 				this.props.SubmitVote(this.state);
 				this.props.clear();
@@ -119,7 +119,7 @@ class Vote extends React.Component {
 	};
 
 	render() {
-	    // console.log("inside Vote these are props ", this.props, "This is State", this.state)
+	    //  console.log("inside Vote these are props ", this.props, "This is State", this.state)
 		// if (this.state.WhiskeyNumber > 0 && this.storedProfile ) {
 			if (this.storedProfile ) {
 			return (

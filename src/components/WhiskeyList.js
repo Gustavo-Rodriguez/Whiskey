@@ -4,8 +4,12 @@ import WhiskeysToArray from "./WhiskeysToArray";
 
 
 
-// console.log('in whiskeyList these are my props',props)
+
 const WhiskeyList = (props) => {
+  // if (!props.whiskeyList){
+  //   return ( <div>Loading Whiskeys</div>)
+  // }
+  // console.log('in whiskeyList these are my props',props)
   const whiskeyList=props.WhiskeyList;
   const storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   const WhiskeyArray=WhiskeysToArray(whiskeyList);
