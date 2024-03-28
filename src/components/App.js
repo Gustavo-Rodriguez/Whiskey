@@ -33,6 +33,7 @@ class App extends React.Component {
 			console.log('inApp in result function seting WhiskeyState to ',WhiskeyState)
 			console.log('inApp in result function this is',this)
 			// This needs to be commented out becouse I get an error because it can't find setState
+			// Resolved error by using arrowfunctinos in the then
 			this.setState((prevState) => ({
 				WhiskeyList:WhiskeyState,
 				selectedWhiskey:prevState.selectedWhiskey,
@@ -61,19 +62,19 @@ class App extends React.Component {
 		console.log('Someone Clicked on it, position ', Whiskey);
 		this.setState((prevState) => ({
 			selectedWhiskey: Whiskey,
-			WhiskeyList:prevState.whiskeyList,
+			WhiskeyList:prevState.WhiskeyList,
 			listItems: prevState.listItems,
 			// nextWhiskey: prevState.nextWhiskey,
-			results: false,
+			results: true,
 		}));
 	};
 	ClearVote = (e) => {
 		this.setState((prevState) => ({
 			selectedWhiskey: '',
 			listItems: prevState.listItems,
-			WhiskeyList:prevState.whiskeyList,
+			WhiskeyList:prevState.WhiskeyList,
 			// nextWhiskey: prevState.nextWhiskey,
-			results: false,
+			results: true,
 		}));
 	};
 	SubmitVote =  (voteInfo) => {

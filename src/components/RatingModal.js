@@ -29,7 +29,7 @@ class RatingModal extends React.Component {
 			const Votes=GetVotes(WhiskeyKey);
 			const VoteCount=Votes.length
 			console.log('These are the votes I saw',Votes)
-			console.log('I count ',VoteCount," votes")
+			console.log('I count ',VoteCount," votes again that's",Votes.length," Votes")
 			//Pretty sure we don't need this block
 			// let MyArr=Object.entries(this.props.whiskeyList)
 			// for(let i=0;i<MyArr.length;i++){
@@ -37,7 +37,6 @@ class RatingModal extends React.Component {
 			// 		WhiskeyNum=MyArr[i][1].visibleName;
 			// 	}
 			// }
-
 			for (let i=0;i<VoteCount;i++){
 				console.log('found Votes')
 				Voters.push(Votes[i].email)
@@ -79,6 +78,7 @@ class RatingModal extends React.Component {
 								className="btn-close"
 								data-bs-dismiss="modal"
 								aria-label="Close"
+								onClick={this.props.ClearVote}
 							></button>
 						</div>
 						<div className='modal-body'>
