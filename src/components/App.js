@@ -5,7 +5,7 @@ import db from '../utils/firebase';
 import { ref, update, push, getDatabase, increment} from 'firebase/database';
 import GetVotes from "./GetVotes";
 import GetValidWhiskeys from './GetValidWhiskeys';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
+
 
 
 class App extends React.Component {
@@ -24,16 +24,28 @@ class App extends React.Component {
 		// let dbResults;
 		console.log('inApp props are ',this.props)
 		console.log('inApp State is ',this.state)
-		const WhiskeyState= GetValidWhiskeys(whiskeysRef).finally(
+		const WhiskeyPromise= GetValidWhiskeys(whiskeysRef)
+		let WhiskeyState
+		WhiskeyPromise.then(function(result){
+			WhiskeyState=result
+			console.log('inApp Result is ',result)
+			console.log('inApp in result function seting WhiskeyState to ',WhiskeyState)
+			
+		},()=> {
+		//Callback that isn't called 
+		console.log('inApp setting state in callback?')
 		this.setState((prevState) => ({
 			WhiskeyList:WhiskeyState,
-			selectedWhiskey: prevState.selectedWhiskey,
-			// nextWhiskey: dbResults.nextWhiskey,
-			results: prevState.results,
-		})),
-		console.log('inApp props are ',this.props),
-		console.log('inApp State is ',this.state)
-		)
+			selectedWhiskey:prevState.selectedWhiskey,
+			results:true,
+		}))
+		})
+		this.setState((prevState) => ({
+			WhiskeyList:WhiskeyState,
+			selectedWhiskey:prevState.selectedWhiskey,
+			results:true,
+		}))
+		
 	}
 
 	updateFirebasewithVote = (voteObject, position, Average) => {
