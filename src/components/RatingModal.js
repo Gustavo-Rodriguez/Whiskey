@@ -12,7 +12,7 @@ class RatingModal extends React.Component {
 	render() {
 		console.log('in Rating Modal my props are',this.props)
 		let WhiskeyNum;
-		let VoterIntro='These people have Voted for this Whiskey already:';
+		let VoterIntro='Loading Votes';
 		let Voters=[];
 		//let ExistingVote={};
 		let VoterArray=[];
@@ -27,18 +27,20 @@ class RatingModal extends React.Component {
 			console.log('I was given a selected Whiskey',this.props.selectedWhiskey)
 			let WhiskeyKey=this.props.selectedWhiskey
 			const Votes=GetVotes(WhiskeyKey);
-			const VoteCount=Votes.length
 			console.log('These are the votes I saw',Votes)
+			const VoteCount=Votes.length
 			console.log('I count ',VoteCount," votes again that's",Votes.length," Votes")
+
 			//Pretty sure we don't need this block
 			// let MyArr=Object.entries(this.props.whiskeyList)
 			// for(let i=0;i<MyArr.length;i++){
-			// 	if(WhiskeyKey===MyArr[i][1].key){
+			// 	if(WhiskeyKey===MyArr[i][1].key){ 
 			// 		WhiskeyNum=MyArr[i][1].visibleName;
 			// 	}
 			// }
 			for (let i=0;i<VoteCount;i++){
 				console.log('found Votes')
+				VoterIntro="The following People have Voted for this Whiskey"
 				Voters.push(Votes[i].email)
 				VoterArray.push(Votes[i].voter)
 				if (Votes[i].email===storedProfile.email){
@@ -73,12 +75,12 @@ class RatingModal extends React.Component {
 								Rate {WhiskeyNum}
 							</h5>
 							<button
+								onClick={this.props.ClearVote}
 								id="CloseVoteWindow"
 								type="button"
 								className="btn-close"
 								data-bs-dismiss="modal"
 								aria-label="Close"
-								onClick={this.props.ClearVote}
 							></button>
 						</div>
 						<div className='modal-body'>
