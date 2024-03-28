@@ -24,28 +24,22 @@ class App extends React.Component {
 		// let dbResults;
 		console.log('inApp props are ',this.props)
 		console.log('inApp State is ',this.state)
-		const WhiskeyPromise= GetValidWhiskeys(whiskeysRef)
+		console.log('inApp in componentDidMount this is',this)
+		let WhiskeyPromise= GetValidWhiskeys(whiskeysRef)
 		let WhiskeyState
-		WhiskeyPromise.then(function(result){
+		WhiskeyPromise.then(result => {
 			WhiskeyState=result
 			console.log('inApp Result is ',result)
 			console.log('inApp in result function seting WhiskeyState to ',WhiskeyState)
+			console.log('inApp in result function this is',this)
+			// This needs to be commented out becouse I get an error because it can't find setState
+			this.setState((prevState) => ({
+				WhiskeyList:WhiskeyState,
+				selectedWhiskey:prevState.selectedWhiskey,
+				results:true,
+			}))
 			
-		},()=> {
-		//Callback that isn't called 
-		console.log('inApp setting state in callback?')
-		this.setState((prevState) => ({
-			WhiskeyList:WhiskeyState,
-			selectedWhiskey:prevState.selectedWhiskey,
-			results:true,
-		}))
-		})
-		this.setState((prevState) => ({
-			WhiskeyList:WhiskeyState,
-			selectedWhiskey:prevState.selectedWhiskey,
-			results:true,
-		}))
-		
+		}) 
 	}
 
 	updateFirebasewithVote = (voteObject, position, Average) => {

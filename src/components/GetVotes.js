@@ -3,8 +3,8 @@ import { ref, onValue } from 'firebase/database';
 
 
 
-const GetVotes = async WhiskeyRef => {
-    console.log("DELETE_ME Inside GetVotes",WhiskeyRef)
+const GetVotes = (WhiskeyRef) => {
+    // console.log("Inside GetVotes",WhiskeyRef)
     
     let VoteArray=[];
     // Run this code if you gave this a Whiskey Object
@@ -38,7 +38,7 @@ const GetVotes = async WhiskeyRef => {
             } else {
                 //console.log('user not found')
             }
-        });
+        })
     }
     console.log('Returning VoteArray',VoteArray)
     return (VoteArray)
