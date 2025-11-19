@@ -23,14 +23,14 @@ class Main extends React.Component {
   storedProfile = JSON.parse(sessionStorage.getItem('profile'))
   componentDidMount() {
 		const whiskeysRef = ref(db, 'Whiskeys/');
-		console.log('in main props are ',this.props)
-		console.log('in main State is ',this.state)
+		// console.log('in main props are ',this.props)
+		// console.log('in main State is ',this.state)
 		const WhiskeyState=GetValidWhiskeys(whiskeysRef)
     this.setState({
       WhiskeyList:WhiskeyState
     })
-    console.log('in main WhiskeyState was just created as ',WhiskeyState)
-    console.log('in main, in ComponentDidMount state is',this.state)
+    // console.log('in main WhiskeyState was just created as ',WhiskeyState)
+    // console.log('in main, in ComponentDidMount state is',this.state)
 	}
 
   handleSubmitWhiskey = (Info) => {
@@ -78,7 +78,7 @@ class Main extends React.Component {
   render(){
 
    
-    console.log('in main Render, state is',this.state)
+    // console.log('in main Render, state is',this.state)
 
   return (  
     <div>

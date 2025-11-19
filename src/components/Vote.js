@@ -61,7 +61,7 @@ class Vote extends React.Component {
 			this.storedProfile
 			) 
 			{
-				console.log('inside handleVote in Vote, state is',this.State)
+				// console.log('inside handleVote in Vote, state is',this.State)
 				e.preventDefault();
 				this.props.SubmitVote(this.state);
 				this.props.clear();

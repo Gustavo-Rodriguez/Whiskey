@@ -17,7 +17,7 @@ class Whiskey extends React.Component {
 		if (this.props.Whiskey.voteCount) {
 			votenum = this.props.Whiskey.voteCount;
 		}
-		 console.log('inside whiskey, props are',this.props)
+		//  console.log('inside whiskey, props are',this.props)
 		return (
 			<div className="whiskey-item">
 				

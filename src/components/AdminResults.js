@@ -20,8 +20,8 @@ class AdminResults extends React.Component {
 			}),
 			() => {
 				// callback
-				console.log('edited State, state is now',this.state)
-				console.log('my props are',this.props)
+				// console.log('edited State, state is now',this.state)
+				// console.log('my props are',this.props)
 			}
 		)
 	}

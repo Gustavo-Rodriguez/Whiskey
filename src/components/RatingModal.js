@@ -11,7 +11,7 @@ class RatingModal extends React.Component {
 
 
 	render() {
-		console.log('in Rating Modal my props are',this.props)
+		// console.log('in Rating Modal my props are',this.props)
 		let WhiskeyNum;
 		let VoterIntro='Loading Votes';
 		let Voters=[];
@@ -25,7 +25,7 @@ class RatingModal extends React.Component {
 		// This is the code that checks if anyone has voted for the whiskey and tells you who voted for this whiskey. 
 		// It also checks that if you voted for the whiskey and won't let you vote if you have alerady voted
 		 if (this.props.selectedWhiskey !==  ''){
-			console.log('I was given a selected Whiskey',this.props.selectedWhiskey)
+			// console.log('I was given a selected Whiskey',this.props.selectedWhiskey)
 			// let WhiskeyKey=this.props.selectedWhiskey
 			// const Votes=GetVotes(WhiskeyKey).then(function(result){
 			// 	return result
@@ -33,10 +33,10 @@ class RatingModal extends React.Component {
 			const Votes=this.props.ExistingVotes
 			
 
-			console.log('These are the votes I saw',Votes)
+			// console.log('These are the votes I saw',Votes)
 			// console.log('These are the votes I saw',Votes.then())
 			const VoteCount=Votes.length
-			console.log('I count ',VoteCount," votes again that's",Votes.length," Votes")
+			// console.log('I count ',VoteCount," votes again that's",Votes.length," Votes")
 
 			//Pretty sure we don't need this block
 			// let MyArr=Object.entries(this.props.whiskeyList)
@@ -46,12 +46,12 @@ class RatingModal extends React.Component {
 			// 	}
 			// }
 			for (let i=0;i<VoteCount;i++){
-				console.log('found Votes')
+				// console.log('found Votes')
 				VoterIntro="The following People have Voted for this Whiskey"
 				Voters.push(Votes[i].email)
 				VoterArray.push(Votes[i].voter)
 				if (Votes[i].email===storedProfile.email){
-					console.log('this user has voted for this whiskey')
+					// console.log('this user has voted for this whiskey')
 					votedBool=true;
 					votedValue=Votes[i].vote;
 					if (Votes[i].notes){
@@ -59,7 +59,7 @@ class RatingModal extends React.Component {
 					}
 				}
 				VoterList = VoterArray.map(string => <li>{string}</li>);
-				console.log('voters were ',Voters)
+				// console.log('voters were ',Voters)
 			}
 			if (isEmpty(VoterArray)){
 				VoterIntro="No one has voted for this whiskey yet"

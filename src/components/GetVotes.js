@@ -17,7 +17,7 @@ const GetVotes = (WhiskeyRef) => {
         }
         // Run this code if you were given a KEY
         if (typeof(WhiskeyRef)=='string'){
-            console.log('given a string')
+            // console.log('given a string')
             const VoteRef = ref(db, "Whiskeys/".concat(WhiskeyRef).concat('/Votes'));
             let dbResults
             const snapshot = await get(VoteRef);
@@ -45,8 +45,8 @@ const GetVotes = (WhiskeyRef) => {
     }
     const wrapperPromise=wrapper();
     return wrapperPromise.then(result => {
-        console.log(wrapperPromise)
-        console.log('Returning VoteArray',result)
+        // console.log(wrapperPromise)
+        // console.log('Returning VoteArray',result)
         return (result)
     })
 }

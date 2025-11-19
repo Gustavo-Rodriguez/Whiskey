@@ -23,16 +23,16 @@ class App extends React.Component {
 	componentDidMount() {
 		const whiskeysRef = ref(db, 'Whiskeys/');
 		// let dbResults;
-		console.log('inApp props are ',this.props)
-		console.log('inApp State is ',this.state)
-		console.log('inApp in componentDidMount this is',this)
+		// console.log('inApp props are ',this.props)
+		// console.log('inApp State is ',this.state)
+		// console.log('inApp in componentDidMount this is',this)
 		let WhiskeyPromise= GetValidWhiskeys(whiskeysRef)
 		let WhiskeyState
 		WhiskeyPromise.then(result => {
 			WhiskeyState=result
-			console.log('inApp Result is ',result)
-			console.log('inApp in result function seting WhiskeyState to ',WhiskeyState)
-			console.log('inApp in result function this is',this)
+			// console.log('inApp Result is ',result)
+			// console.log('inApp in result function seting WhiskeyState to ',WhiskeyState)
+			// console.log('inApp in result function this is',this)
 			// This needs to be commented out becouse I get an error because it can't find setState
 			// Resolved error by using arrowfunctinos in the then
 			this.setState((prevState) => ({
@@ -46,7 +46,7 @@ class App extends React.Component {
 	}
 
 	updateFirebasewithVote = (voteObject, position, Average) => {
-		console.log('in UpdateFirebasewithVote these are paramaters, vote Object',voteObject,'Position: ',position,' Average: ',Average)
+		// console.log('in UpdateFirebasewithVote these are paramaters, vote Object',voteObject,'Position: ',position,' Average: ',Average)
 		let myRef = ref(db);
 		let VoteRef= ref(db,"Whiskeys/"+position+"/Votes")
 		push(VoteRef,voteObject)
@@ -61,14 +61,14 @@ class App extends React.Component {
 		push(WhiskeyRef,Whiskey);
 	  }
 	handleSelectWhiskey = (Whiskey) => {
-		console.log('Someone Clicked on it, position ', Whiskey);
+		// console.log('Someone Clicked on it, position ', Whiskey);
 		let VoteArray=[];
 		const Votes=GetVotes(Whiskey);
 		if (Votes.then()){
 			console.log('Votes is a promise')
 			Votes.then(value => {
 				VoteArray=value;
-				console.log('Votes Promise resolves to ',value)
+				// console.log('Votes Promise resolves to ',value)
 				this.setState((prevState) => ({
 					selectedWhiskey: Whiskey,
 					WhiskeyList:prevState.WhiskeyList,
@@ -104,13 +104,13 @@ class App extends React.Component {
 		}));
 	};
 	SubmitVote =  (voteInfo) => {
-		console.log('in submit vote current state is ',this.state)
+		// console.log('in submit vote current state is ',this.state)
 		let VoteArray=[];
-		console.log('vote info',voteInfo);
+		// console.log('vote info',voteInfo);
 		// VoteArray= GetVotes(voteInfo.WhiskeyNumber)
 		//console.log('test nov 19th state in submitvote',this.state)
 		VoteArray=this.state.WhiskeyVotes;
-		console.log('VoteArray',VoteArray)
+		// console.log('VoteArray',VoteArray)
 		let key = voteInfo.WhiskeyNumber;
 		let voteObject = {
 			vote: voteInfo.CurrentStar,
@@ -139,18 +139,18 @@ class App extends React.Component {
 
 		// Update Vote count in state
 		let myWhiskeyList=this.state.WhiskeyList
-		console.log('mywhiskeylist',myWhiskeyList)
+		// console.log('mywhiskeylist',myWhiskeyList)
 		for ( let i=0; i<myWhiskeyList.length; i++){
 			let votecount=myWhiskeyList[i].voteCount;
-			console.log('in for loop',i,myWhiskeyList[i],voteInfo, votecount)
+			// console.log('in for loop',i,myWhiskeyList[i],voteInfo, votecount)
 			if (voteInfo.WhiskeyNumber===myWhiskeyList[i].WhiskeyKey){
-				console.log('found my whiskey, increminging vote count',myWhiskeyList)
+				// console.log('found my whiskey, increminging vote count',myWhiskeyList)
 				votecount++
 				myWhiskeyList[i].voteCount=votecount;
-				console.log('found my whiskey, increminging vote count done',myWhiskeyList)
+				// console.log('found my whiskey, increminging vote count done',myWhiskeyList)
 			}	
 		}
-		console.log('test myWhiskeyList',myWhiskeyList)
+		// console.log('test myWhiskeyList',myWhiskeyList)
 		this.setState((prevState) => ({
 			WhiskeyList:myWhiskeyList,
 			selectedWhiskey:prevState.selectedWhiskey,
@@ -163,8 +163,8 @@ class App extends React.Component {
 
 
 	render() {
-		console.log('Gonna feed this to whiskeyList,',this.state.WhiskeyList)
-		console.log('in Render of App state is ',this.state)
+		// console.log('Gonna feed this to whiskeyList,',this.state.WhiskeyList)
+		// console.log('in Render of App state is ',this.state)
 		return (
 			<div>
 				<div className="application">

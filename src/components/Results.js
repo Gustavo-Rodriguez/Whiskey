@@ -56,13 +56,13 @@ class Results extends React.Component {
 		const WhiskeyVotes = GetVotes(Whiskey)
 		let voteDistribution = [0, 0, 0, 0, 0];
 		if (WhiskeyVotes.then()) {
-			console.log('WhiskeyVotes is a promise')
+			// console.log('WhiskeyVotes is a promise')
 			WhiskeyVotes.then(value => {
 
-				console.log('Votes Promise resolves to ', value)
+				// console.log('Votes Promise resolves to ', value)
 				VoteArray = value;
 				const votes = VoteArray;
-				console.log('votes arary is =', votes)
+				// console.log('votes arary is =', votes)
 				votes.forEach((v) => {
 					const rating = parseInt(v.vote);
 					if (rating > 0 && rating <= voteDistribution.length) {
@@ -80,7 +80,7 @@ class Results extends React.Component {
 		} else {
 			VoteArray = WhiskeyVotes;
 			const votes = VoteArray;
-			console.log('votes arary is =', votes)
+			// console.log('votes arary is =', votes)
 			votes.forEach((v) => {
 				const rating = parseInt(v.vote);
 				if (rating > 0 && rating <= voteDistribution.length) {
@@ -95,7 +95,7 @@ class Results extends React.Component {
 				distribution: voteDistribution,
 			}));
 		}
-		console.log('showDetails updated state is ',this.state)
+		// console.log('showDetails updated state is ',this.state)
 
 	};
 
