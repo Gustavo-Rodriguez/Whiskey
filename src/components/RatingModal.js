@@ -1,7 +1,7 @@
 import React from 'react';
 //import listItems from '../data/Data.js';
 import Vote from './Vote.js';
-import GetVotes from './GetVotes.js';
+
 import { isEmpty } from '@firebase/util';
 
 
