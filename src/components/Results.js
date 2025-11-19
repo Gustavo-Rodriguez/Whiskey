@@ -14,8 +14,8 @@ class Results extends React.Component {
 		details: '',
 		showDetails: false,
 		distribution: [0, 0, 0, 0, 0],
-		WhiskeyFound:false,
-		WhiskeyDetails:{}
+		WhiskeyFound: false,
+		WhiskeyDetails: {}
 	};
 
 	componentDidMount() {
@@ -25,13 +25,13 @@ class Results extends React.Component {
 		onValue(whiskeysRef, (snapshot) => {
 			dbResults = snapshot.val();
 			// If we Found Whiskeys at all
-			if (dbResults !== null){
+			if (dbResults !== null) {
 				// Cast our Whiskeys to an array
-				let tempArray=WhiskeysToArray(dbResults);
-				let unsorted=[];
+				let tempArray = WhiskeysToArray(dbResults);
+				let unsorted = [];
 				// We are doing this to strip the e-mail of the Contributor from the object before we pass it everywhere 
-				for (let i=0;i<tempArray.length;i++){
-					let newObj=tempArray[i];
+				for (let i = 0; i < tempArray.length; i++) {
+					let newObj = tempArray[i];
 					delete newObj.OwnerEmail;
 					unsorted.push(newObj)
 				}
@@ -40,39 +40,68 @@ class Results extends React.Component {
 					a.VoteAverage < b.VoteAverage ? 1 : -1
 				);
 				this.setState((prevState) => ({
-					data:sorted,
-					details:'',
-					showDetails:false,
-					distribution: [0,0,0,0,0],
-					WhiskeyFound:true
+					data: sorted,
+					details: '',
+					showDetails: false,
+					distribution: [0, 0, 0, 0, 0],
+					WhiskeyFound: true
 				}));
 			}
 		});
-		
+
 	}
 
 	ShowDetails = (Whiskey) => {
-		const WhiskeyVotes=GetVotes(Whiskey)
+		let VoteArray = [];
+		const WhiskeyVotes = GetVotes(Whiskey)
 		let voteDistribution = [0, 0, 0, 0, 0];
-		const votes = WhiskeyVotes;
-		votes.forEach((v) => {
-			const rating = parseInt(v.vote);
-			if (rating > 0 && rating <= voteDistribution.length) {
-				voteDistribution[rating - 1]++;
-			}
-		});
-		this.setState((prevState) => ({
-			data: prevState.data,
-			showDetails: true,
-			VoteDetails: WhiskeyVotes,
-			WhiskeyDetails:Whiskey,
-			distribution: voteDistribution,
-		}));
+		if (WhiskeyVotes.then()) {
+			console.log('WhiskeyVotes is a promise')
+			WhiskeyVotes.then(value => {
+
+				console.log('Votes Promise resolves to ', value)
+				VoteArray = value;
+				const votes = VoteArray;
+				console.log('votes arary is =', votes)
+				votes.forEach((v) => {
+					const rating = parseInt(v.vote);
+					if (rating > 0 && rating <= voteDistribution.length) {
+						voteDistribution[rating - 1]++;
+					}
+				});
+				this.setState((prevState) => ({
+					data: prevState.data,
+					showDetails: true,
+					VoteDetails: votes,
+					WhiskeyDetails: Whiskey,
+					distribution: voteDistribution,
+				}));
+			});
+		} else {
+			VoteArray = WhiskeyVotes;
+			const votes = VoteArray;
+			console.log('votes arary is =', votes)
+			votes.forEach((v) => {
+				const rating = parseInt(v.vote);
+				if (rating > 0 && rating <= voteDistribution.length) {
+					voteDistribution[rating - 1]++;
+				}
+			});
+			this.setState((prevState) => ({
+				data: prevState.data,
+				showDetails: true,
+				VoteDetails: votes,
+				WhiskeyDetails: Whiskey,
+				distribution: voteDistribution,
+			}));
+		}
+		console.log('showDetails updated state is ',this.state)
+
 	};
 
 	render() {
 		let ResultItems
-		if (this.state.WhiskeyFound){
+		if (this.state.WhiskeyFound) {
 			ResultItems = this.state.data.map((d, i) => {
 				return (
 					<WhiskeyResults

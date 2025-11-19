@@ -16,6 +16,7 @@ class App extends React.Component {
 //		nextWhiskey: this.props.listItems.count + 1,
 		selectedWhiskey: '',
 		results: true,
+		WhiskeyVotes:[],
 		sorted: {},
 	};
 
@@ -37,6 +38,7 @@ class App extends React.Component {
 			this.setState((prevState) => ({
 				WhiskeyList:WhiskeyState,
 				selectedWhiskey:prevState.selectedWhiskey,
+				WhiskeyVotes:prevState.WhiskeyVotes,
 				results:true,
 			}))
 			
@@ -60,19 +62,43 @@ class App extends React.Component {
 	  }
 	handleSelectWhiskey = (Whiskey) => {
 		console.log('Someone Clicked on it, position ', Whiskey);
-		this.setState((prevState) => ({
-			selectedWhiskey: Whiskey,
-			WhiskeyList:prevState.WhiskeyList,
-			listItems: prevState.listItems,
-			// nextWhiskey: prevState.nextWhiskey,
-			results: true,
-		}));
+		let VoteArray=[];
+		const Votes=GetVotes(Whiskey);
+		if (Votes.then()){
+			console.log('Votes is a promise')
+			Votes.then(value => {
+				VoteArray=value;
+				console.log('Votes Promise resolves to ',value)
+				this.setState((prevState) => ({
+					selectedWhiskey: Whiskey,
+					WhiskeyList:prevState.WhiskeyList,
+					listItems: prevState.listItems,
+					WhiskeyVotes: VoteArray,
+					// nextWhiskey: prevState.nextWhiskey,
+					results: true,
+				}));
+			});
+			
+		} else {
+			console.log('Votes is an array')
+			VoteArray=Votes;
+			this.setState((prevState) => ({
+				selectedWhiskey: Whiskey,
+				WhiskeyList:prevState.WhiskeyList,
+				listItems: prevState.listItems,
+				WhiskeyVotes: VoteArray,
+				// nextWhiskey: prevState.nextWhiskey,
+				results: true,
+			}));
+		}
+		
 	};
 	ClearVote = (e) => {
 		this.setState((prevState) => ({
 			selectedWhiskey: '',
 			listItems: prevState.listItems,
 			WhiskeyList:prevState.WhiskeyList,
+			WhiskeyVotes:prevState.WhiskeyVotes,
 			// nextWhiskey: prevState.nextWhiskey,
 			results: true,
 		}));
@@ -80,7 +106,9 @@ class App extends React.Component {
 	SubmitVote =  (voteInfo) => {
 		let VoteArray=[];
 		console.log('vote info',voteInfo);
-		VoteArray= GetVotes(voteInfo.WhiskeyNumber)
+		// VoteArray= GetVotes(voteInfo.WhiskeyNumber)
+		console.log('test nov 19th state in submitvote',this.state)
+		VoteArray=this.state.WhiskeyVotes;
 		console.log('VoteArray',VoteArray)
 		let key = voteInfo.WhiskeyNumber;
 		let voteObject = {
@@ -118,6 +146,7 @@ class App extends React.Component {
 				<div className="application">
 					<RatingModal
 						selectedWhiskey={this.state.selectedWhiskey}
+						ExistingVotes={this.state.WhiskeyVotes}
 						ClearVote={this.ClearVote}
 						SubmitVote={this.SubmitVote}
 						whiskeyList={this.state.WhiskeyList}

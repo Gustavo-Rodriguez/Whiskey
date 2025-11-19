@@ -5,8 +5,9 @@ import GetVotes from './GetVotes.js';
 import { isEmpty } from '@firebase/util';
 
 
-class RatingModal extends React.Component {
 
+class RatingModal extends React.Component {
+	
 
 
 	render() {
@@ -25,9 +26,15 @@ class RatingModal extends React.Component {
 		// It also checks that if you voted for the whiskey and won't let you vote if you have alerady voted
 		 if (this.props.selectedWhiskey !==  ''){
 			console.log('I was given a selected Whiskey',this.props.selectedWhiskey)
-			let WhiskeyKey=this.props.selectedWhiskey
-			const Votes=GetVotes(WhiskeyKey);
+			// let WhiskeyKey=this.props.selectedWhiskey
+			// const Votes=GetVotes(WhiskeyKey).then(function(result){
+			// 	return result
+			// });
+			const Votes=this.props.ExistingVotes
+			
+
 			console.log('These are the votes I saw',Votes)
+			// console.log('These are the votes I saw',Votes.then())
 			const VoteCount=Votes.length
 			console.log('I count ',VoteCount," votes again that's",Votes.length," Votes")
 
