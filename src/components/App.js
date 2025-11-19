@@ -104,10 +104,11 @@ class App extends React.Component {
 		}));
 	};
 	SubmitVote =  (voteInfo) => {
+		console.log('in submit vote current state is ',this.state)
 		let VoteArray=[];
 		console.log('vote info',voteInfo);
 		// VoteArray= GetVotes(voteInfo.WhiskeyNumber)
-		console.log('test nov 19th state in submitvote',this.state)
+		//console.log('test nov 19th state in submitvote',this.state)
 		VoteArray=this.state.WhiskeyVotes;
 		console.log('VoteArray',VoteArray)
 		let key = voteInfo.WhiskeyNumber;
@@ -135,6 +136,29 @@ class App extends React.Component {
 			) / NumericArray.length;
 		const VoteAverage = Average;
 		this.updateFirebasewithVote(voteObject,key,VoteAverage);
+
+		// Update Vote count in state
+		let myWhiskeyList=this.state.WhiskeyList
+		console.log('mywhiskeylist',myWhiskeyList)
+		for ( let i=0; i<myWhiskeyList.length; i++){
+			let votecount=myWhiskeyList[i].voteCount;
+			console.log('in for loop',i,myWhiskeyList[i],voteInfo, votecount)
+			if (voteInfo.WhiskeyNumber===myWhiskeyList[i].WhiskeyKey){
+				console.log('found my whiskey, increminging vote count',myWhiskeyList)
+				votecount++
+				myWhiskeyList[i].voteCount=votecount;
+				console.log('found my whiskey, increminging vote count done',myWhiskeyList)
+			}	
+		}
+		console.log('test myWhiskeyList',myWhiskeyList)
+		this.setState((prevState) => ({
+			WhiskeyList:myWhiskeyList,
+			selectedWhiskey:prevState.selectedWhiskey,
+			WhiskeyVotes:prevState.WhiskeyVotes,
+			results:prevState.Results,
+		}))
+
+
 	};
 
 
